@@ -1,0 +1,378 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8log_u8g2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_DrawLog,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_DrawLog
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_DrawLog:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8log_u8g2.c"
+   1:Core/Src/u8g2/Src/u8log_u8g2.c **** /*
+   2:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+   3:Core/Src/u8g2/Src/u8log_u8g2.c ****   u8log_u8g2.c
+   4:Core/Src/u8g2/Src/u8log_u8g2.c ****   
+   5:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+   6:Core/Src/u8g2/Src/u8log_u8g2.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   7:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+   8:Core/Src/u8g2/Src/u8log_u8g2.c ****   Copyright (c) 2018, olikraus@gmail.com
+   9:Core/Src/u8g2/Src/u8log_u8g2.c ****   All rights reserved.
+  10:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  11:Core/Src/u8g2/Src/u8log_u8g2.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  12:Core/Src/u8g2/Src/u8log_u8g2.c ****   are permitted provided that the following conditions are met:
+  13:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  14:Core/Src/u8g2/Src/u8log_u8g2.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  15:Core/Src/u8g2/Src/u8log_u8g2.c ****     of conditions and the following disclaimer.
+  16:Core/Src/u8g2/Src/u8log_u8g2.c ****     
+  17:Core/Src/u8g2/Src/u8log_u8g2.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  18:Core/Src/u8g2/Src/u8log_u8g2.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  19:Core/Src/u8g2/Src/u8log_u8g2.c ****     materials provided with the distribution.
+  20:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  21:Core/Src/u8g2/Src/u8log_u8g2.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  22:Core/Src/u8g2/Src/u8log_u8g2.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  23:Core/Src/u8g2/Src/u8log_u8g2.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  24:Core/Src/u8g2/Src/u8log_u8g2.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  25:Core/Src/u8g2/Src/u8log_u8g2.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  26:Core/Src/u8g2/Src/u8log_u8g2.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  27:Core/Src/u8g2/Src/u8log_u8g2.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  28:Core/Src/u8g2/Src/u8log_u8g2.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  29:Core/Src/u8g2/Src/u8log_u8g2.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8log_u8g2.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  31:Core/Src/u8g2/Src/u8log_u8g2.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  32:Core/Src/u8g2/Src/u8log_u8g2.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  33:Core/Src/u8g2/Src/u8log_u8g2.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  34:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  35:Core/Src/u8g2/Src/u8log_u8g2.c **** */
+  36:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  37:Core/Src/u8g2/Src/u8log_u8g2.c **** #include "u8g2.h"
+  38:Core/Src/u8g2/Src/u8log_u8g2.c **** /*
+  39:Core/Src/u8g2/Src/u8log_u8g2.c ****   Draw the u8log text at the specified x/y position.
+  40:Core/Src/u8g2/Src/u8log_u8g2.c ****   x/y position is the reference position of the first char of the first line.
+  41:Core/Src/u8g2/Src/u8log_u8g2.c ****   the line height is 
+  42:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) + line_height_offset;
+  43:Core/Src/u8g2/Src/u8log_u8g2.c ****   line_height_offset can be set with u8log_SetLineHeightOffset()
+  44:Core/Src/u8g2/Src/u8log_u8g2.c ****   Use
+  45:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightText(u8g2_t *u8g2);
+  46:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightExtendedText(u8g2_t *u8g2);
+  47:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
+  48:Core/Src/u8g2/Src/u8log_u8g2.c ****   to change the return values for u8g2_GetAscent and u8g2_GetDescent
+  49:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  50:Core/Src/u8g2/Src/u8log_u8g2.c **** */
+  51:Core/Src/u8g2/Src/u8log_u8g2.c **** void u8g2_DrawLog(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8log_t *u8log)
+  52:Core/Src/u8g2/Src/u8log_u8g2.c **** {
+  30              		.loc 1 52 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 52 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 32
+  38              		.cfi_offset 4, -32
+  39              		.cfi_offset 5, -28
+  40              		.cfi_offset 6, -24
+  41              		.cfi_offset 7, -20
+  42              		.cfi_offset 8, -16
+  43              		.cfi_offset 9, -12
+  44              		.cfi_offset 10, -8
+  45              		.cfi_offset 14, -4
+  46 0004 8146     		mov	r9, r0
+  47 0006 8A46     		mov	r10, r1
+  48 0008 9046     		mov	r8, r2
+  49 000a 1E46     		mov	r6, r3
+  53:Core/Src/u8g2/Src/u8log_u8g2.c ****   u8g2_uint_t disp_x, disp_y;
+  50              		.loc 1 53 3 is_stmt 1 view .LVU2
+  54:Core/Src/u8g2/Src/u8log_u8g2.c ****   uint8_t buf_x, buf_y;
+  51              		.loc 1 54 3 view .LVU3
+  55:Core/Src/u8g2/Src/u8log_u8g2.c ****   uint8_t c;
+  52              		.loc 1 55 3 view .LVU4
+  56:Core/Src/u8g2/Src/u8log_u8g2.c ****   
+  57:Core/Src/u8g2/Src/u8log_u8g2.c ****   disp_y = y;  
+  53              		.loc 1 57 3 view .LVU5
+  54              	.LVL1:
+  58:Core/Src/u8g2/Src/u8log_u8g2.c ****   u8g2_SetFontDirection(u8g2, 0);
+  55              		.loc 1 58 3 view .LVU6
+  56 000c 0021     		movs	r1, #0
+  57              	.LVL2:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 3
+
+
+  58              		.loc 1 58 3 is_stmt 0 view .LVU7
+  59 000e FFF7FEFF 		bl	u8g2_SetFontDirection
+  60              	.LVL3:
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   for( buf_y = 0; buf_y < u8log->height; buf_y++ )
+  61              		.loc 1 59 3 is_stmt 1 view .LVU8
+  62              		.loc 1 59 14 is_stmt 0 view .LVU9
+  63 0012 0027     		movs	r7, #0
+  64              		.loc 1 59 3 view .LVU10
+  65 0014 21E0     		b	.L2
+  66              	.LVL4:
+  67              	.L3:
+  60:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+  61:Core/Src/u8g2/Src/u8log_u8g2.c ****     disp_x = x;
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+  63:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  64:Core/Src/u8g2/Src/u8log_u8g2.c ****       c = u8log->screen_buffer[buf_y * u8log->width + buf_x];
+  68              		.loc 1 64 7 is_stmt 1 discriminator 3 view .LVU11
+  69              		.loc 1 64 16 is_stmt 0 discriminator 3 view .LVU12
+  70 0016 F368     		ldr	r3, [r6, #12]
+  71              		.loc 1 64 53 discriminator 3 view .LVU13
+  72 0018 0CFB074C 		mla	ip, ip, r7, r4
+  73              	.LVL5:
+  65:Core/Src/u8g2/Src/u8log_u8g2.c ****       disp_x += u8g2_DrawGlyph(u8g2, disp_x, disp_y, c);
+  74              		.loc 1 65 7 is_stmt 1 discriminator 3 view .LVU14
+  75              		.loc 1 65 17 is_stmt 0 discriminator 3 view .LVU15
+  76 001c 13F80C30 		ldrb	r3, [r3, ip]	@ zero_extendqisi2
+  77              	.LVL6:
+  78              		.loc 1 65 17 discriminator 3 view .LVU16
+  79 0020 4246     		mov	r2, r8
+  80 0022 2946     		mov	r1, r5
+  81 0024 4846     		mov	r0, r9
+  82 0026 FFF7FEFF 		bl	u8g2_DrawGlyph
+  83              	.LVL7:
+  84              		.loc 1 65 14 discriminator 3 view .LVU17
+  85 002a 0544     		add	r5, r5, r0
+  86              	.LVL8:
+  87              		.loc 1 65 14 discriminator 3 view .LVU18
+  88 002c ADB2     		uxth	r5, r5
+  89              	.LVL9:
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  90              		.loc 1 62 43 is_stmt 1 discriminator 3 view .LVU19
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  91              		.loc 1 62 48 is_stmt 0 discriminator 3 view .LVU20
+  92 002e 0134     		adds	r4, r4, #1
+  93              	.LVL10:
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  94              		.loc 1 62 48 discriminator 3 view .LVU21
+  95 0030 E4B2     		uxtb	r4, r4
+  96              	.LVL11:
+  97              	.L4:
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  98              		.loc 1 62 21 is_stmt 1 discriminator 1 view .LVU22
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  99              		.loc 1 62 34 is_stmt 0 discriminator 1 view .LVU23
+ 100 0032 96F804C0 		ldrb	ip, [r6, #4]	@ zero_extendqisi2
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+ 101              		.loc 1 62 5 discriminator 1 view .LVU24
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 4
+
+
+ 102 0036 A445     		cmp	ip, r4
+ 103 0038 EDD8     		bhi	.L3
+  66:Core/Src/u8g2/Src/u8log_u8g2.c ****     }
+  67:Core/Src/u8g2/Src/u8log_u8g2.c ****     disp_y += u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2);
+ 104              		.loc 1 67 5 is_stmt 1 discriminator 2 view .LVU25
+ 105              		.loc 1 67 15 is_stmt 0 discriminator 2 view .LVU26
+ 106 003a 99F98E20 		ldrsb	r2, [r9, #142]
+ 107              		.loc 1 67 38 discriminator 2 view .LVU27
+ 108 003e 99F98F30 		ldrsb	r3, [r9, #143]
+ 109              		.loc 1 67 36 discriminator 2 view .LVU28
+ 110 0042 D21A     		subs	r2, r2, r3
+ 111              		.loc 1 67 12 discriminator 2 view .LVU29
+ 112 0044 18FA82F8 		uxtah	r8, r8, r2
+ 113              	.LVL12:
+  68:Core/Src/u8g2/Src/u8log_u8g2.c ****     disp_y += u8log->line_height_offset;
+ 114              		.loc 1 68 5 is_stmt 1 discriminator 2 view .LVU30
+ 115              		.loc 1 68 20 is_stmt 0 discriminator 2 view .LVU31
+ 116 0048 96F91120 		ldrsb	r2, [r6, #17]
+ 117 004c 92B2     		uxth	r2, r2
+ 118              		.loc 1 68 12 discriminator 2 view .LVU32
+ 119 004e 12FA88F8 		uxtah	r8, r2, r8
+ 120              	.LVL13:
+ 121              		.loc 1 68 12 discriminator 2 view .LVU33
+ 122 0052 1FFA88F8 		uxth	r8, r8
+ 123              	.LVL14:
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 124              		.loc 1 59 42 is_stmt 1 discriminator 2 view .LVU34
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 125              		.loc 1 59 47 is_stmt 0 discriminator 2 view .LVU35
+ 126 0056 0137     		adds	r7, r7, #1
+ 127              	.LVL15:
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 128              		.loc 1 59 47 discriminator 2 view .LVU36
+ 129 0058 FFB2     		uxtb	r7, r7
+ 130              	.LVL16:
+ 131              	.L2:
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 132              		.loc 1 59 19 is_stmt 1 discriminator 1 view .LVU37
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 133              		.loc 1 59 32 is_stmt 0 discriminator 1 view .LVU38
+ 134 005a 7379     		ldrb	r3, [r6, #5]	@ zero_extendqisi2
+  59:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+ 135              		.loc 1 59 3 discriminator 1 view .LVU39
+ 136 005c BB42     		cmp	r3, r7
+ 137 005e 02D9     		bls	.L7
+  61:Core/Src/u8g2/Src/u8log_u8g2.c ****     for( buf_x = 0; buf_x < u8log->width; buf_x++ )
+ 138              		.loc 1 61 12 view .LVU40
+ 139 0060 5546     		mov	r5, r10
+  62:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+ 140              		.loc 1 62 16 view .LVU41
+ 141 0062 0024     		movs	r4, #0
+ 142 0064 E5E7     		b	.L4
+ 143              	.L7:
+  69:Core/Src/u8g2/Src/u8log_u8g2.c ****   }
+  70:Core/Src/u8g2/Src/u8log_u8g2.c **** }
+ 144              		.loc 1 70 1 view .LVU42
+ 145 0066 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 5
+
+
+ 146              		.loc 1 70 1 view .LVU43
+ 147              		.cfi_endproc
+ 148              	.LFE0:
+ 150              		.section	.text.u8log_u8g2_cb,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	u8log_u8g2_cb
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 157              	u8log_u8g2_cb:
+ 158              	.LVL17:
+ 159              	.LFB1:
+  71:Core/Src/u8g2/Src/u8log_u8g2.c **** 
+  72:Core/Src/u8g2/Src/u8log_u8g2.c **** /*
+  73:Core/Src/u8g2/Src/u8log_u8g2.c ****   u8lib callback for u8g2
+  74:Core/Src/u8g2/Src/u8log_u8g2.c ****   
+  75:Core/Src/u8g2/Src/u8log_u8g2.c ****   Only font direction 0 is supported: u8g2_SetFontDirection(u8g2, 0)
+  76:Core/Src/u8g2/Src/u8log_u8g2.c ****   Use
+  77:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightText(u8g2_t *u8g2);
+  78:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightExtendedText(u8g2_t *u8g2);
+  79:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_SetFontRefHeightAll(u8g2_t *u8g2);
+  80:Core/Src/u8g2/Src/u8log_u8g2.c ****   to change the top offset and the line height and
+  81:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset)
+  82:Core/Src/u8g2/Src/u8log_u8g2.c ****   to change the line height.
+  83:Core/Src/u8g2/Src/u8log_u8g2.c ****   
+  84:Core/Src/u8g2/Src/u8log_u8g2.c **** */
+  85:Core/Src/u8g2/Src/u8log_u8g2.c **** void u8log_u8g2_cb(u8log_t * u8log)
+  86:Core/Src/u8g2/Src/u8log_u8g2.c **** {
+ 160              		.loc 1 86 1 is_stmt 1 view -0
+ 161              		.cfi_startproc
+ 162              		@ args = 0, pretend = 0, frame = 0
+ 163              		@ frame_needed = 0, uses_anonymous_args = 0
+ 164              		.loc 1 86 1 is_stmt 0 view .LVU45
+ 165 0000 38B5     		push	{r3, r4, r5, lr}
+ 166              	.LCFI1:
+ 167              		.cfi_def_cfa_offset 16
+ 168              		.cfi_offset 3, -16
+ 169              		.cfi_offset 4, -12
+ 170              		.cfi_offset 5, -8
+ 171              		.cfi_offset 14, -4
+  87:Core/Src/u8g2/Src/u8log_u8g2.c ****   u8g2_t *u8g2 = (u8g2_t *)(u8log->aux_data);
+ 172              		.loc 1 87 3 is_stmt 1 view .LVU46
+ 173              		.loc 1 87 11 is_stmt 0 view .LVU47
+ 174 0002 0468     		ldr	r4, [r0]
+ 175              	.LVL18:
+  88:Core/Src/u8g2/Src/u8log_u8g2.c ****   if ( u8log->is_redraw_line || u8log->is_redraw_all )
+ 176              		.loc 1 88 3 is_stmt 1 view .LVU48
+ 177              		.loc 1 88 30 is_stmt 0 view .LVU49
+ 178 0004 4369     		ldr	r3, [r0, #20]
+ 179 0006 23F07F43 		bic	r3, r3, #-16777216
+ 180 000a 23F0FF03 		bic	r3, r3, #255
+ 181              		.loc 1 88 6 view .LVU50
+ 182 000e 03B9     		cbnz	r3, .L12
+ 183              	.LVL19:
+ 184              	.L8:
+  89:Core/Src/u8g2/Src/u8log_u8g2.c ****   {
+  90:Core/Src/u8g2/Src/u8log_u8g2.c ****     u8g2_FirstPage(u8g2);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 6
+
+
+  91:Core/Src/u8g2/Src/u8log_u8g2.c ****     do
+  92:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+  93:Core/Src/u8g2/Src/u8log_u8g2.c ****       u8g2_DrawLog( u8g2, 0, u8g2_GetAscent(u8g2), u8log);
+  94:Core/Src/u8g2/Src/u8log_u8g2.c ****     }
+  95:Core/Src/u8g2/Src/u8log_u8g2.c ****     while( u8g2_NextPage(u8g2) );
+  96:Core/Src/u8g2/Src/u8log_u8g2.c ****   }
+  97:Core/Src/u8g2/Src/u8log_u8g2.c **** }
+ 185              		.loc 1 97 1 view .LVU51
+ 186 0010 38BD     		pop	{r3, r4, r5, pc}
+ 187              	.LVL20:
+ 188              	.L12:
+ 189              		.loc 1 97 1 view .LVU52
+ 190 0012 0546     		mov	r5, r0
+  90:Core/Src/u8g2/Src/u8log_u8g2.c ****     do
+ 191              		.loc 1 90 5 is_stmt 1 view .LVU53
+ 192 0014 2046     		mov	r0, r4
+ 193              	.LVL21:
+  90:Core/Src/u8g2/Src/u8log_u8g2.c ****     do
+ 194              		.loc 1 90 5 is_stmt 0 view .LVU54
+ 195 0016 FFF7FEFF 		bl	u8g2_FirstPage
+ 196              	.LVL22:
+ 197              	.L10:
+  91:Core/Src/u8g2/Src/u8log_u8g2.c ****     {
+ 198              		.loc 1 91 5 is_stmt 1 discriminator 1 view .LVU55
+  93:Core/Src/u8g2/Src/u8log_u8g2.c ****     }
+ 199              		.loc 1 93 7 discriminator 1 view .LVU56
+  93:Core/Src/u8g2/Src/u8log_u8g2.c ****     }
+ 200              		.loc 1 93 30 is_stmt 0 discriminator 1 view .LVU57
+ 201 001a 94F98E20 		ldrsb	r2, [r4, #142]
+  93:Core/Src/u8g2/Src/u8log_u8g2.c ****     }
+ 202              		.loc 1 93 7 discriminator 1 view .LVU58
+ 203 001e 2B46     		mov	r3, r5
+ 204 0020 92B2     		uxth	r2, r2
+ 205 0022 0021     		movs	r1, #0
+ 206 0024 2046     		mov	r0, r4
+ 207 0026 FFF7FEFF 		bl	u8g2_DrawLog
+ 208              	.LVL23:
+  95:Core/Src/u8g2/Src/u8log_u8g2.c ****   }
+ 209              		.loc 1 95 10 is_stmt 1 discriminator 1 view .LVU59
+  95:Core/Src/u8g2/Src/u8log_u8g2.c ****   }
+ 210              		.loc 1 95 12 is_stmt 0 discriminator 1 view .LVU60
+ 211 002a 2046     		mov	r0, r4
+ 212 002c FFF7FEFF 		bl	u8g2_NextPage
+ 213              	.LVL24:
+  95:Core/Src/u8g2/Src/u8log_u8g2.c ****   }
+ 214              		.loc 1 95 5 discriminator 1 view .LVU61
+ 215 0030 0028     		cmp	r0, #0
+ 216 0032 F2D1     		bne	.L10
+ 217 0034 ECE7     		b	.L8
+ 218              		.cfi_endproc
+ 219              	.LFE1:
+ 221              		.text
+ 222              	.Letext0:
+ 223              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 224              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 225              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ 226              		.file 5 "Core/Src/u8g2/Inc/u8g2.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 7
+
+
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8log_u8g2.c
+C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s:20     .text.u8g2_DrawLog:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s:26     .text.u8g2_DrawLog:00000000 u8g2_DrawLog
+C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s:151    .text.u8log_u8g2_cb:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cchz6bvV.s:157    .text.u8log_u8g2_cb:00000000 u8log_u8g2_cb
+
+UNDEFINED SYMBOLS
+u8g2_SetFontDirection
+u8g2_DrawGlyph
+u8g2_FirstPage
+u8g2_NextPage

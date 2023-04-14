@@ -1,0 +1,2788 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_8x8.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8x8_get_glyph_data,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	u8x8_get_glyph_data:
+  26              	.LVL0:
+  27              	.LFB1:
+  28              		.file 1 "Core/Src/u8g2/Src/u8x8_8x8.c"
+   1:Core/Src/u8g2/Src/u8x8_8x8.c **** /*
+   2:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+   3:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_8x8.c
+   4:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+   5:Core/Src/u8g2/Src/u8x8_8x8.c ****   font procedures, directly interfaces display procedures
+   6:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+   7:Core/Src/u8g2/Src/u8x8_8x8.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+   9:Core/Src/u8g2/Src/u8x8_8x8.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:Core/Src/u8g2/Src/u8x8_8x8.c ****   All rights reserved.
+  11:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  12:Core/Src/u8g2/Src/u8x8_8x8.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:Core/Src/u8g2/Src/u8x8_8x8.c ****   are permitted provided that the following conditions are met:
+  14:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  15:Core/Src/u8g2/Src/u8x8_8x8.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:Core/Src/u8g2/Src/u8x8_8x8.c ****     of conditions and the following disclaimer.
+  17:Core/Src/u8g2/Src/u8x8_8x8.c ****     
+  18:Core/Src/u8g2/Src/u8x8_8x8.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:Core/Src/u8g2/Src/u8x8_8x8.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:Core/Src/u8g2/Src/u8x8_8x8.c ****     materials provided with the distribution.
+  21:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  22:Core/Src/u8g2/Src/u8x8_8x8.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:Core/Src/u8g2/Src/u8x8_8x8.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:Core/Src/u8g2/Src/u8x8_8x8.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:Core/Src/u8g2/Src/u8x8_8x8.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:Core/Src/u8g2/Src/u8x8_8x8.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:Core/Src/u8g2/Src/u8x8_8x8.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:Core/Src/u8g2/Src/u8x8_8x8.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:Core/Src/u8g2/Src/u8x8_8x8.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  30:Core/Src/u8g2/Src/u8x8_8x8.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 2
+
+
+  31:Core/Src/u8g2/Src/u8x8_8x8.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:Core/Src/u8g2/Src/u8x8_8x8.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:Core/Src/u8g2/Src/u8x8_8x8.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:Core/Src/u8g2/Src/u8x8_8x8.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+  35:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  36:Core/Src/u8g2/Src/u8x8_8x8.c **** */
+  37:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  38:Core/Src/u8g2/Src/u8x8_8x8.c **** #include "u8x8.h"
+  39:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  40:Core/Src/u8g2/Src/u8x8_8x8.c **** #if defined(ESP8266)
+  41:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_pgm_read_esp(const uint8_t * addr) 
+  42:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+  43:Core/Src/u8g2/Src/u8x8_8x8.c ****     uint32_t bytes;
+  44:Core/Src/u8g2/Src/u8x8_8x8.c ****     bytes = *(uint32_t*)((uint32_t)addr & ~3);
+  45:Core/Src/u8g2/Src/u8x8_8x8.c ****     return ((uint8_t*)&bytes)[(uint32_t)addr & 3];
+  46:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+  47:Core/Src/u8g2/Src/u8x8_8x8.c **** #endif
+  48:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  49:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  50:Core/Src/u8g2/Src/u8x8_8x8.c **** void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
+  51:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+  52:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->font = font_8x8;
+  53:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+  54:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+  55:Core/Src/u8g2/Src/u8x8_8x8.c **** /*
+  56:Core/Src/u8g2/Src/u8x8_8x8.c ****  Args:
+  57:Core/Src/u8g2/Src/u8x8_8x8.c ****    u8x8: ptr to u8x8 structure
+  58:Core/Src/u8g2/Src/u8x8_8x8.c ****    encoding: glyph for which the data is requested (must be between 0 and 255)
+  59:Core/Src/u8g2/Src/u8x8_8x8.c ****    buf: pointer to 8 bytes
+  60:Core/Src/u8g2/Src/u8x8_8x8.c **** */
+  61:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
+  62:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf, uint8_t tile_offset) 
+  63:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+  29              		.loc 1 63 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		.loc 1 63 1 is_stmt 0 view .LVU1
+  34 0000 70B5     		push	{r4, r5, r6, lr}
+  35              	.LCFI0:
+  36              		.cfi_def_cfa_offset 16
+  37              		.cfi_offset 4, -16
+  38              		.cfi_offset 5, -12
+  39              		.cfi_offset 6, -8
+  40              		.cfi_offset 14, -4
+  64:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t first, last, tiles, i;
+  41              		.loc 1 64 3 is_stmt 1 view .LVU2
+  65:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t offset;
+  42              		.loc 1 65 3 view .LVU3
+  66:Core/Src/u8g2/Src/u8x8_8x8.c ****   first = u8x8_pgm_read(u8x8->font+0);
+  43              		.loc 1 66 3 view .LVU4
+  44              		.loc 1 66 11 is_stmt 0 view .LVU5
+  45 0002 C469     		ldr	r4, [r0, #28]
+  46              		.loc 1 66 9 view .LVU6
+  47 0004 94F800E0 		ldrb	lr, [r4]	@ zero_extendqisi2
+  48              	.LVL1:
+  67:Core/Src/u8g2/Src/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 3
+
+
+  49              		.loc 1 67 3 is_stmt 1 view .LVU7
+  50              		.loc 1 67 8 is_stmt 0 view .LVU8
+  51 0008 6678     		ldrb	r6, [r4, #1]	@ zero_extendqisi2
+  52              	.LVL2:
+  68:Core/Src/u8g2/Src/u8x8_8x8.c ****   tiles = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+  53              		.loc 1 68 3 is_stmt 1 view .LVU9
+  54              		.loc 1 68 9 is_stmt 0 view .LVU10
+  55 000a A578     		ldrb	r5, [r4, #2]	@ zero_extendqisi2
+  56              	.LVL3:
+  69:Core/Src/u8g2/Src/u8x8_8x8.c ****   tiles *= u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+  57              		.loc 1 69 3 is_stmt 1 view .LVU11
+  58              		.loc 1 69 12 is_stmt 0 view .LVU12
+  59 000c 94F803C0 		ldrb	ip, [r4, #3]	@ zero_extendqisi2
+  60              		.loc 1 69 9 view .LVU13
+  61 0010 1CFB05FC 		smulbb	ip, ip, r5
+  62              	.LVL4:
+  70:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+  71:Core/Src/u8g2/Src/u8x8_8x8.c ****   /* get the glyph bitmap from the font */
+  72:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( first <= encoding && encoding <= last )
+  63              		.loc 1 72 3 is_stmt 1 view .LVU14
+  64              		.loc 1 72 6 is_stmt 0 view .LVU15
+  65 0014 8E45     		cmp	lr, r1
+  66 0016 24D8     		bhi	.L11
+  67 0018 5FFA8CFC 		uxtb	ip, ip
+  68              		.loc 1 72 26 discriminator 1 view .LVU16
+  69 001c 8E42     		cmp	r6, r1
+  70 001e 22D3     		bcc	.L12
+  73:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+  74:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset = encoding;
+  71              		.loc 1 74 5 is_stmt 1 view .LVU17
+  72              	.LVL5:
+  75:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset -= first;
+  73              		.loc 1 75 5 view .LVU18
+  74              		.loc 1 75 12 is_stmt 0 view .LVU19
+  75 0020 A1EB0E01 		sub	r1, r1, lr
+  76              	.LVL6:
+  76:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset *= tiles;		/* new 2019 format */
+  77              		.loc 1 76 5 is_stmt 1 view .LVU20
+  78              		.loc 1 76 12 is_stmt 0 view .LVU21
+  79 0024 0CFB01F1 		mul	r1, ip, r1
+  80              	.LVL7:
+  77:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset += tile_offset;	/* new 2019 format */
+  81              		.loc 1 77 5 is_stmt 1 view .LVU22
+  82              		.loc 1 77 12 is_stmt 0 view .LVU23
+  83 0028 13FA81F3 		uxtah	r3, r3, r1
+  84              	.LVL8:
+  85              		.loc 1 77 12 view .LVU24
+  86 002c 9BB2     		uxth	r3, r3
+  87              	.LVL9:
+  78:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset *= 8;
+  88              		.loc 1 78 5 is_stmt 1 view .LVU25
+  89              		.loc 1 78 12 is_stmt 0 view .LVU26
+  90 002e DB00     		lsls	r3, r3, #3
+  91              	.LVL10:
+  92              		.loc 1 78 12 view .LVU27
+  93 0030 9BB2     		uxth	r3, r3
+  94              	.LVL11:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 4
+
+
+  79:Core/Src/u8g2/Src/u8x8_8x8.c ****     offset +=4;			/* changed from 2 to 4, new 2019 format */
+  95              		.loc 1 79 5 is_stmt 1 view .LVU28
+  96              		.loc 1 79 12 is_stmt 0 view .LVU29
+  97 0032 0433     		adds	r3, r3, #4
+  98              	.LVL12:
+  99              		.loc 1 79 12 view .LVU30
+ 100 0034 9BB2     		uxth	r3, r3
+ 101              	.LVL13:
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 102              		.loc 1 80 5 is_stmt 1 view .LVU31
+ 103              		.loc 1 80 12 is_stmt 0 view .LVU32
+ 104 0036 0021     		movs	r1, #0
+ 105              		.loc 1 80 5 view .LVU33
+ 106 0038 06E0     		b	.L3
+ 107              	.LVL14:
+ 108              	.L4:
+  81:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+  82:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf[i] = u8x8_pgm_read(u8x8->font+offset);
+ 109              		.loc 1 82 7 is_stmt 1 discriminator 3 view .LVU34
+ 110              		.loc 1 82 16 is_stmt 0 discriminator 3 view .LVU35
+ 111 003a C469     		ldr	r4, [r0, #28]
+ 112 003c E45C     		ldrb	r4, [r4, r3]	@ zero_extendqisi2
+ 113              		.loc 1 82 14 discriminator 3 view .LVU36
+ 114 003e 5454     		strb	r4, [r2, r1]
+  83:Core/Src/u8g2/Src/u8x8_8x8.c ****       offset++;
+ 115              		.loc 1 83 7 is_stmt 1 discriminator 3 view .LVU37
+ 116              		.loc 1 83 13 is_stmt 0 discriminator 3 view .LVU38
+ 117 0040 0133     		adds	r3, r3, #1
+ 118              	.LVL15:
+ 119              		.loc 1 83 13 discriminator 3 view .LVU39
+ 120 0042 9BB2     		uxth	r3, r3
+ 121              	.LVL16:
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 122              		.loc 1 80 24 is_stmt 1 discriminator 3 view .LVU40
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 123              		.loc 1 80 25 is_stmt 0 discriminator 3 view .LVU41
+ 124 0044 0131     		adds	r1, r1, #1
+ 125              	.LVL17:
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 126              		.loc 1 80 25 discriminator 3 view .LVU42
+ 127 0046 C9B2     		uxtb	r1, r1
+ 128              	.LVL18:
+ 129              	.L3:
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 130              		.loc 1 80 17 is_stmt 1 discriminator 1 view .LVU43
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 131              		.loc 1 80 5 is_stmt 0 discriminator 1 view .LVU44
+ 132 0048 0729     		cmp	r1, #7
+ 133 004a F6D9     		bls	.L4
+  80:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 134              		.loc 1 80 5 discriminator 1 view .LVU45
+ 135 004c 05E0     		b	.L5
+ 136              	.LVL19:
+ 137              	.L7:
+  84:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+  85:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+  86:Core/Src/u8g2/Src/u8x8_8x8.c ****   else
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 5
+
+
+  87:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  89:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+  90:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf[i] = 0;
+ 138              		.loc 1 90 7 is_stmt 1 discriminator 3 view .LVU46
+ 139              		.loc 1 90 14 is_stmt 0 discriminator 3 view .LVU47
+ 140 004e 0021     		movs	r1, #0
+ 141 0050 D154     		strb	r1, [r2, r3]
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 142              		.loc 1 88 24 is_stmt 1 discriminator 3 view .LVU48
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 143              		.loc 1 88 25 is_stmt 0 discriminator 3 view .LVU49
+ 144 0052 0133     		adds	r3, r3, #1
+ 145              	.LVL20:
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 146              		.loc 1 88 25 discriminator 3 view .LVU50
+ 147 0054 DBB2     		uxtb	r3, r3
+ 148              	.LVL21:
+ 149              	.L6:
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 150              		.loc 1 88 17 is_stmt 1 discriminator 1 view .LVU51
+  88:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 151              		.loc 1 88 5 is_stmt 0 discriminator 1 view .LVU52
+ 152 0056 072B     		cmp	r3, #7
+ 153 0058 F9D9     		bls	.L7
+ 154              	.LVL22:
+ 155              	.L5:
+  91:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+  92:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+  93:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+  94:Core/Src/u8g2/Src/u8x8_8x8.c ****   /* invert the bitmap if required */
+  95:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->is_font_inverse_mode )
+ 156              		.loc 1 95 3 is_stmt 1 view .LVU53
+ 157              		.loc 1 95 12 is_stmt 0 view .LVU54
+ 158 005a 90F82330 		ldrb	r3, [r0, #35]	@ zero_extendqisi2
+ 159              		.loc 1 95 6 view .LVU55
+ 160 005e 63B9     		cbnz	r3, .L13
+ 161              	.L1:
+  96:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  98:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+  99:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf[i] ^= 255;
+ 100:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 101:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 102:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 103:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 162              		.loc 1 103 1 view .LVU56
+ 163 0060 70BD     		pop	{r4, r5, r6, pc}
+ 164              	.LVL23:
+ 165              	.L11:
+ 166              		.loc 1 103 1 view .LVU57
+ 167 0062 0023     		movs	r3, #0
+ 168              	.LVL24:
+ 169              		.loc 1 103 1 view .LVU58
+ 170 0064 F7E7     		b	.L6
+ 171              	.LVL25:
+ 172              	.L12:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 6
+
+
+ 173              		.loc 1 103 1 view .LVU59
+ 174 0066 0023     		movs	r3, #0
+ 175              	.LVL26:
+ 176              		.loc 1 103 1 view .LVU60
+ 177 0068 F5E7     		b	.L6
+ 178              	.LVL27:
+ 179              	.L10:
+  99:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 180              		.loc 1 99 7 is_stmt 1 discriminator 3 view .LVU61
+  99:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 181              		.loc 1 99 14 is_stmt 0 discriminator 3 view .LVU62
+ 182 006a D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 183 006c C943     		mvns	r1, r1
+ 184 006e D154     		strb	r1, [r2, r3]
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 185              		.loc 1 97 24 is_stmt 1 discriminator 3 view .LVU63
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 186              		.loc 1 97 25 is_stmt 0 discriminator 3 view .LVU64
+ 187 0070 0133     		adds	r3, r3, #1
+ 188              	.LVL28:
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 189              		.loc 1 97 25 discriminator 3 view .LVU65
+ 190 0072 DBB2     		uxtb	r3, r3
+ 191              	.LVL29:
+ 192              	.L8:
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 193              		.loc 1 97 17 is_stmt 1 discriminator 1 view .LVU66
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 194              		.loc 1 97 5 is_stmt 0 discriminator 1 view .LVU67
+ 195 0074 072B     		cmp	r3, #7
+ 196 0076 F8D9     		bls	.L10
+ 197 0078 F2E7     		b	.L1
+ 198              	.LVL30:
+ 199              	.L13:
+  97:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 200              		.loc 1 97 12 view .LVU68
+ 201 007a 0023     		movs	r3, #0
+ 202 007c FAE7     		b	.L8
+ 203              		.cfi_endproc
+ 204              	.LFE1:
+ 206              		.section	.text.u8x8_upscale_buf,"ax",%progbits
+ 207              		.align	1
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	u8x8_upscale_buf:
+ 213              	.LVL31:
+ 214              	.LFB4:
+ 104:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 105:Core/Src/u8g2/Src/u8x8_8x8.c **** void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 106:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 107:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 108:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 109:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 110:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 111:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 112:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 7
+
+
+ 113:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 114:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 115:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 116:Core/Src/u8g2/Src/u8x8_8x8.c ****     xx = x;
+ 117:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 118:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 119:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 120:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_DrawTile(u8x8, xx, y, 1, buf);
+ 121:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 122:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 123:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 124:Core/Src/u8g2/Src/u8x8_8x8.c ****     y++;
+ 125:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );
+ 126:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 127:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 128:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 129:Core/Src/u8g2/Src/u8x8_8x8.c **** /*
+ 130:Core/Src/u8g2/Src/u8x8_8x8.c ****   Source: http://graphics.stanford.edu/~seander/bithacks.html
+ 131:Core/Src/u8g2/Src/u8x8_8x8.c **** 	Section: Interleave bits by Binary Magic Numbers 
+ 132:Core/Src/u8g2/Src/u8x8_8x8.c ****    Original codes is here:
+ 133:Core/Src/u8g2/Src/u8x8_8x8.c **** 		static const unsigned int B[] = {0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF};
+ 134:Core/Src/u8g2/Src/u8x8_8x8.c **** 		static const unsigned int S[] = {1, 2, 4, 8};
+ 135:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 136:Core/Src/u8g2/Src/u8x8_8x8.c **** 		unsigned int x; // Interleave lower 16 bits of x and y, so the bits of x
+ 137:Core/Src/u8g2/Src/u8x8_8x8.c **** 		unsigned int y; // are in the even positions and bits from y in the odd;
+ 138:Core/Src/u8g2/Src/u8x8_8x8.c **** 		unsigned int z; // z gets the resulting 32-bit Morton Number.  
+ 139:Core/Src/u8g2/Src/u8x8_8x8.c **** 				// x and y must initially be less than 65536.
+ 140:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 141:Core/Src/u8g2/Src/u8x8_8x8.c **** 		x = (x | (x << S[3])) & B[3];
+ 142:Core/Src/u8g2/Src/u8x8_8x8.c **** 		x = (x | (x << S[2])) & B[2];
+ 143:Core/Src/u8g2/Src/u8x8_8x8.c **** 		x = (x | (x << S[1])) & B[1];
+ 144:Core/Src/u8g2/Src/u8x8_8x8.c **** 		x = (x | (x << S[0])) & B[0];
+ 145:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 146:Core/Src/u8g2/Src/u8x8_8x8.c **** 		y = (y | (y << S[3])) & B[3];
+ 147:Core/Src/u8g2/Src/u8x8_8x8.c **** 		y = (y | (y << S[2])) & B[2];
+ 148:Core/Src/u8g2/Src/u8x8_8x8.c **** 		y = (y | (y << S[1])) & B[1];
+ 149:Core/Src/u8g2/Src/u8x8_8x8.c **** 		y = (y | (y << S[0])) & B[0];
+ 150:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 151:Core/Src/u8g2/Src/u8x8_8x8.c **** 		z = x | (y << 1);
+ 152:Core/Src/u8g2/Src/u8x8_8x8.c **** */
+ 153:Core/Src/u8g2/Src/u8x8_8x8.c **** uint16_t u8x8_upscale_byte(uint8_t x) 
+ 154:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 155:Core/Src/u8g2/Src/u8x8_8x8.c **** 	uint16_t y = x;
+ 156:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];
+ 157:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 158:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 159:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x3333;
+ 160:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 161:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x5555;
+ 162:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 163:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 1);		// z = x | (y << 1);
+ 164:Core/Src/u8g2/Src/u8x8_8x8.c **** 	return y;
+ 165:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 166:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 167:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest) U8X8_NOINLINE;
+ 168:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest)
+ 169:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 8
+
+
+ 215              		.loc 1 169 1 is_stmt 1 view -0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              		@ link register save eliminated.
+ 170:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i = 4;  
+ 220              		.loc 1 170 3 view .LVU70
+ 221              		.loc 1 170 11 is_stmt 0 view .LVU71
+ 222 0000 0423     		movs	r3, #4
+ 223              	.LVL32:
+ 224              	.L16:
+ 171:Core/Src/u8g2/Src/u8x8_8x8.c ****   do 
+ 225              		.loc 1 171 3 is_stmt 1 discriminator 1 view .LVU72
+ 172:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 173:Core/Src/u8g2/Src/u8x8_8x8.c ****     *dest++ = *src;
+ 226              		.loc 1 173 5 discriminator 1 view .LVU73
+ 227              		.loc 1 173 15 is_stmt 0 discriminator 1 view .LVU74
+ 228 0002 10F801CB 		ldrb	ip, [r0], #1	@ zero_extendqisi2
+ 229              	.LVL33:
+ 230              		.loc 1 173 13 discriminator 1 view .LVU75
+ 231 0006 81F800C0 		strb	ip, [r1]
+ 174:Core/Src/u8g2/Src/u8x8_8x8.c ****     *dest++ = *src++;
+ 232              		.loc 1 174 5 is_stmt 1 discriminator 1 view .LVU76
+ 233              	.LVL34:
+ 234              		.loc 1 174 13 is_stmt 0 discriminator 1 view .LVU77
+ 235 000a 81F801C0 		strb	ip, [r1, #1]
+ 236 000e 0231     		adds	r1, r1, #2
+ 237              	.LVL35:
+ 175:Core/Src/u8g2/Src/u8x8_8x8.c ****     i--;
+ 238              		.loc 1 175 5 is_stmt 1 discriminator 1 view .LVU78
+ 239              		.loc 1 175 6 is_stmt 0 discriminator 1 view .LVU79
+ 240 0010 013B     		subs	r3, r3, #1
+ 241              	.LVL36:
+ 176:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( i > 0 );
+ 242              		.loc 1 176 10 is_stmt 1 discriminator 1 view .LVU80
+ 243              		.loc 1 176 3 is_stmt 0 discriminator 1 view .LVU81
+ 244 0012 13F0FF03 		ands	r3, r3, #255
+ 245              	.LVL37:
+ 246              		.loc 1 176 3 discriminator 1 view .LVU82
+ 247 0016 F4D1     		bne	.L16
+ 177:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 248              		.loc 1 177 1 view .LVU83
+ 249 0018 7047     		bx	lr
+ 250              		.cfi_endproc
+ 251              	.LFE4:
+ 253              		.section	.text.u8x8_ascii_next,"ax",%progbits
+ 254              		.align	1
+ 255              		.global	u8x8_ascii_next
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 260              	u8x8_ascii_next:
+ 261              	.LVL38:
+ 262              	.LFB10:
+ 178:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 179:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_draw_2x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t ti
+ 180:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 9
+
+
+ 181:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 182:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t t;
+ 183:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 184:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf1[8];
+ 185:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf2[8];
+ 186:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 188:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 189:Core/Src/u8g2/Src/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 190:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 191:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 192:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 193:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_upscale_buf(buf2, buf);
+ 194:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 195:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 196:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_upscale_buf(buf2+4, buf);
+ 197:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 198:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 199:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_upscale_buf(buf1, buf);
+ 200:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 201:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 202:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_upscale_buf(buf1+4, buf);
+ 203:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 204:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 205:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 206:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 207:Core/Src/u8g2/Src/u8x8_8x8.c **** void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 208:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 209:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 210:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 211:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 212:Core/Src/u8g2/Src/u8x8_8x8.c ****   th *= 2;
+ 213:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 214:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 215:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 216:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 217:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 218:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 219:Core/Src/u8g2/Src/u8x8_8x8.c ****     xx = x;
+ 220:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 221:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 222:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_draw_2x2_subglyph(u8x8, xx, y, encoding, tile);
+ 223:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 224:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx+=2;
+ 225:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 226:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 227:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 228:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 229:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 230:Core/Src/u8g2/Src/u8x8_8x8.c **** /* https://github.com/olikraus/u8g2/issues/474 */
+ 231:Core/Src/u8g2/Src/u8x8_8x8.c **** static void u8x8_draw_1x2_subglyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding, uint8_t ti
+ 232:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 233:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 234:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t t;
+ 235:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 236:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf1[8];
+ 237:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf2[8];
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 10
+
+
+ 238:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 240:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 241:Core/Src/u8g2/Src/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 242:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 243:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 244:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 245:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x,   y, 1, buf2);
+ 246:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 247:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 248:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 249:Core/Src/u8g2/Src/u8x8_8x8.c **** void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 250:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 251:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 252:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 253:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 254:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 255:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 256:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 257:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 258:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 259:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 260:Core/Src/u8g2/Src/u8x8_8x8.c ****     xx = x;
+ 261:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 262:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 263:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_draw_1x2_subglyph(u8x8, xx, y, encoding, tile);
+ 264:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 265:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 266:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 267:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 268:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 269:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 270:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 271:Core/Src/u8g2/Src/u8x8_8x8.c **** /*
+ 272:Core/Src/u8g2/Src/u8x8_8x8.c **** source: https://en.wikipedia.org/wiki/UTF-8
+ 273:Core/Src/u8g2/Src/u8x8_8x8.c **** Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+ 274:Core/Src/u8g2/Src/u8x8_8x8.c ****   7 	U+0000 		U+007F 		1 		0xxxxxxx
+ 275:Core/Src/u8g2/Src/u8x8_8x8.c **** 11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+ 276:Core/Src/u8g2/Src/u8x8_8x8.c **** 16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+ 277:Core/Src/u8g2/Src/u8x8_8x8.c **** 21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 278:Core/Src/u8g2/Src/u8x8_8x8.c **** 26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 279:Core/Src/u8g2/Src/u8x8_8x8.c **** 31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+ 280:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 281:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 282:Core/Src/u8g2/Src/u8x8_8x8.c **** */
+ 283:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 284:Core/Src/u8g2/Src/u8x8_8x8.c **** /* reset the internal state machine */
+ 285:Core/Src/u8g2/Src/u8x8_8x8.c **** void u8x8_utf8_init(u8x8_t *u8x8)
+ 286:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 287:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 288:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 289:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 290:Core/Src/u8g2/Src/u8x8_8x8.c **** uint16_t u8x8_ascii_next(U8X8_UNUSED u8x8_t *u8x8, uint8_t b)
+ 291:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 263              		.loc 1 291 1 is_stmt 1 view -0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 11
+
+
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 292:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( b == 0 || b == '\n' ) /* '\n' terminates the string to support the string list procedures */
+ 268              		.loc 1 292 3 view .LVU85
+ 269              		.loc 1 292 6 is_stmt 0 view .LVU86
+ 270 0000 19B1     		cbz	r1, .L19
+ 271              		.loc 1 292 15 discriminator 1 view .LVU87
+ 272 0002 0A29     		cmp	r1, #10
+ 273 0004 04D0     		beq	.L20
+ 293:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 294:Core/Src/u8g2/Src/u8x8_8x8.c ****   return b;
+ 274              		.loc 1 294 3 is_stmt 1 view .LVU88
+ 275              		.loc 1 294 10 is_stmt 0 view .LVU89
+ 276 0006 88B2     		uxth	r0, r1
+ 277              	.LVL39:
+ 278              		.loc 1 294 10 view .LVU90
+ 279 0008 7047     		bx	lr
+ 280              	.LVL40:
+ 281              	.L19:
+ 293:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 282              		.loc 1 293 12 view .LVU91
+ 283 000a 4FF6FF70 		movw	r0, #65535
+ 284              	.LVL41:
+ 293:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 285              		.loc 1 293 12 view .LVU92
+ 286 000e 7047     		bx	lr
+ 287              	.LVL42:
+ 288              	.L20:
+ 293:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 289              		.loc 1 293 12 view .LVU93
+ 290 0010 4FF6FF70 		movw	r0, #65535
+ 291              	.LVL43:
+ 295:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 292              		.loc 1 295 1 view .LVU94
+ 293 0014 7047     		bx	lr
+ 294              		.cfi_endproc
+ 295              	.LFE10:
+ 297              		.section	.text.u8x8_utf8_next,"ax",%progbits
+ 298              		.align	1
+ 299              		.global	u8x8_utf8_next
+ 300              		.syntax unified
+ 301              		.thumb
+ 302              		.thumb_func
+ 304              	u8x8_utf8_next:
+ 305              	.LVL44:
+ 306              	.LFB11:
+ 296:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 297:Core/Src/u8g2/Src/u8x8_8x8.c **** /*
+ 298:Core/Src/u8g2/Src/u8x8_8x8.c ****   pass a byte from an utf8 encoded string to the utf8 decoder state machine
+ 299:Core/Src/u8g2/Src/u8x8_8x8.c ****   returns 
+ 300:Core/Src/u8g2/Src/u8x8_8x8.c ****     0x0fffe: no glyph, just continue
+ 301:Core/Src/u8g2/Src/u8x8_8x8.c ****     0x0ffff: end of string
+ 302:Core/Src/u8g2/Src/u8x8_8x8.c ****     anything else: The decoded encoding
+ 303:Core/Src/u8g2/Src/u8x8_8x8.c **** */
+ 304:Core/Src/u8g2/Src/u8x8_8x8.c **** uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
+ 305:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 307              		.loc 1 305 1 is_stmt 1 view -0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 12
+
+
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              		@ link register save eliminated.
+ 312              		.loc 1 305 1 is_stmt 0 view .LVU96
+ 313 0000 0346     		mov	r3, r0
+ 306:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( b == 0 || b == '\n' )	/* '\n' terminates the string to support the string list procedures */
+ 314              		.loc 1 306 3 is_stmt 1 view .LVU97
+ 315              		.loc 1 306 6 is_stmt 0 view .LVU98
+ 316 0002 0A46     		mov	r2, r1
+ 317 0004 0029     		cmp	r1, #0
+ 318 0006 3FD0     		beq	.L30
+ 319              		.loc 1 306 15 discriminator 1 view .LVU99
+ 320 0008 0A29     		cmp	r1, #10
+ 321 000a 40D0     		beq	.L31
+ 307:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected, pending UTF8 is discarded */
+ 308:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 322              		.loc 1 308 3 is_stmt 1 view .LVU100
+ 323              		.loc 1 308 12 is_stmt 0 view .LVU101
+ 324 000c 90F82610 		ldrb	r1, [r0, #38]	@ zero_extendqisi2
+ 325              	.LVL45:
+ 326              		.loc 1 308 6 view .LVU102
+ 327 0010 61BB     		cbnz	r1, .L23
+ 309:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 310:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( b >= 0xfc )	/* 6 byte sequence */
+ 328              		.loc 1 310 5 is_stmt 1 view .LVU103
+ 329              		.loc 1 310 8 is_stmt 0 view .LVU104
+ 330 0012 FB2A     		cmp	r2, #251
+ 331 0014 09D8     		bhi	.L33
+ 311:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 312:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8->utf8_state = 5;
+ 313:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 1;
+ 314:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 315:Core/Src/u8g2/Src/u8x8_8x8.c ****     else if ( b >= 0xf8 )
+ 332              		.loc 1 315 10 is_stmt 1 view .LVU105
+ 333              		.loc 1 315 13 is_stmt 0 view .LVU106
+ 334 0016 F72A     		cmp	r2, #247
+ 335 0018 10D8     		bhi	.L34
+ 316:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 317:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8->utf8_state = 4;
+ 318:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 3;
+ 319:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 320:Core/Src/u8g2/Src/u8x8_8x8.c ****     else if ( b >= 0xf0 )
+ 336              		.loc 1 320 10 is_stmt 1 view .LVU107
+ 337              		.loc 1 320 13 is_stmt 0 view .LVU108
+ 338 001a EF2A     		cmp	r2, #239
+ 339 001c 14D8     		bhi	.L35
+ 321:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 322:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8->utf8_state = 3;
+ 323:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 7;      
+ 324:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 325:Core/Src/u8g2/Src/u8x8_8x8.c ****     else if ( b >= 0xe0 )
+ 340              		.loc 1 325 10 is_stmt 1 view .LVU109
+ 341              		.loc 1 325 13 is_stmt 0 view .LVU110
+ 342 001e DF2A     		cmp	r2, #223
+ 343 0020 18D8     		bhi	.L36
+ 326:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 13
+
+
+ 327:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8->utf8_state = 2;
+ 328:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 15;
+ 329:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 330:Core/Src/u8g2/Src/u8x8_8x8.c ****     else if ( b >= 0xc0 )
+ 344              		.loc 1 330 10 is_stmt 1 view .LVU111
+ 345              		.loc 1 330 13 is_stmt 0 view .LVU112
+ 346 0022 BF2A     		cmp	r2, #191
+ 347 0024 1CD8     		bhi	.L37
+ 331:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 332:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8->utf8_state = 1;
+ 333:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 0x01f;
+ 334:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 335:Core/Src/u8g2/Src/u8x8_8x8.c ****     else
+ 336:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 337:Core/Src/u8g2/Src/u8x8_8x8.c ****       /* do nothing, just use the value as encoding */
+ 338:Core/Src/u8g2/Src/u8x8_8x8.c ****       return b;
+ 348              		.loc 1 338 7 is_stmt 1 view .LVU113
+ 349              		.loc 1 338 14 is_stmt 0 view .LVU114
+ 350 0026 90B2     		uxth	r0, r2
+ 351              	.LVL46:
+ 352              		.loc 1 338 14 view .LVU115
+ 353 0028 7047     		bx	lr
+ 354              	.LVL47:
+ 355              	.L33:
+ 312:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 1;
+ 356              		.loc 1 312 7 is_stmt 1 view .LVU116
+ 312:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 1;
+ 357              		.loc 1 312 24 is_stmt 0 view .LVU117
+ 358 002a 0521     		movs	r1, #5
+ 359 002c 80F82610 		strb	r1, [r0, #38]
+ 313:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 360              		.loc 1 313 7 is_stmt 1 view .LVU118
+ 313:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 361              		.loc 1 313 9 is_stmt 0 view .LVU119
+ 362 0030 02F00100 		and	r0, r2, #1
+ 363              	.LVL48:
+ 364              	.L25:
+ 339:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 340:Core/Src/u8g2/Src/u8x8_8x8.c ****     u8x8->encoding = b;
+ 365              		.loc 1 340 5 is_stmt 1 view .LVU120
+ 366              		.loc 1 340 20 is_stmt 0 view .LVU121
+ 367 0034 1884     		strh	r0, [r3, #32]	@ movhi
+ 341:Core/Src/u8g2/Src/u8x8_8x8.c ****     return 0x0fffe;
+ 368              		.loc 1 341 5 is_stmt 1 view .LVU122
+ 369              		.loc 1 341 12 is_stmt 0 view .LVU123
+ 370 0036 4FF6FE70 		movw	r0, #65534
+ 371              	.LVL49:
+ 372              		.loc 1 341 12 view .LVU124
+ 373 003a 7047     		bx	lr
+ 374              	.LVL50:
+ 375              	.L34:
+ 317:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 3;
+ 376              		.loc 1 317 7 is_stmt 1 view .LVU125
+ 317:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 3;
+ 377              		.loc 1 317 24 is_stmt 0 view .LVU126
+ 378 003c 0421     		movs	r1, #4
+ 379 003e 80F82610 		strb	r1, [r0, #38]
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 14
+
+
+ 318:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 380              		.loc 1 318 7 is_stmt 1 view .LVU127
+ 318:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 381              		.loc 1 318 9 is_stmt 0 view .LVU128
+ 382 0042 02F00300 		and	r0, r2, #3
+ 383              	.LVL51:
+ 318:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 384              		.loc 1 318 9 view .LVU129
+ 385 0046 F5E7     		b	.L25
+ 386              	.LVL52:
+ 387              	.L35:
+ 322:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 7;      
+ 388              		.loc 1 322 7 is_stmt 1 view .LVU130
+ 322:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 7;      
+ 389              		.loc 1 322 24 is_stmt 0 view .LVU131
+ 390 0048 0321     		movs	r1, #3
+ 391 004a 80F82610 		strb	r1, [r0, #38]
+ 323:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 392              		.loc 1 323 7 is_stmt 1 view .LVU132
+ 323:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 393              		.loc 1 323 9 is_stmt 0 view .LVU133
+ 394 004e 02F00700 		and	r0, r2, #7
+ 395              	.LVL53:
+ 323:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 396              		.loc 1 323 9 view .LVU134
+ 397 0052 EFE7     		b	.L25
+ 398              	.LVL54:
+ 399              	.L36:
+ 327:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 15;
+ 400              		.loc 1 327 7 is_stmt 1 view .LVU135
+ 327:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 15;
+ 401              		.loc 1 327 24 is_stmt 0 view .LVU136
+ 402 0054 0221     		movs	r1, #2
+ 403 0056 80F82610 		strb	r1, [r0, #38]
+ 328:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 404              		.loc 1 328 7 is_stmt 1 view .LVU137
+ 328:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 405              		.loc 1 328 9 is_stmt 0 view .LVU138
+ 406 005a 02F00F00 		and	r0, r2, #15
+ 407              	.LVL55:
+ 328:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 408              		.loc 1 328 9 view .LVU139
+ 409 005e E9E7     		b	.L25
+ 410              	.LVL56:
+ 411              	.L37:
+ 332:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 0x01f;
+ 412              		.loc 1 332 7 is_stmt 1 view .LVU140
+ 332:Core/Src/u8g2/Src/u8x8_8x8.c ****       b &= 0x01f;
+ 413              		.loc 1 332 24 is_stmt 0 view .LVU141
+ 414 0060 0121     		movs	r1, #1
+ 415 0062 80F82610 		strb	r1, [r0, #38]
+ 333:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 416              		.loc 1 333 7 is_stmt 1 view .LVU142
+ 333:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 417              		.loc 1 333 9 is_stmt 0 view .LVU143
+ 418 0066 02F01F00 		and	r0, r2, #31
+ 419              	.LVL57:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 15
+
+
+ 333:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 420              		.loc 1 333 9 view .LVU144
+ 421 006a E3E7     		b	.L25
+ 422              	.LVL58:
+ 423              	.L23:
+ 342:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 343:Core/Src/u8g2/Src/u8x8_8x8.c ****   else
+ 344:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 345:Core/Src/u8g2/Src/u8x8_8x8.c ****     u8x8->utf8_state--;
+ 424              		.loc 1 345 5 is_stmt 1 view .LVU145
+ 425              		.loc 1 345 21 is_stmt 0 view .LVU146
+ 426 006c 0139     		subs	r1, r1, #1
+ 427 006e C9B2     		uxtb	r1, r1
+ 428 0070 80F82610 		strb	r1, [r0, #38]
+ 346:Core/Src/u8g2/Src/u8x8_8x8.c ****     /* The case b < 0x080 (an illegal UTF8 encoding) is not checked here. */
+ 347:Core/Src/u8g2/Src/u8x8_8x8.c ****     u8x8->encoding<<=6;
+ 429              		.loc 1 347 5 is_stmt 1 view .LVU147
+ 430              		.loc 1 347 19 is_stmt 0 view .LVU148
+ 431 0074 008C     		ldrh	r0, [r0, #32]
+ 432              	.LVL59:
+ 433              		.loc 1 347 19 view .LVU149
+ 434 0076 8001     		lsls	r0, r0, #6
+ 435 0078 80B2     		uxth	r0, r0
+ 436 007a 1884     		strh	r0, [r3, #32]	@ movhi
+ 348:Core/Src/u8g2/Src/u8x8_8x8.c ****     b &= 0x03f;
+ 437              		.loc 1 348 5 is_stmt 1 view .LVU150
+ 438              		.loc 1 348 7 is_stmt 0 view .LVU151
+ 439 007c 02F03F02 		and	r2, r2, #63
+ 440              	.LVL60:
+ 349:Core/Src/u8g2/Src/u8x8_8x8.c ****     u8x8->encoding |= b;
+ 441              		.loc 1 349 5 is_stmt 1 view .LVU152
+ 442              		.loc 1 349 20 is_stmt 0 view .LVU153
+ 443 0080 1043     		orrs	r0, r0, r2
+ 444 0082 1884     		strh	r0, [r3, #32]	@ movhi
+ 350:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( u8x8->utf8_state != 0 )
+ 445              		.loc 1 350 5 is_stmt 1 view .LVU154
+ 446              		.loc 1 350 8 is_stmt 0 view .LVU155
+ 447 0084 31B9     		cbnz	r1, .L38
+ 448              	.L22:
+ 351:Core/Src/u8g2/Src/u8x8_8x8.c ****       return 0x0fffe;	/* nothing to do yet */
+ 352:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 353:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8->encoding;
+ 354:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 449              		.loc 1 354 1 view .LVU156
+ 450 0086 7047     		bx	lr
+ 451              	.LVL61:
+ 452              	.L30:
+ 307:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 453              		.loc 1 307 12 view .LVU157
+ 454 0088 4FF6FF70 		movw	r0, #65535
+ 455              	.LVL62:
+ 307:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 456              		.loc 1 307 12 view .LVU158
+ 457 008c 7047     		bx	lr
+ 458              	.LVL63:
+ 459              	.L31:
+ 307:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 16
+
+
+ 460              		.loc 1 307 12 view .LVU159
+ 461 008e 4FF6FF70 		movw	r0, #65535
+ 462              	.LVL64:
+ 307:Core/Src/u8g2/Src/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 463              		.loc 1 307 12 view .LVU160
+ 464 0092 7047     		bx	lr
+ 465              	.LVL65:
+ 466              	.L38:
+ 351:Core/Src/u8g2/Src/u8x8_8x8.c ****       return 0x0fffe;	/* nothing to do yet */
+ 467              		.loc 1 351 14 view .LVU161
+ 468 0094 4FF6FE70 		movw	r0, #65534
+ 469 0098 F5E7     		b	.L22
+ 470              		.cfi_endproc
+ 471              	.LFE11:
+ 473              		.section	.text.u8x8_SetFont,"ax",%progbits
+ 474              		.align	1
+ 475              		.global	u8x8_SetFont
+ 476              		.syntax unified
+ 477              		.thumb
+ 478              		.thumb_func
+ 480              	u8x8_SetFont:
+ 481              	.LVL66:
+ 482              	.LFB0:
+  51:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->font = font_8x8;
+ 483              		.loc 1 51 1 is_stmt 1 view -0
+ 484              		.cfi_startproc
+ 485              		@ args = 0, pretend = 0, frame = 0
+ 486              		@ frame_needed = 0, uses_anonymous_args = 0
+ 487              		@ link register save eliminated.
+  52:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 488              		.loc 1 52 3 view .LVU163
+  52:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 489              		.loc 1 52 14 is_stmt 0 view .LVU164
+ 490 0000 C161     		str	r1, [r0, #28]
+  53:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 491              		.loc 1 53 1 view .LVU165
+ 492 0002 7047     		bx	lr
+ 493              		.cfi_endproc
+ 494              	.LFE0:
+ 496              		.section	.text.u8x8_DrawGlyph,"ax",%progbits
+ 497              		.align	1
+ 498              		.global	u8x8_DrawGlyph
+ 499              		.syntax unified
+ 500              		.thumb
+ 501              		.thumb_func
+ 503              	u8x8_DrawGlyph:
+ 504              	.LVL67:
+ 505              	.LFB2:
+ 106:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 506              		.loc 1 106 1 is_stmt 1 view -0
+ 507              		.cfi_startproc
+ 508              		@ args = 0, pretend = 0, frame = 16
+ 509              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 510              		.loc 1 106 1 is_stmt 0 view .LVU167
+ 511 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 512              	.LCFI1:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 17
+
+
+ 513              		.cfi_def_cfa_offset 36
+ 514              		.cfi_offset 4, -36
+ 515              		.cfi_offset 5, -32
+ 516              		.cfi_offset 6, -28
+ 517              		.cfi_offset 7, -24
+ 518              		.cfi_offset 8, -20
+ 519              		.cfi_offset 9, -16
+ 520              		.cfi_offset 10, -12
+ 521              		.cfi_offset 11, -8
+ 522              		.cfi_offset 14, -4
+ 523 0004 87B0     		sub	sp, sp, #28
+ 524              	.LCFI2:
+ 525              		.cfi_def_cfa_offset 64
+ 526 0006 0746     		mov	r7, r0
+ 527 0008 0391     		str	r1, [sp, #12]
+ 528 000a 9046     		mov	r8, r2
+ 529 000c 9A46     		mov	r10, r3
+ 107:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 530              		.loc 1 107 3 is_stmt 1 view .LVU168
+ 107:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 531              		.loc 1 107 16 is_stmt 0 view .LVU169
+ 532 000e C369     		ldr	r3, [r0, #28]
+ 533              	.LVL68:
+ 107:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 534              		.loc 1 107 11 view .LVU170
+ 535 0010 93F80290 		ldrb	r9, [r3, #2]	@ zero_extendqisi2
+ 536              	.LVL69:
+ 108:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 537              		.loc 1 108 3 is_stmt 1 view .LVU171
+ 108:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 538              		.loc 1 108 11 is_stmt 0 view .LVU172
+ 539 0014 93F803B0 		ldrb	fp, [r3, #3]	@ zero_extendqisi2
+ 540              	.LVL70:
+ 109:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 541              		.loc 1 109 3 is_stmt 1 view .LVU173
+ 110:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 542              		.loc 1 110 3 view .LVU174
+ 111:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 543              		.loc 1 111 3 view .LVU175
+ 111:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 544              		.loc 1 111 6 is_stmt 0 view .LVU176
+ 545 0018 8944     		add	r9, r9, r1
+ 546              	.LVL71:
+ 111:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 547              		.loc 1 111 6 view .LVU177
+ 548 001a 5FFA89F9 		uxtb	r9, r9
+ 549              	.LVL72:
+ 112:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 550              		.loc 1 112 3 is_stmt 1 view .LVU178
+ 112:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 551              		.loc 1 112 6 is_stmt 0 view .LVU179
+ 552 001e 9344     		add	fp, fp, r2
+ 553              	.LVL73:
+ 112:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 554              		.loc 1 112 6 view .LVU180
+ 555 0020 5FFA8BFB 		uxtb	fp, fp
+ 556              	.LVL74:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 18
+
+
+ 113:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 557              		.loc 1 113 3 is_stmt 1 view .LVU181
+ 113:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 558              		.loc 1 113 8 is_stmt 0 view .LVU182
+ 559 0024 0025     		movs	r5, #0
+ 560              	.LVL75:
+ 561              	.L42:
+ 114:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 562              		.loc 1 114 3 is_stmt 1 view .LVU183
+ 116:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 563              		.loc 1 116 5 view .LVU184
+ 116:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 564              		.loc 1 116 8 is_stmt 0 view .LVU185
+ 565 0026 039C     		ldr	r4, [sp, #12]
+ 566              	.LVL76:
+ 567              	.L41:
+ 117:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 568              		.loc 1 117 5 is_stmt 1 discriminator 1 view .LVU186
+ 119:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_DrawTile(u8x8, xx, y, 1, buf);
+ 569              		.loc 1 119 7 discriminator 1 view .LVU187
+ 570 0028 04AE     		add	r6, sp, #16
+ 571 002a 2B46     		mov	r3, r5
+ 572 002c 3246     		mov	r2, r6
+ 573 002e 5146     		mov	r1, r10
+ 574 0030 3846     		mov	r0, r7
+ 575 0032 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 576              	.LVL77:
+ 120:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 577              		.loc 1 120 7 discriminator 1 view .LVU188
+ 578 0036 0096     		str	r6, [sp]
+ 579 0038 0123     		movs	r3, #1
+ 580 003a 4246     		mov	r2, r8
+ 581 003c 2146     		mov	r1, r4
+ 582 003e 3846     		mov	r0, r7
+ 583 0040 FFF7FEFF 		bl	u8x8_DrawTile
+ 584              	.LVL78:
+ 121:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 585              		.loc 1 121 7 discriminator 1 view .LVU189
+ 121:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 586              		.loc 1 121 11 is_stmt 0 discriminator 1 view .LVU190
+ 587 0044 0135     		adds	r5, r5, #1
+ 588              	.LVL79:
+ 121:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 589              		.loc 1 121 11 discriminator 1 view .LVU191
+ 590 0046 EDB2     		uxtb	r5, r5
+ 591              	.LVL80:
+ 122:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 592              		.loc 1 122 7 is_stmt 1 discriminator 1 view .LVU192
+ 122:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 593              		.loc 1 122 9 is_stmt 0 discriminator 1 view .LVU193
+ 594 0048 0134     		adds	r4, r4, #1
+ 595              	.LVL81:
+ 122:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 596              		.loc 1 122 9 discriminator 1 view .LVU194
+ 597 004a E4B2     		uxtb	r4, r4
+ 598              	.LVL82:
+ 123:Core/Src/u8g2/Src/u8x8_8x8.c ****     y++;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 19
+
+
+ 599              		.loc 1 123 12 is_stmt 1 discriminator 1 view .LVU195
+ 123:Core/Src/u8g2/Src/u8x8_8x8.c ****     y++;
+ 600              		.loc 1 123 5 is_stmt 0 discriminator 1 view .LVU196
+ 601 004c A145     		cmp	r9, r4
+ 602 004e EBD8     		bhi	.L41
+ 124:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );
+ 603              		.loc 1 124 5 is_stmt 1 view .LVU197
+ 124:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );
+ 604              		.loc 1 124 6 is_stmt 0 view .LVU198
+ 605 0050 08F10108 		add	r8, r8, #1
+ 606              	.LVL83:
+ 124:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );
+ 607              		.loc 1 124 6 view .LVU199
+ 608 0054 5FFA88F8 		uxtb	r8, r8
+ 609              	.LVL84:
+ 125:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 610              		.loc 1 125 10 is_stmt 1 view .LVU200
+ 125:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 611              		.loc 1 125 3 is_stmt 0 view .LVU201
+ 612 0058 C345     		cmp	fp, r8
+ 613 005a E4D8     		bhi	.L42
+ 126:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 614              		.loc 1 126 1 view .LVU202
+ 615 005c 07B0     		add	sp, sp, #28
+ 616              	.LCFI3:
+ 617              		.cfi_def_cfa_offset 36
+ 618              		@ sp needed
+ 619 005e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 126:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 620              		.loc 1 126 1 view .LVU203
+ 621              		.cfi_endproc
+ 622              	.LFE2:
+ 624              		.section	.text.u8x8_upscale_byte,"ax",%progbits
+ 625              		.align	1
+ 626              		.global	u8x8_upscale_byte
+ 627              		.syntax unified
+ 628              		.thumb
+ 629              		.thumb_func
+ 631              	u8x8_upscale_byte:
+ 632              	.LVL85:
+ 633              	.LFB3:
+ 154:Core/Src/u8g2/Src/u8x8_8x8.c **** 	uint16_t y = x;
+ 634              		.loc 1 154 1 is_stmt 1 view -0
+ 635              		.cfi_startproc
+ 636              		@ args = 0, pretend = 0, frame = 0
+ 637              		@ frame_needed = 0, uses_anonymous_args = 0
+ 638              		@ link register save eliminated.
+ 155:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];
+ 639              		.loc 1 155 2 view .LVU205
+ 156:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 640              		.loc 1 156 2 view .LVU206
+ 156:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 641              		.loc 1 156 4 is_stmt 0 view .LVU207
+ 642 0000 40EA0010 		orr	r0, r0, r0, lsl #4
+ 643              	.LVL86:
+ 157:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 644              		.loc 1 157 2 is_stmt 1 view .LVU208
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 20
+
+
+ 157:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 645              		.loc 1 157 4 is_stmt 0 view .LVU209
+ 646 0004 20F0F000 		bic	r0, r0, #240
+ 647              	.LVL87:
+ 157:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 648              		.loc 1 157 4 view .LVU210
+ 649 0008 0005     		lsls	r0, r0, #20
+ 650 000a 000D     		lsrs	r0, r0, #20
+ 651              	.LVL88:
+ 158:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x3333;
+ 652              		.loc 1 158 2 is_stmt 1 view .LVU211
+ 158:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x3333;
+ 653              		.loc 1 158 4 is_stmt 0 view .LVU212
+ 654 000c 40EA8000 		orr	r0, r0, r0, lsl #2
+ 655              	.LVL89:
+ 159:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 656              		.loc 1 159 2 is_stmt 1 view .LVU213
+ 159:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 657              		.loc 1 159 4 is_stmt 0 view .LVU214
+ 658 0010 20F44C60 		bic	r0, r0, #3264
+ 659              	.LVL90:
+ 159:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 660              		.loc 1 159 4 view .LVU215
+ 661 0014 20F00C00 		bic	r0, r0, #12
+ 662 0018 8004     		lsls	r0, r0, #18
+ 663 001a 800C     		lsrs	r0, r0, #18
+ 664              	.LVL91:
+ 160:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x5555;
+ 665              		.loc 1 160 2 is_stmt 1 view .LVU216
+ 160:Core/Src/u8g2/Src/u8x8_8x8.c **** 	y &= 0x5555;
+ 666              		.loc 1 160 4 is_stmt 0 view .LVU217
+ 667 001c 40EA4000 		orr	r0, r0, r0, lsl #1
+ 668              	.LVL92:
+ 161:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 669              		.loc 1 161 2 is_stmt 1 view .LVU218
+ 161:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 670              		.loc 1 161 4 is_stmt 0 view .LVU219
+ 671 0020 20F42A50 		bic	r0, r0, #10880
+ 672              	.LVL93:
+ 161:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 673              		.loc 1 161 4 view .LVU220
+ 674 0024 20F02A00 		bic	r0, r0, #42
+ 675 0028 4004     		lsls	r0, r0, #17
+ 676 002a 400C     		lsrs	r0, r0, #17
+ 677              	.LVL94:
+ 163:Core/Src/u8g2/Src/u8x8_8x8.c **** 	return y;
+ 678              		.loc 1 163 2 is_stmt 1 view .LVU221
+ 164:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 679              		.loc 1 164 2 view .LVU222
+ 165:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 680              		.loc 1 165 1 is_stmt 0 view .LVU223
+ 681 002c 40EA4000 		orr	r0, r0, r0, lsl #1
+ 682              	.LVL95:
+ 165:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 683              		.loc 1 165 1 view .LVU224
+ 684 0030 7047     		bx	lr
+ 685              		.cfi_endproc
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 21
+
+
+ 686              	.LFE3:
+ 688              		.section	.text.u8x8_draw_2x2_subglyph,"ax",%progbits
+ 689              		.align	1
+ 690              		.syntax unified
+ 691              		.thumb
+ 692              		.thumb_func
+ 694              	u8x8_draw_2x2_subglyph:
+ 695              	.LVL96:
+ 696              	.LFB5:
+ 180:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 697              		.loc 1 180 1 is_stmt 1 view -0
+ 698              		.cfi_startproc
+ 699              		@ args = 4, pretend = 0, frame = 24
+ 700              		@ frame_needed = 0, uses_anonymous_args = 0
+ 180:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 701              		.loc 1 180 1 is_stmt 0 view .LVU226
+ 702 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 703              	.LCFI4:
+ 704              		.cfi_def_cfa_offset 24
+ 705              		.cfi_offset 4, -24
+ 706              		.cfi_offset 5, -20
+ 707              		.cfi_offset 6, -16
+ 708              		.cfi_offset 7, -12
+ 709              		.cfi_offset 8, -8
+ 710              		.cfi_offset 14, -4
+ 711 0004 88B0     		sub	sp, sp, #32
+ 712              	.LCFI5:
+ 713              		.cfi_def_cfa_offset 56
+ 714 0006 0746     		mov	r7, r0
+ 715 0008 8846     		mov	r8, r1
+ 716 000a 1646     		mov	r6, r2
+ 717 000c 1946     		mov	r1, r3
+ 718              	.LVL97:
+ 181:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t t;
+ 719              		.loc 1 181 3 is_stmt 1 view .LVU227
+ 182:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 720              		.loc 1 182 3 view .LVU228
+ 183:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf1[8];
+ 721              		.loc 1 183 3 view .LVU229
+ 184:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf2[8];
+ 722              		.loc 1 184 3 view .LVU230
+ 185:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 723              		.loc 1 185 3 view .LVU231
+ 186:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 724              		.loc 1 186 3 view .LVU232
+ 725 000e 9DF83830 		ldrb	r3, [sp, #56]	@ zero_extendqisi2
+ 726              	.LVL98:
+ 186:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 727              		.loc 1 186 3 is_stmt 0 view .LVU233
+ 728 0012 06AA     		add	r2, sp, #24
+ 729              	.LVL99:
+ 186:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 730              		.loc 1 186 3 view .LVU234
+ 731 0014 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 732              	.LVL100:
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 733              		.loc 1 187 3 is_stmt 1 view .LVU235
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 22
+
+
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 734              		.loc 1 187 10 is_stmt 0 view .LVU236
+ 735 0018 0024     		movs	r4, #0
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 736              		.loc 1 187 3 view .LVU237
+ 737 001a 0EE0     		b	.L46
+ 738              	.LVL101:
+ 739              	.L47:
+ 189:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 740              		.loc 1 189 7 is_stmt 1 discriminator 3 view .LVU238
+ 189:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 741              		.loc 1 189 11 is_stmt 0 discriminator 3 view .LVU239
+ 742 001c 04F12003 		add	r3, r4, #32
+ 743 0020 0DEB0305 		add	r5, sp, r3
+ 744 0024 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 745 0028 FFF7FEFF 		bl	u8x8_upscale_byte
+ 746              	.LVL102:
+ 190:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 747              		.loc 1 190 7 is_stmt 1 discriminator 3 view .LVU240
+ 190:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 748              		.loc 1 190 15 is_stmt 0 discriminator 3 view .LVU241
+ 749 002c 030A     		lsrs	r3, r0, #8
+ 750 002e 05F8103C 		strb	r3, [r5, #-16]
+ 191:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 751              		.loc 1 191 7 is_stmt 1 discriminator 3 view .LVU242
+ 191:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 752              		.loc 1 191 15 is_stmt 0 discriminator 3 view .LVU243
+ 753 0032 05F8180C 		strb	r0, [r5, #-24]
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 754              		.loc 1 187 22 is_stmt 1 discriminator 3 view .LVU244
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 755              		.loc 1 187 24 is_stmt 0 discriminator 3 view .LVU245
+ 756 0036 0134     		adds	r4, r4, #1
+ 757              	.LVL103:
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 758              		.loc 1 187 24 discriminator 3 view .LVU246
+ 759 0038 E4B2     		uxtb	r4, r4
+ 760              	.LVL104:
+ 761              	.L46:
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 762              		.loc 1 187 15 is_stmt 1 discriminator 1 view .LVU247
+ 187:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 763              		.loc 1 187 3 is_stmt 0 discriminator 1 view .LVU248
+ 764 003a 072C     		cmp	r4, #7
+ 765 003c EED9     		bls	.L47
+ 193:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 766              		.loc 1 193 3 is_stmt 1 view .LVU249
+ 767 003e 06AC     		add	r4, sp, #24
+ 768              	.LVL105:
+ 193:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 769              		.loc 1 193 3 is_stmt 0 view .LVU250
+ 770 0040 2146     		mov	r1, r4
+ 771 0042 02A8     		add	r0, sp, #8
+ 772 0044 FFF7FEFF 		bl	u8x8_upscale_buf
+ 773              	.LVL106:
+ 194:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 774              		.loc 1 194 3 is_stmt 1 view .LVU251
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 23
+
+
+ 775 0048 0094     		str	r4, [sp]
+ 776 004a 0123     		movs	r3, #1
+ 777 004c 3246     		mov	r2, r6
+ 778 004e 4146     		mov	r1, r8
+ 779 0050 3846     		mov	r0, r7
+ 780 0052 FFF7FEFF 		bl	u8x8_DrawTile
+ 781              	.LVL107:
+ 196:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 782              		.loc 1 196 3 view .LVU252
+ 783 0056 2146     		mov	r1, r4
+ 784 0058 03A8     		add	r0, sp, #12
+ 785 005a FFF7FEFF 		bl	u8x8_upscale_buf
+ 786              	.LVL108:
+ 197:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 787              		.loc 1 197 3 view .LVU253
+ 788 005e 08F10105 		add	r5, r8, #1
+ 789 0062 EDB2     		uxtb	r5, r5
+ 790 0064 0094     		str	r4, [sp]
+ 791 0066 0123     		movs	r3, #1
+ 792 0068 3246     		mov	r2, r6
+ 793 006a 2946     		mov	r1, r5
+ 794 006c 3846     		mov	r0, r7
+ 795 006e FFF7FEFF 		bl	u8x8_DrawTile
+ 796              	.LVL109:
+ 199:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 797              		.loc 1 199 3 view .LVU254
+ 798 0072 2146     		mov	r1, r4
+ 799 0074 04A8     		add	r0, sp, #16
+ 800 0076 FFF7FEFF 		bl	u8x8_upscale_buf
+ 801              	.LVL110:
+ 200:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 802              		.loc 1 200 3 view .LVU255
+ 803 007a 0136     		adds	r6, r6, #1
+ 804 007c F6B2     		uxtb	r6, r6
+ 805 007e 0094     		str	r4, [sp]
+ 806 0080 0123     		movs	r3, #1
+ 807 0082 3246     		mov	r2, r6
+ 808 0084 4146     		mov	r1, r8
+ 809 0086 3846     		mov	r0, r7
+ 810 0088 FFF7FEFF 		bl	u8x8_DrawTile
+ 811              	.LVL111:
+ 202:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 812              		.loc 1 202 3 view .LVU256
+ 813 008c 2146     		mov	r1, r4
+ 814 008e 05A8     		add	r0, sp, #20
+ 815 0090 FFF7FEFF 		bl	u8x8_upscale_buf
+ 816              	.LVL112:
+ 203:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 817              		.loc 1 203 3 view .LVU257
+ 818 0094 0094     		str	r4, [sp]
+ 819 0096 0123     		movs	r3, #1
+ 820 0098 3246     		mov	r2, r6
+ 821 009a 2946     		mov	r1, r5
+ 822 009c 3846     		mov	r0, r7
+ 823 009e FFF7FEFF 		bl	u8x8_DrawTile
+ 824              	.LVL113:
+ 204:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 24
+
+
+ 825              		.loc 1 204 1 is_stmt 0 view .LVU258
+ 826 00a2 08B0     		add	sp, sp, #32
+ 827              	.LCFI6:
+ 828              		.cfi_def_cfa_offset 24
+ 829              		@ sp needed
+ 830 00a4 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 204:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 831              		.loc 1 204 1 view .LVU259
+ 832              		.cfi_endproc
+ 833              	.LFE5:
+ 835              		.section	.text.u8x8_draw_1x2_subglyph,"ax",%progbits
+ 836              		.align	1
+ 837              		.syntax unified
+ 838              		.thumb
+ 839              		.thumb_func
+ 841              	u8x8_draw_1x2_subglyph:
+ 842              	.LVL114:
+ 843              	.LFB7:
+ 232:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 844              		.loc 1 232 1 is_stmt 1 view -0
+ 845              		.cfi_startproc
+ 846              		@ args = 4, pretend = 0, frame = 24
+ 847              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t i;
+ 848              		.loc 1 232 1 is_stmt 0 view .LVU261
+ 849 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 850              	.LCFI7:
+ 851              		.cfi_def_cfa_offset 24
+ 852              		.cfi_offset 4, -24
+ 853              		.cfi_offset 5, -20
+ 854              		.cfi_offset 6, -16
+ 855              		.cfi_offset 7, -12
+ 856              		.cfi_offset 8, -8
+ 857              		.cfi_offset 14, -4
+ 858 0004 88B0     		sub	sp, sp, #32
+ 859              	.LCFI8:
+ 860              		.cfi_def_cfa_offset 56
+ 861 0006 0746     		mov	r7, r0
+ 862 0008 8846     		mov	r8, r1
+ 863 000a 1646     		mov	r6, r2
+ 864 000c 1946     		mov	r1, r3
+ 865              	.LVL115:
+ 233:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t t;
+ 866              		.loc 1 233 3 is_stmt 1 view .LVU262
+ 234:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf[8];
+ 867              		.loc 1 234 3 view .LVU263
+ 235:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf1[8];
+ 868              		.loc 1 235 3 view .LVU264
+ 236:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t buf2[8];
+ 869              		.loc 1 236 3 view .LVU265
+ 237:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf, tile);
+ 870              		.loc 1 237 3 view .LVU266
+ 238:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 871              		.loc 1 238 3 view .LVU267
+ 872 000e 9DF83830 		ldrb	r3, [sp, #56]	@ zero_extendqisi2
+ 873              	.LVL116:
+ 238:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 25
+
+
+ 874              		.loc 1 238 3 is_stmt 0 view .LVU268
+ 875 0012 06AA     		add	r2, sp, #24
+ 876              	.LVL117:
+ 238:Core/Src/u8g2/Src/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 877              		.loc 1 238 3 view .LVU269
+ 878 0014 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 879              	.LVL118:
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 880              		.loc 1 239 3 is_stmt 1 view .LVU270
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 881              		.loc 1 239 10 is_stmt 0 view .LVU271
+ 882 0018 0024     		movs	r4, #0
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 883              		.loc 1 239 3 view .LVU272
+ 884 001a 0EE0     		b	.L50
+ 885              	.LVL119:
+ 886              	.L51:
+ 241:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 887              		.loc 1 241 7 is_stmt 1 discriminator 3 view .LVU273
+ 241:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 888              		.loc 1 241 11 is_stmt 0 discriminator 3 view .LVU274
+ 889 001c 04F12003 		add	r3, r4, #32
+ 890 0020 0DEB0305 		add	r5, sp, r3
+ 891 0024 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 892 0028 FFF7FEFF 		bl	u8x8_upscale_byte
+ 893              	.LVL120:
+ 242:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 894              		.loc 1 242 7 is_stmt 1 discriminator 3 view .LVU275
+ 242:Core/Src/u8g2/Src/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 895              		.loc 1 242 15 is_stmt 0 discriminator 3 view .LVU276
+ 896 002c 030A     		lsrs	r3, r0, #8
+ 897 002e 05F8103C 		strb	r3, [r5, #-16]
+ 243:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 898              		.loc 1 243 7 is_stmt 1 discriminator 3 view .LVU277
+ 243:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 899              		.loc 1 243 15 is_stmt 0 discriminator 3 view .LVU278
+ 900 0032 05F8180C 		strb	r0, [r5, #-24]
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 901              		.loc 1 239 22 is_stmt 1 discriminator 3 view .LVU279
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 902              		.loc 1 239 24 is_stmt 0 discriminator 3 view .LVU280
+ 903 0036 0134     		adds	r4, r4, #1
+ 904              	.LVL121:
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 905              		.loc 1 239 24 discriminator 3 view .LVU281
+ 906 0038 E4B2     		uxtb	r4, r4
+ 907              	.LVL122:
+ 908              	.L50:
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 909              		.loc 1 239 15 is_stmt 1 discriminator 1 view .LVU282
+ 239:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 910              		.loc 1 239 3 is_stmt 0 discriminator 1 view .LVU283
+ 911 003a 072C     		cmp	r4, #7
+ 912 003c EED9     		bls	.L51
+ 245:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 913              		.loc 1 245 3 is_stmt 1 view .LVU284
+ 914 003e 02AB     		add	r3, sp, #8
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 26
+
+
+ 915 0040 0093     		str	r3, [sp]
+ 916 0042 0123     		movs	r3, #1
+ 917 0044 3246     		mov	r2, r6
+ 918 0046 4146     		mov	r1, r8
+ 919 0048 3846     		mov	r0, r7
+ 920 004a FFF7FEFF 		bl	u8x8_DrawTile
+ 921              	.LVL123:
+ 246:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 922              		.loc 1 246 3 view .LVU285
+ 923 004e 721C     		adds	r2, r6, #1
+ 924 0050 04AB     		add	r3, sp, #16
+ 925 0052 0093     		str	r3, [sp]
+ 926 0054 0123     		movs	r3, #1
+ 927 0056 D2B2     		uxtb	r2, r2
+ 928 0058 4146     		mov	r1, r8
+ 929 005a 3846     		mov	r0, r7
+ 930 005c FFF7FEFF 		bl	u8x8_DrawTile
+ 931              	.LVL124:
+ 247:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 932              		.loc 1 247 1 is_stmt 0 view .LVU286
+ 933 0060 08B0     		add	sp, sp, #32
+ 934              	.LCFI9:
+ 935              		.cfi_def_cfa_offset 24
+ 936              		@ sp needed
+ 937 0062 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 247:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 938              		.loc 1 247 1 view .LVU287
+ 939              		.cfi_endproc
+ 940              	.LFE7:
+ 942              		.section	.text.u8x8_Draw2x2Glyph,"ax",%progbits
+ 943              		.align	1
+ 944              		.global	u8x8_Draw2x2Glyph
+ 945              		.syntax unified
+ 946              		.thumb
+ 947              		.thumb_func
+ 949              	u8x8_Draw2x2Glyph:
+ 950              	.LVL125:
+ 951              	.LFB6:
+ 208:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 952              		.loc 1 208 1 is_stmt 1 view -0
+ 953              		.cfi_startproc
+ 954              		@ args = 0, pretend = 0, frame = 0
+ 955              		@ frame_needed = 0, uses_anonymous_args = 0
+ 208:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 956              		.loc 1 208 1 is_stmt 0 view .LVU289
+ 957 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 958              	.LCFI10:
+ 959              		.cfi_def_cfa_offset 36
+ 960              		.cfi_offset 4, -36
+ 961              		.cfi_offset 5, -32
+ 962              		.cfi_offset 6, -28
+ 963              		.cfi_offset 7, -24
+ 964              		.cfi_offset 8, -20
+ 965              		.cfi_offset 9, -16
+ 966              		.cfi_offset 10, -12
+ 967              		.cfi_offset 11, -8
+ 968              		.cfi_offset 14, -4
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 27
+
+
+ 969 0004 83B0     		sub	sp, sp, #12
+ 970              	.LCFI11:
+ 971              		.cfi_def_cfa_offset 48
+ 972 0006 8046     		mov	r8, r0
+ 973 0008 8B46     		mov	fp, r1
+ 974 000a 1646     		mov	r6, r2
+ 975 000c 9946     		mov	r9, r3
+ 209:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 976              		.loc 1 209 3 is_stmt 1 view .LVU290
+ 209:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 977              		.loc 1 209 16 is_stmt 0 view .LVU291
+ 978 000e C369     		ldr	r3, [r0, #28]
+ 979              	.LVL126:
+ 209:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 980              		.loc 1 209 11 view .LVU292
+ 981 0010 9F78     		ldrb	r7, [r3, #2]	@ zero_extendqisi2
+ 982              	.LVL127:
+ 210:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 983              		.loc 1 210 3 is_stmt 1 view .LVU293
+ 210:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 984              		.loc 1 210 11 is_stmt 0 view .LVU294
+ 985 0012 93F803A0 		ldrb	r10, [r3, #3]	@ zero_extendqisi2
+ 986              	.LVL128:
+ 211:Core/Src/u8g2/Src/u8x8_8x8.c ****   th *= 2;
+ 987              		.loc 1 211 3 is_stmt 1 view .LVU295
+ 212:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 988              		.loc 1 212 3 view .LVU296
+ 212:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 989              		.loc 1 212 6 is_stmt 0 view .LVU297
+ 990 0016 7F00     		lsls	r7, r7, #1
+ 991              	.LVL129:
+ 212:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 992              		.loc 1 212 6 view .LVU298
+ 993 0018 FFB2     		uxtb	r7, r7
+ 994              	.LVL130:
+ 213:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 995              		.loc 1 213 3 is_stmt 1 view .LVU299
+ 213:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 996              		.loc 1 213 6 is_stmt 0 view .LVU300
+ 997 001a 0F44     		add	r7, r7, r1
+ 998              	.LVL131:
+ 213:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 999              		.loc 1 213 6 view .LVU301
+ 1000 001c FFB2     		uxtb	r7, r7
+ 1001              	.LVL132:
+ 214:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1002              		.loc 1 214 3 is_stmt 1 view .LVU302
+ 214:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1003              		.loc 1 214 6 is_stmt 0 view .LVU303
+ 1004 001e 4FEA4A0A 		lsl	r10, r10, #1
+ 1005              	.LVL133:
+ 214:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1006              		.loc 1 214 6 view .LVU304
+ 1007 0022 5FFA8AFA 		uxtb	r10, r10
+ 1008              	.LVL134:
+ 215:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1009              		.loc 1 215 3 is_stmt 1 view .LVU305
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 28
+
+
+ 215:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1010              		.loc 1 215 6 is_stmt 0 view .LVU306
+ 1011 0026 9244     		add	r10, r10, r2
+ 1012              	.LVL135:
+ 215:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1013              		.loc 1 215 6 view .LVU307
+ 1014 0028 5FFA8AFA 		uxtb	r10, r10
+ 1015              	.LVL136:
+ 216:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 1016              		.loc 1 216 3 is_stmt 1 view .LVU308
+ 216:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 1017              		.loc 1 216 8 is_stmt 0 view .LVU309
+ 1018 002c 0025     		movs	r5, #0
+ 1019              	.LVL137:
+ 1020              	.L55:
+ 217:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 1021              		.loc 1 217 3 is_stmt 1 view .LVU310
+ 219:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 1022              		.loc 1 219 5 view .LVU311
+ 219:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 1023              		.loc 1 219 8 is_stmt 0 view .LVU312
+ 1024 002e 5C46     		mov	r4, fp
+ 1025              	.LVL138:
+ 1026              	.L54:
+ 220:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 1027              		.loc 1 220 5 is_stmt 1 discriminator 1 view .LVU313
+ 222:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 1028              		.loc 1 222 7 discriminator 1 view .LVU314
+ 1029 0030 0095     		str	r5, [sp]
+ 1030 0032 4B46     		mov	r3, r9
+ 1031 0034 3246     		mov	r2, r6
+ 1032 0036 2146     		mov	r1, r4
+ 1033 0038 4046     		mov	r0, r8
+ 1034 003a FFF7FEFF 		bl	u8x8_draw_2x2_subglyph
+ 1035              	.LVL139:
+ 223:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx+=2;
+ 1036              		.loc 1 223 7 discriminator 1 view .LVU315
+ 223:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx+=2;
+ 1037              		.loc 1 223 11 is_stmt 0 discriminator 1 view .LVU316
+ 1038 003e 0135     		adds	r5, r5, #1
+ 1039              	.LVL140:
+ 223:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx+=2;
+ 1040              		.loc 1 223 11 discriminator 1 view .LVU317
+ 1041 0040 EDB2     		uxtb	r5, r5
+ 1042              	.LVL141:
+ 224:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1043              		.loc 1 224 7 is_stmt 1 discriminator 1 view .LVU318
+ 224:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1044              		.loc 1 224 9 is_stmt 0 discriminator 1 view .LVU319
+ 1045 0042 0234     		adds	r4, r4, #2
+ 1046              	.LVL142:
+ 224:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1047              		.loc 1 224 9 discriminator 1 view .LVU320
+ 1048 0044 E4B2     		uxtb	r4, r4
+ 1049              	.LVL143:
+ 225:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 1050              		.loc 1 225 12 is_stmt 1 discriminator 1 view .LVU321
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 29
+
+
+ 225:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 1051              		.loc 1 225 5 is_stmt 0 discriminator 1 view .LVU322
+ 1052 0046 A742     		cmp	r7, r4
+ 1053 0048 F2D8     		bhi	.L54
+ 226:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1054              		.loc 1 226 5 is_stmt 1 view .LVU323
+ 226:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1055              		.loc 1 226 6 is_stmt 0 view .LVU324
+ 1056 004a 0236     		adds	r6, r6, #2
+ 1057              	.LVL144:
+ 226:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1058              		.loc 1 226 6 view .LVU325
+ 1059 004c F6B2     		uxtb	r6, r6
+ 1060              	.LVL145:
+ 227:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1061              		.loc 1 227 10 is_stmt 1 view .LVU326
+ 227:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1062              		.loc 1 227 3 is_stmt 0 view .LVU327
+ 1063 004e B245     		cmp	r10, r6
+ 1064 0050 EDD8     		bhi	.L55
+ 228:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1065              		.loc 1 228 1 view .LVU328
+ 1066 0052 03B0     		add	sp, sp, #12
+ 1067              	.LCFI12:
+ 1068              		.cfi_def_cfa_offset 36
+ 1069              		@ sp needed
+ 1070 0054 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 228:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1071              		.loc 1 228 1 view .LVU329
+ 1072              		.cfi_endproc
+ 1073              	.LFE6:
+ 1075              		.section	.text.u8x8_Draw1x2Glyph,"ax",%progbits
+ 1076              		.align	1
+ 1077              		.global	u8x8_Draw1x2Glyph
+ 1078              		.syntax unified
+ 1079              		.thumb
+ 1080              		.thumb_func
+ 1082              	u8x8_Draw1x2Glyph:
+ 1083              	.LVL146:
+ 1084              	.LFB8:
+ 250:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1085              		.loc 1 250 1 is_stmt 1 view -0
+ 1086              		.cfi_startproc
+ 1087              		@ args = 0, pretend = 0, frame = 0
+ 1088              		@ frame_needed = 0, uses_anonymous_args = 0
+ 250:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1089              		.loc 1 250 1 is_stmt 0 view .LVU331
+ 1090 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 1091              	.LCFI13:
+ 1092              		.cfi_def_cfa_offset 36
+ 1093              		.cfi_offset 4, -36
+ 1094              		.cfi_offset 5, -32
+ 1095              		.cfi_offset 6, -28
+ 1096              		.cfi_offset 7, -24
+ 1097              		.cfi_offset 8, -20
+ 1098              		.cfi_offset 9, -16
+ 1099              		.cfi_offset 10, -12
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 30
+
+
+ 1100              		.cfi_offset 11, -8
+ 1101              		.cfi_offset 14, -4
+ 1102 0004 83B0     		sub	sp, sp, #12
+ 1103              	.LCFI14:
+ 1104              		.cfi_def_cfa_offset 48
+ 1105 0006 8046     		mov	r8, r0
+ 1106 0008 8B46     		mov	fp, r1
+ 1107 000a 1646     		mov	r6, r2
+ 1108 000c 9946     		mov	r9, r3
+ 251:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 1109              		.loc 1 251 3 is_stmt 1 view .LVU332
+ 251:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 1110              		.loc 1 251 16 is_stmt 0 view .LVU333
+ 1111 000e C369     		ldr	r3, [r0, #28]
+ 1112              	.LVL147:
+ 251:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t tv = u8x8_pgm_read(u8x8->font+3);	/* new 2019 format */
+ 1113              		.loc 1 251 11 view .LVU334
+ 1114 0010 9F78     		ldrb	r7, [r3, #2]	@ zero_extendqisi2
+ 1115              	.LVL148:
+ 252:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 1116              		.loc 1 252 3 is_stmt 1 view .LVU335
+ 252:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t xx, tile;
+ 1117              		.loc 1 252 11 is_stmt 0 view .LVU336
+ 1118 0012 93F803A0 		ldrb	r10, [r3, #3]	@ zero_extendqisi2
+ 1119              	.LVL149:
+ 253:Core/Src/u8g2/Src/u8x8_8x8.c ****   th += x;
+ 1120              		.loc 1 253 3 is_stmt 1 view .LVU337
+ 254:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 1121              		.loc 1 254 3 view .LVU338
+ 254:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 1122              		.loc 1 254 6 is_stmt 0 view .LVU339
+ 1123 0016 0F44     		add	r7, r7, r1
+ 1124              	.LVL150:
+ 254:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv *= 2;
+ 1125              		.loc 1 254 6 view .LVU340
+ 1126 0018 FFB2     		uxtb	r7, r7
+ 1127              	.LVL151:
+ 255:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1128              		.loc 1 255 3 is_stmt 1 view .LVU341
+ 255:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1129              		.loc 1 255 6 is_stmt 0 view .LVU342
+ 1130 001a 4FEA4A0A 		lsl	r10, r10, #1
+ 1131              	.LVL152:
+ 255:Core/Src/u8g2/Src/u8x8_8x8.c ****   tv += y;
+ 1132              		.loc 1 255 6 view .LVU343
+ 1133 001e 5FFA8AFA 		uxtb	r10, r10
+ 1134              	.LVL153:
+ 256:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1135              		.loc 1 256 3 is_stmt 1 view .LVU344
+ 256:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1136              		.loc 1 256 6 is_stmt 0 view .LVU345
+ 1137 0022 9244     		add	r10, r10, r2
+ 1138              	.LVL154:
+ 256:Core/Src/u8g2/Src/u8x8_8x8.c ****   tile = 0;
+ 1139              		.loc 1 256 6 view .LVU346
+ 1140 0024 5FFA8AFA 		uxtb	r10, r10
+ 1141              	.LVL155:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 31
+
+
+ 257:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 1142              		.loc 1 257 3 is_stmt 1 view .LVU347
+ 257:Core/Src/u8g2/Src/u8x8_8x8.c ****   do
+ 1143              		.loc 1 257 8 is_stmt 0 view .LVU348
+ 1144 0028 0025     		movs	r5, #0
+ 1145              	.LVL156:
+ 1146              	.L59:
+ 258:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 1147              		.loc 1 258 3 is_stmt 1 view .LVU349
+ 260:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 1148              		.loc 1 260 5 view .LVU350
+ 260:Core/Src/u8g2/Src/u8x8_8x8.c ****     do
+ 1149              		.loc 1 260 8 is_stmt 0 view .LVU351
+ 1150 002a 5C46     		mov	r4, fp
+ 1151              	.LVL157:
+ 1152              	.L58:
+ 261:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 1153              		.loc 1 261 5 is_stmt 1 discriminator 1 view .LVU352
+ 263:Core/Src/u8g2/Src/u8x8_8x8.c ****       tile++;
+ 1154              		.loc 1 263 7 discriminator 1 view .LVU353
+ 1155 002c 0095     		str	r5, [sp]
+ 1156 002e 4B46     		mov	r3, r9
+ 1157 0030 3246     		mov	r2, r6
+ 1158 0032 2146     		mov	r1, r4
+ 1159 0034 4046     		mov	r0, r8
+ 1160 0036 FFF7FEFF 		bl	u8x8_draw_1x2_subglyph
+ 1161              	.LVL158:
+ 264:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 1162              		.loc 1 264 7 discriminator 1 view .LVU354
+ 264:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 1163              		.loc 1 264 11 is_stmt 0 discriminator 1 view .LVU355
+ 1164 003a 0135     		adds	r5, r5, #1
+ 1165              	.LVL159:
+ 264:Core/Src/u8g2/Src/u8x8_8x8.c ****       xx++;
+ 1166              		.loc 1 264 11 discriminator 1 view .LVU356
+ 1167 003c EDB2     		uxtb	r5, r5
+ 1168              	.LVL160:
+ 265:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1169              		.loc 1 265 7 is_stmt 1 discriminator 1 view .LVU357
+ 265:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1170              		.loc 1 265 9 is_stmt 0 discriminator 1 view .LVU358
+ 1171 003e 0134     		adds	r4, r4, #1
+ 1172              	.LVL161:
+ 265:Core/Src/u8g2/Src/u8x8_8x8.c ****     } while( xx < th );
+ 1173              		.loc 1 265 9 discriminator 1 view .LVU359
+ 1174 0040 E4B2     		uxtb	r4, r4
+ 1175              	.LVL162:
+ 266:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 1176              		.loc 1 266 12 is_stmt 1 discriminator 1 view .LVU360
+ 266:Core/Src/u8g2/Src/u8x8_8x8.c ****     y+=2;
+ 1177              		.loc 1 266 5 is_stmt 0 discriminator 1 view .LVU361
+ 1178 0042 A742     		cmp	r7, r4
+ 1179 0044 F2D8     		bhi	.L58
+ 267:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1180              		.loc 1 267 5 is_stmt 1 view .LVU362
+ 267:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1181              		.loc 1 267 6 is_stmt 0 view .LVU363
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 32
+
+
+ 1182 0046 0236     		adds	r6, r6, #2
+ 1183              	.LVL163:
+ 267:Core/Src/u8g2/Src/u8x8_8x8.c ****   } while( y < tv );  
+ 1184              		.loc 1 267 6 view .LVU364
+ 1185 0048 F6B2     		uxtb	r6, r6
+ 1186              	.LVL164:
+ 268:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1187              		.loc 1 268 10 is_stmt 1 view .LVU365
+ 268:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1188              		.loc 1 268 3 is_stmt 0 view .LVU366
+ 1189 004a B245     		cmp	r10, r6
+ 1190 004c EDD8     		bhi	.L59
+ 269:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1191              		.loc 1 269 1 view .LVU367
+ 1192 004e 03B0     		add	sp, sp, #12
+ 1193              	.LCFI15:
+ 1194              		.cfi_def_cfa_offset 36
+ 1195              		@ sp needed
+ 1196 0050 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 269:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1197              		.loc 1 269 1 view .LVU368
+ 1198              		.cfi_endproc
+ 1199              	.LFE8:
+ 1201              		.section	.text.u8x8_utf8_init,"ax",%progbits
+ 1202              		.align	1
+ 1203              		.global	u8x8_utf8_init
+ 1204              		.syntax unified
+ 1205              		.thumb
+ 1206              		.thumb_func
+ 1208              	u8x8_utf8_init:
+ 1209              	.LVL165:
+ 1210              	.LFB9:
+ 286:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 1211              		.loc 1 286 1 is_stmt 1 view -0
+ 1212              		.cfi_startproc
+ 1213              		@ args = 0, pretend = 0, frame = 0
+ 1214              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1215              		@ link register save eliminated.
+ 287:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1216              		.loc 1 287 3 view .LVU370
+ 287:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1217              		.loc 1 287 20 is_stmt 0 view .LVU371
+ 1218 0000 0023     		movs	r3, #0
+ 1219 0002 80F82630 		strb	r3, [r0, #38]
+ 288:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1220              		.loc 1 288 1 view .LVU372
+ 1221 0006 7047     		bx	lr
+ 1222              		.cfi_endproc
+ 1223              	.LFE9:
+ 1225              		.section	.text.u8x8_draw_string,"ax",%progbits
+ 1226              		.align	1
+ 1227              		.syntax unified
+ 1228              		.thumb
+ 1229              		.thumb_func
+ 1231              	u8x8_draw_string:
+ 1232              	.LVL166:
+ 1233              	.LFB12:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 33
+
+
+ 355:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 356:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 357:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 358:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+ 359:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 360:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 1234              		.loc 1 360 1 is_stmt 1 view -0
+ 1235              		.cfi_startproc
+ 1236              		@ args = 0, pretend = 0, frame = 0
+ 1237              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1238              		.loc 1 360 1 is_stmt 0 view .LVU374
+ 1239 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1240              	.LCFI16:
+ 1241              		.cfi_def_cfa_offset 32
+ 1242              		.cfi_offset 3, -32
+ 1243              		.cfi_offset 4, -28
+ 1244              		.cfi_offset 5, -24
+ 1245              		.cfi_offset 6, -20
+ 1246              		.cfi_offset 7, -16
+ 1247              		.cfi_offset 8, -12
+ 1248              		.cfi_offset 9, -8
+ 1249              		.cfi_offset 14, -4
+ 1250 0004 0546     		mov	r5, r0
+ 1251 0006 0E46     		mov	r6, r1
+ 1252 0008 9046     		mov	r8, r2
+ 1253 000a 1C46     		mov	r4, r3
+ 361:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t e;
+ 1254              		.loc 1 361 3 is_stmt 1 view .LVU375
+ 362:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1255              		.loc 1 362 3 view .LVU376
+ 1256              	.LVL167:
+ 363:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1257              		.loc 1 363 3 view .LVU377
+ 1258              		.loc 1 363 16 is_stmt 0 view .LVU378
+ 1259 000c C369     		ldr	r3, [r0, #28]
+ 1260              	.LVL168:
+ 1261              		.loc 1 363 11 view .LVU379
+ 1262 000e 93F80290 		ldrb	r9, [r3, #2]	@ zero_extendqisi2
+ 1263              	.LVL169:
+ 364:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 365:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1264              		.loc 1 365 3 is_stmt 1 view .LVU380
+ 1265 0012 FFF7FEFF 		bl	u8x8_utf8_init
+ 1266              	.LVL170:
+ 362:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);		/* new 2019 format */
+ 1267              		.loc 1 362 11 is_stmt 0 view .LVU381
+ 1268 0016 0027     		movs	r7, #0
+ 1269              	.LVL171:
+ 1270              	.L63:
+ 366:Core/Src/u8g2/Src/u8x8_8x8.c ****   for(;;)
+ 1271              		.loc 1 366 3 is_stmt 1 view .LVU382
+ 367:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 368:Core/Src/u8g2/Src/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1272              		.loc 1 368 5 view .LVU383
+ 1273              		.loc 1 368 13 is_stmt 0 view .LVU384
+ 1274 0018 6B68     		ldr	r3, [r5, #4]
+ 1275              		.loc 1 368 9 view .LVU385
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 34
+
+
+ 1276 001a 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1277 001c 2846     		mov	r0, r5
+ 1278 001e 9847     		blx	r3
+ 1279              	.LVL172:
+ 369:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1280              		.loc 1 369 5 is_stmt 1 view .LVU386
+ 1281              		.loc 1 369 8 is_stmt 0 view .LVU387
+ 1282 0020 4FF6FF73 		movw	r3, #65535
+ 1283 0024 9842     		cmp	r0, r3
+ 1284 0026 0FD0     		beq	.L64
+ 370:Core/Src/u8g2/Src/u8x8_8x8.c ****       break;
+ 371:Core/Src/u8g2/Src/u8x8_8x8.c ****     s++;
+ 1285              		.loc 1 371 5 is_stmt 1 view .LVU388
+ 1286              		.loc 1 371 6 is_stmt 0 view .LVU389
+ 1287 0028 0134     		adds	r4, r4, #1
+ 1288              	.LVL173:
+ 372:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1289              		.loc 1 372 5 is_stmt 1 view .LVU390
+ 1290              		.loc 1 372 8 is_stmt 0 view .LVU391
+ 1291 002a 4FF6FE73 		movw	r3, #65534
+ 1292 002e 9842     		cmp	r0, r3
+ 1293 0030 F2D0     		beq	.L63
+ 373:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 374:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_DrawGlyph(u8x8, x, y, e);
+ 1294              		.loc 1 374 7 is_stmt 1 view .LVU392
+ 1295 0032 C3B2     		uxtb	r3, r0
+ 1296 0034 4246     		mov	r2, r8
+ 1297 0036 3146     		mov	r1, r6
+ 1298 0038 2846     		mov	r0, r5
+ 1299              	.LVL174:
+ 1300              		.loc 1 374 7 is_stmt 0 view .LVU393
+ 1301 003a FFF7FEFF 		bl	u8x8_DrawGlyph
+ 1302              	.LVL175:
+ 375:Core/Src/u8g2/Src/u8x8_8x8.c ****       x+=th;
+ 1303              		.loc 1 375 7 is_stmt 1 view .LVU394
+ 1304              		.loc 1 375 8 is_stmt 0 view .LVU395
+ 1305 003e 4E44     		add	r6, r6, r9
+ 1306              	.LVL176:
+ 1307              		.loc 1 375 8 view .LVU396
+ 1308 0040 F6B2     		uxtb	r6, r6
+ 1309              	.LVL177:
+ 376:Core/Src/u8g2/Src/u8x8_8x8.c ****       cnt++;
+ 1310              		.loc 1 376 7 is_stmt 1 view .LVU397
+ 1311              		.loc 1 376 10 is_stmt 0 view .LVU398
+ 1312 0042 0137     		adds	r7, r7, #1
+ 1313              	.LVL178:
+ 1314              		.loc 1 376 10 view .LVU399
+ 1315 0044 FFB2     		uxtb	r7, r7
+ 1316              	.LVL179:
+ 1317              		.loc 1 376 10 view .LVU400
+ 1318 0046 E7E7     		b	.L63
+ 1319              	.LVL180:
+ 1320              	.L64:
+ 377:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 378:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 379:Core/Src/u8g2/Src/u8x8_8x8.c ****   return cnt;
+ 1321              		.loc 1 379 3 is_stmt 1 view .LVU401
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 35
+
+
+ 380:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1322              		.loc 1 380 1 is_stmt 0 view .LVU402
+ 1323 0048 3846     		mov	r0, r7
+ 1324              	.LVL181:
+ 1325              		.loc 1 380 1 view .LVU403
+ 1326 004a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1327              		.loc 1 380 1 view .LVU404
+ 1328              		.cfi_endproc
+ 1329              	.LFE12:
+ 1331              		.section	.text.u8x8_draw_2x2_string,"ax",%progbits
+ 1332              		.align	1
+ 1333              		.syntax unified
+ 1334              		.thumb
+ 1335              		.thumb_func
+ 1337              	u8x8_draw_2x2_string:
+ 1338              	.LVL182:
+ 1339              	.LFB15:
+ 381:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 382:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 383:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 384:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 385:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 386:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 387:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 388:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 389:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 390:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 391:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 392:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 393:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 394:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 395:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 396:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 397:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 398:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 399:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 1340              		.loc 1 399 1 is_stmt 1 view -0
+ 1341              		.cfi_startproc
+ 1342              		@ args = 0, pretend = 0, frame = 0
+ 1343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1344              		.loc 1 399 1 is_stmt 0 view .LVU406
+ 1345 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1346              	.LCFI17:
+ 1347              		.cfi_def_cfa_offset 32
+ 1348              		.cfi_offset 3, -32
+ 1349              		.cfi_offset 4, -28
+ 1350              		.cfi_offset 5, -24
+ 1351              		.cfi_offset 6, -20
+ 1352              		.cfi_offset 7, -16
+ 1353              		.cfi_offset 8, -12
+ 1354              		.cfi_offset 9, -8
+ 1355              		.cfi_offset 14, -4
+ 1356 0004 0546     		mov	r5, r0
+ 1357 0006 0E46     		mov	r6, r1
+ 1358 0008 9146     		mov	r9, r2
+ 1359 000a 1C46     		mov	r4, r3
+ 400:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t e;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 36
+
+
+ 1360              		.loc 1 400 3 is_stmt 1 view .LVU407
+ 401:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1361              		.loc 1 401 3 view .LVU408
+ 1362              	.LVL183:
+ 402:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1363              		.loc 1 402 3 view .LVU409
+ 1364              		.loc 1 402 16 is_stmt 0 view .LVU410
+ 1365 000c C369     		ldr	r3, [r0, #28]
+ 1366              	.LVL184:
+ 1367              		.loc 1 402 11 view .LVU411
+ 1368 000e 93F80280 		ldrb	r8, [r3, #2]	@ zero_extendqisi2
+ 1369              	.LVL185:
+ 403:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 404:Core/Src/u8g2/Src/u8x8_8x8.c ****   th <<= 1;
+ 1370              		.loc 1 404 3 is_stmt 1 view .LVU412
+ 1371              		.loc 1 404 6 is_stmt 0 view .LVU413
+ 1372 0012 4FEA4808 		lsl	r8, r8, #1
+ 1373              	.LVL186:
+ 1374              		.loc 1 404 6 view .LVU414
+ 1375 0016 5FFA88F8 		uxtb	r8, r8
+ 1376              	.LVL187:
+ 405:Core/Src/u8g2/Src/u8x8_8x8.c ****   
+ 406:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1377              		.loc 1 406 3 is_stmt 1 view .LVU415
+ 1378 001a FFF7FEFF 		bl	u8x8_utf8_init
+ 1379              	.LVL188:
+ 401:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1380              		.loc 1 401 11 is_stmt 0 view .LVU416
+ 1381 001e 0027     		movs	r7, #0
+ 1382              	.LVL189:
+ 1383              	.L68:
+ 407:Core/Src/u8g2/Src/u8x8_8x8.c ****   for(;;)
+ 1384              		.loc 1 407 3 is_stmt 1 view .LVU417
+ 408:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 409:Core/Src/u8g2/Src/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1385              		.loc 1 409 5 view .LVU418
+ 1386              		.loc 1 409 13 is_stmt 0 view .LVU419
+ 1387 0020 6B68     		ldr	r3, [r5, #4]
+ 1388              		.loc 1 409 9 view .LVU420
+ 1389 0022 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1390 0024 2846     		mov	r0, r5
+ 1391 0026 9847     		blx	r3
+ 1392              	.LVL190:
+ 410:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1393              		.loc 1 410 5 is_stmt 1 view .LVU421
+ 1394              		.loc 1 410 8 is_stmt 0 view .LVU422
+ 1395 0028 4FF6FF73 		movw	r3, #65535
+ 1396 002c 9842     		cmp	r0, r3
+ 1397 002e 0FD0     		beq	.L69
+ 411:Core/Src/u8g2/Src/u8x8_8x8.c ****       break;
+ 412:Core/Src/u8g2/Src/u8x8_8x8.c ****     s++;
+ 1398              		.loc 1 412 5 is_stmt 1 view .LVU423
+ 1399              		.loc 1 412 6 is_stmt 0 view .LVU424
+ 1400 0030 0134     		adds	r4, r4, #1
+ 1401              	.LVL191:
+ 413:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1402              		.loc 1 413 5 is_stmt 1 view .LVU425
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 37
+
+
+ 1403              		.loc 1 413 8 is_stmt 0 view .LVU426
+ 1404 0032 4FF6FE73 		movw	r3, #65534
+ 1405 0036 9842     		cmp	r0, r3
+ 1406 0038 F2D0     		beq	.L68
+ 414:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 415:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_Draw2x2Glyph(u8x8, x, y, e);
+ 1407              		.loc 1 415 7 is_stmt 1 view .LVU427
+ 1408 003a C3B2     		uxtb	r3, r0
+ 1409 003c 4A46     		mov	r2, r9
+ 1410 003e 3146     		mov	r1, r6
+ 1411 0040 2846     		mov	r0, r5
+ 1412              	.LVL192:
+ 1413              		.loc 1 415 7 is_stmt 0 view .LVU428
+ 1414 0042 FFF7FEFF 		bl	u8x8_Draw2x2Glyph
+ 1415              	.LVL193:
+ 416:Core/Src/u8g2/Src/u8x8_8x8.c ****       x+=th;
+ 1416              		.loc 1 416 7 is_stmt 1 view .LVU429
+ 1417              		.loc 1 416 8 is_stmt 0 view .LVU430
+ 1418 0046 4644     		add	r6, r6, r8
+ 1419              	.LVL194:
+ 1420              		.loc 1 416 8 view .LVU431
+ 1421 0048 F6B2     		uxtb	r6, r6
+ 1422              	.LVL195:
+ 417:Core/Src/u8g2/Src/u8x8_8x8.c ****       cnt++;
+ 1423              		.loc 1 417 7 is_stmt 1 view .LVU432
+ 1424              		.loc 1 417 10 is_stmt 0 view .LVU433
+ 1425 004a 0137     		adds	r7, r7, #1
+ 1426              	.LVL196:
+ 1427              		.loc 1 417 10 view .LVU434
+ 1428 004c FFB2     		uxtb	r7, r7
+ 1429              	.LVL197:
+ 1430              		.loc 1 417 10 view .LVU435
+ 1431 004e E7E7     		b	.L68
+ 1432              	.LVL198:
+ 1433              	.L69:
+ 418:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 419:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 420:Core/Src/u8g2/Src/u8x8_8x8.c ****   return cnt;
+ 1434              		.loc 1 420 3 is_stmt 1 view .LVU436
+ 421:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1435              		.loc 1 421 1 is_stmt 0 view .LVU437
+ 1436 0050 3846     		mov	r0, r7
+ 1437              	.LVL199:
+ 1438              		.loc 1 421 1 view .LVU438
+ 1439 0052 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1440              		.loc 1 421 1 view .LVU439
+ 1441              		.cfi_endproc
+ 1442              	.LFE15:
+ 1444              		.section	.text.u8x8_draw_1x2_string,"ax",%progbits
+ 1445              		.align	1
+ 1446              		.syntax unified
+ 1447              		.thumb
+ 1448              		.thumb_func
+ 1450              	u8x8_draw_1x2_string:
+ 1451              	.LVL200:
+ 1452              	.LFB18:
+ 422:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 38
+
+
+ 423:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 424:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_Draw2x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 425:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 426:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 427:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 428:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 429:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 430:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_Draw2x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 431:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 432:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 433:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 434:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 435:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 436:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 437:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 438:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 439:Core/Src/u8g2/Src/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 440:Core/Src/u8g2/Src/u8x8_8x8.c **** {  
+ 1453              		.loc 1 440 1 is_stmt 1 view -0
+ 1454              		.cfi_startproc
+ 1455              		@ args = 0, pretend = 0, frame = 0
+ 1456              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1457              		.loc 1 440 1 is_stmt 0 view .LVU441
+ 1458 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 1459              	.LCFI18:
+ 1460              		.cfi_def_cfa_offset 32
+ 1461              		.cfi_offset 3, -32
+ 1462              		.cfi_offset 4, -28
+ 1463              		.cfi_offset 5, -24
+ 1464              		.cfi_offset 6, -20
+ 1465              		.cfi_offset 7, -16
+ 1466              		.cfi_offset 8, -12
+ 1467              		.cfi_offset 9, -8
+ 1468              		.cfi_offset 14, -4
+ 1469 0004 0546     		mov	r5, r0
+ 1470 0006 0E46     		mov	r6, r1
+ 1471 0008 9046     		mov	r8, r2
+ 1472 000a 1C46     		mov	r4, r3
+ 441:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t e;
+ 1473              		.loc 1 441 3 is_stmt 1 view .LVU442
+ 442:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1474              		.loc 1 442 3 view .LVU443
+ 1475              	.LVL201:
+ 443:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t th = u8x8_pgm_read(u8x8->font+2);	/* new 2019 format */
+ 1476              		.loc 1 443 3 view .LVU444
+ 1477              		.loc 1 443 16 is_stmt 0 view .LVU445
+ 1478 000c C369     		ldr	r3, [r0, #28]
+ 1479              	.LVL202:
+ 1480              		.loc 1 443 11 view .LVU446
+ 1481 000e 93F80290 		ldrb	r9, [r3, #2]	@ zero_extendqisi2
+ 1482              	.LVL203:
+ 444:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1483              		.loc 1 444 3 is_stmt 1 view .LVU447
+ 1484 0012 FFF7FEFF 		bl	u8x8_utf8_init
+ 1485              	.LVL204:
+ 442:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1486              		.loc 1 442 11 is_stmt 0 view .LVU448
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 39
+
+
+ 1487 0016 0027     		movs	r7, #0
+ 1488              	.LVL205:
+ 1489              	.L73:
+ 445:Core/Src/u8g2/Src/u8x8_8x8.c ****   for(;;)
+ 1490              		.loc 1 445 3 is_stmt 1 view .LVU449
+ 446:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 447:Core/Src/u8g2/Src/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 1491              		.loc 1 447 5 view .LVU450
+ 1492              		.loc 1 447 13 is_stmt 0 view .LVU451
+ 1493 0018 6B68     		ldr	r3, [r5, #4]
+ 1494              		.loc 1 447 9 view .LVU452
+ 1495 001a 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1496 001c 2846     		mov	r0, r5
+ 1497 001e 9847     		blx	r3
+ 1498              	.LVL206:
+ 448:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1499              		.loc 1 448 5 is_stmt 1 view .LVU453
+ 1500              		.loc 1 448 8 is_stmt 0 view .LVU454
+ 1501 0020 4FF6FF73 		movw	r3, #65535
+ 1502 0024 9842     		cmp	r0, r3
+ 1503 0026 0FD0     		beq	.L74
+ 449:Core/Src/u8g2/Src/u8x8_8x8.c ****       break;
+ 450:Core/Src/u8g2/Src/u8x8_8x8.c ****     s++;
+ 1504              		.loc 1 450 5 is_stmt 1 view .LVU455
+ 1505              		.loc 1 450 6 is_stmt 0 view .LVU456
+ 1506 0028 0134     		adds	r4, r4, #1
+ 1507              	.LVL207:
+ 451:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1508              		.loc 1 451 5 is_stmt 1 view .LVU457
+ 1509              		.loc 1 451 8 is_stmt 0 view .LVU458
+ 1510 002a 4FF6FE73 		movw	r3, #65534
+ 1511 002e 9842     		cmp	r0, r3
+ 1512 0030 F2D0     		beq	.L73
+ 452:Core/Src/u8g2/Src/u8x8_8x8.c ****     {
+ 453:Core/Src/u8g2/Src/u8x8_8x8.c ****       u8x8_Draw1x2Glyph(u8x8, x, y, e);
+ 1513              		.loc 1 453 7 is_stmt 1 view .LVU459
+ 1514 0032 C3B2     		uxtb	r3, r0
+ 1515 0034 4246     		mov	r2, r8
+ 1516 0036 3146     		mov	r1, r6
+ 1517 0038 2846     		mov	r0, r5
+ 1518              	.LVL208:
+ 1519              		.loc 1 453 7 is_stmt 0 view .LVU460
+ 1520 003a FFF7FEFF 		bl	u8x8_Draw1x2Glyph
+ 1521              	.LVL209:
+ 454:Core/Src/u8g2/Src/u8x8_8x8.c ****       x+=th;
+ 1522              		.loc 1 454 7 is_stmt 1 view .LVU461
+ 1523              		.loc 1 454 8 is_stmt 0 view .LVU462
+ 1524 003e 4E44     		add	r6, r6, r9
+ 1525              	.LVL210:
+ 1526              		.loc 1 454 8 view .LVU463
+ 1527 0040 F6B2     		uxtb	r6, r6
+ 1528              	.LVL211:
+ 455:Core/Src/u8g2/Src/u8x8_8x8.c ****       cnt++;
+ 1529              		.loc 1 455 7 is_stmt 1 view .LVU464
+ 1530              		.loc 1 455 10 is_stmt 0 view .LVU465
+ 1531 0042 0137     		adds	r7, r7, #1
+ 1532              	.LVL212:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 40
+
+
+ 1533              		.loc 1 455 10 view .LVU466
+ 1534 0044 FFB2     		uxtb	r7, r7
+ 1535              	.LVL213:
+ 1536              		.loc 1 455 10 view .LVU467
+ 1537 0046 E7E7     		b	.L73
+ 1538              	.LVL214:
+ 1539              	.L74:
+ 456:Core/Src/u8g2/Src/u8x8_8x8.c ****     }
+ 457:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 458:Core/Src/u8g2/Src/u8x8_8x8.c ****   return cnt;
+ 1540              		.loc 1 458 3 is_stmt 1 view .LVU468
+ 459:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1541              		.loc 1 459 1 is_stmt 0 view .LVU469
+ 1542 0048 3846     		mov	r0, r7
+ 1543              	.LVL215:
+ 1544              		.loc 1 459 1 view .LVU470
+ 1545 004a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1546              		.loc 1 459 1 view .LVU471
+ 1547              		.cfi_endproc
+ 1548              	.LFE18:
+ 1550              		.section	.text.u8x8_DrawString,"ax",%progbits
+ 1551              		.align	1
+ 1552              		.global	u8x8_DrawString
+ 1553              		.syntax unified
+ 1554              		.thumb
+ 1555              		.thumb_func
+ 1557              	u8x8_DrawString:
+ 1558              	.LVL216:
+ 1559              	.LFB13:
+ 384:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1560              		.loc 1 384 1 is_stmt 1 view -0
+ 1561              		.cfi_startproc
+ 1562              		@ args = 0, pretend = 0, frame = 0
+ 1563              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1564              		.loc 1 384 1 is_stmt 0 view .LVU473
+ 1565 0000 10B5     		push	{r4, lr}
+ 1566              	.LCFI19:
+ 1567              		.cfi_def_cfa_offset 8
+ 1568              		.cfi_offset 4, -8
+ 1569              		.cfi_offset 14, -4
+ 385:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1570              		.loc 1 385 3 is_stmt 1 view .LVU474
+ 385:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1571              		.loc 1 385 17 is_stmt 0 view .LVU475
+ 1572 0002 024C     		ldr	r4, .L79
+ 1573 0004 4460     		str	r4, [r0, #4]
+ 386:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1574              		.loc 1 386 3 is_stmt 1 view .LVU476
+ 386:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1575              		.loc 1 386 10 is_stmt 0 view .LVU477
+ 1576 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1577              	.LVL217:
+ 387:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1578              		.loc 1 387 1 view .LVU478
+ 1579 000a 10BD     		pop	{r4, pc}
+ 1580              	.L80:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 41
+
+
+ 1581              		.align	2
+ 1582              	.L79:
+ 1583 000c 00000000 		.word	u8x8_ascii_next
+ 1584              		.cfi_endproc
+ 1585              	.LFE13:
+ 1587              		.section	.text.u8x8_DrawUTF8,"ax",%progbits
+ 1588              		.align	1
+ 1589              		.global	u8x8_DrawUTF8
+ 1590              		.syntax unified
+ 1591              		.thumb
+ 1592              		.thumb_func
+ 1594              	u8x8_DrawUTF8:
+ 1595              	.LVL218:
+ 1596              	.LFB14:
+ 390:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1597              		.loc 1 390 1 is_stmt 1 view -0
+ 1598              		.cfi_startproc
+ 1599              		@ args = 0, pretend = 0, frame = 0
+ 1600              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1601              		.loc 1 390 1 is_stmt 0 view .LVU480
+ 1602 0000 10B5     		push	{r4, lr}
+ 1603              	.LCFI20:
+ 1604              		.cfi_def_cfa_offset 8
+ 1605              		.cfi_offset 4, -8
+ 1606              		.cfi_offset 14, -4
+ 391:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1607              		.loc 1 391 3 is_stmt 1 view .LVU481
+ 391:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1608              		.loc 1 391 17 is_stmt 0 view .LVU482
+ 1609 0002 024C     		ldr	r4, .L83
+ 1610 0004 4460     		str	r4, [r0, #4]
+ 392:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1611              		.loc 1 392 3 is_stmt 1 view .LVU483
+ 392:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1612              		.loc 1 392 10 is_stmt 0 view .LVU484
+ 1613 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1614              	.LVL219:
+ 393:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1615              		.loc 1 393 1 view .LVU485
+ 1616 000a 10BD     		pop	{r4, pc}
+ 1617              	.L84:
+ 1618              		.align	2
+ 1619              	.L83:
+ 1620 000c 00000000 		.word	u8x8_utf8_next
+ 1621              		.cfi_endproc
+ 1622              	.LFE14:
+ 1624              		.section	.text.u8x8_Draw2x2String,"ax",%progbits
+ 1625              		.align	1
+ 1626              		.global	u8x8_Draw2x2String
+ 1627              		.syntax unified
+ 1628              		.thumb
+ 1629              		.thumb_func
+ 1631              	u8x8_Draw2x2String:
+ 1632              	.LVL220:
+ 1633              	.LFB16:
+ 425:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 42
+
+
+ 1634              		.loc 1 425 1 is_stmt 1 view -0
+ 1635              		.cfi_startproc
+ 1636              		@ args = 0, pretend = 0, frame = 0
+ 1637              		@ frame_needed = 0, uses_anonymous_args = 0
+ 425:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1638              		.loc 1 425 1 is_stmt 0 view .LVU487
+ 1639 0000 10B5     		push	{r4, lr}
+ 1640              	.LCFI21:
+ 1641              		.cfi_def_cfa_offset 8
+ 1642              		.cfi_offset 4, -8
+ 1643              		.cfi_offset 14, -4
+ 426:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1644              		.loc 1 426 3 is_stmt 1 view .LVU488
+ 426:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1645              		.loc 1 426 17 is_stmt 0 view .LVU489
+ 1646 0002 024C     		ldr	r4, .L87
+ 1647 0004 4460     		str	r4, [r0, #4]
+ 427:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1648              		.loc 1 427 3 is_stmt 1 view .LVU490
+ 427:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1649              		.loc 1 427 10 is_stmt 0 view .LVU491
+ 1650 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ 1651              	.LVL221:
+ 428:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1652              		.loc 1 428 1 view .LVU492
+ 1653 000a 10BD     		pop	{r4, pc}
+ 1654              	.L88:
+ 1655              		.align	2
+ 1656              	.L87:
+ 1657 000c 00000000 		.word	u8x8_ascii_next
+ 1658              		.cfi_endproc
+ 1659              	.LFE16:
+ 1661              		.section	.text.u8x8_Draw2x2UTF8,"ax",%progbits
+ 1662              		.align	1
+ 1663              		.global	u8x8_Draw2x2UTF8
+ 1664              		.syntax unified
+ 1665              		.thumb
+ 1666              		.thumb_func
+ 1668              	u8x8_Draw2x2UTF8:
+ 1669              	.LVL222:
+ 1670              	.LFB17:
+ 431:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1671              		.loc 1 431 1 is_stmt 1 view -0
+ 1672              		.cfi_startproc
+ 1673              		@ args = 0, pretend = 0, frame = 0
+ 1674              		@ frame_needed = 0, uses_anonymous_args = 0
+ 431:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1675              		.loc 1 431 1 is_stmt 0 view .LVU494
+ 1676 0000 10B5     		push	{r4, lr}
+ 1677              	.LCFI22:
+ 1678              		.cfi_def_cfa_offset 8
+ 1679              		.cfi_offset 4, -8
+ 1680              		.cfi_offset 14, -4
+ 432:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1681              		.loc 1 432 3 is_stmt 1 view .LVU495
+ 432:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1682              		.loc 1 432 17 is_stmt 0 view .LVU496
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 43
+
+
+ 1683 0002 024C     		ldr	r4, .L91
+ 1684 0004 4460     		str	r4, [r0, #4]
+ 433:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1685              		.loc 1 433 3 is_stmt 1 view .LVU497
+ 433:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1686              		.loc 1 433 10 is_stmt 0 view .LVU498
+ 1687 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ 1688              	.LVL223:
+ 434:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 1689              		.loc 1 434 1 view .LVU499
+ 1690 000a 10BD     		pop	{r4, pc}
+ 1691              	.L92:
+ 1692              		.align	2
+ 1693              	.L91:
+ 1694 000c 00000000 		.word	u8x8_utf8_next
+ 1695              		.cfi_endproc
+ 1696              	.LFE17:
+ 1698              		.section	.text.u8x8_Draw1x2String,"ax",%progbits
+ 1699              		.align	1
+ 1700              		.global	u8x8_Draw1x2String
+ 1701              		.syntax unified
+ 1702              		.thumb
+ 1703              		.thumb_func
+ 1705              	u8x8_Draw1x2String:
+ 1706              	.LVL224:
+ 1707              	.LFB19:
+ 460:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 461:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 462:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_Draw1x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 463:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 1708              		.loc 1 463 1 is_stmt 1 view -0
+ 1709              		.cfi_startproc
+ 1710              		@ args = 0, pretend = 0, frame = 0
+ 1711              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1712              		.loc 1 463 1 is_stmt 0 view .LVU501
+ 1713 0000 10B5     		push	{r4, lr}
+ 1714              	.LCFI23:
+ 1715              		.cfi_def_cfa_offset 8
+ 1716              		.cfi_offset 4, -8
+ 1717              		.cfi_offset 14, -4
+ 464:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1718              		.loc 1 464 3 is_stmt 1 view .LVU502
+ 1719              		.loc 1 464 17 is_stmt 0 view .LVU503
+ 1720 0002 024C     		ldr	r4, .L95
+ 1721 0004 4460     		str	r4, [r0, #4]
+ 465:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1722              		.loc 1 465 3 is_stmt 1 view .LVU504
+ 1723              		.loc 1 465 10 is_stmt 0 view .LVU505
+ 1724 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1725              	.LVL225:
+ 466:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1726              		.loc 1 466 1 view .LVU506
+ 1727 000a 10BD     		pop	{r4, pc}
+ 1728              	.L96:
+ 1729              		.align	2
+ 1730              	.L95:
+ 1731 000c 00000000 		.word	u8x8_ascii_next
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 44
+
+
+ 1732              		.cfi_endproc
+ 1733              	.LFE19:
+ 1735              		.section	.text.u8x8_Draw1x2UTF8,"ax",%progbits
+ 1736              		.align	1
+ 1737              		.global	u8x8_Draw1x2UTF8
+ 1738              		.syntax unified
+ 1739              		.thumb
+ 1740              		.thumb_func
+ 1742              	u8x8_Draw1x2UTF8:
+ 1743              	.LVL226:
+ 1744              	.LFB20:
+ 467:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 468:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_Draw1x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 469:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ 1745              		.loc 1 469 1 is_stmt 1 view -0
+ 1746              		.cfi_startproc
+ 1747              		@ args = 0, pretend = 0, frame = 0
+ 1748              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1749              		.loc 1 469 1 is_stmt 0 view .LVU508
+ 1750 0000 10B5     		push	{r4, lr}
+ 1751              	.LCFI24:
+ 1752              		.cfi_def_cfa_offset 8
+ 1753              		.cfi_offset 4, -8
+ 1754              		.cfi_offset 14, -4
+ 470:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1755              		.loc 1 470 3 is_stmt 1 view .LVU509
+ 1756              		.loc 1 470 17 is_stmt 0 view .LVU510
+ 1757 0002 024C     		ldr	r4, .L99
+ 1758 0004 4460     		str	r4, [r0, #4]
+ 471:Core/Src/u8g2/Src/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1759              		.loc 1 471 3 is_stmt 1 view .LVU511
+ 1760              		.loc 1 471 10 is_stmt 0 view .LVU512
+ 1761 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1762              	.LVL227:
+ 472:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1763              		.loc 1 472 1 view .LVU513
+ 1764 000a 10BD     		pop	{r4, pc}
+ 1765              	.L100:
+ 1766              		.align	2
+ 1767              	.L99:
+ 1768 000c 00000000 		.word	u8x8_utf8_next
+ 1769              		.cfi_endproc
+ 1770              	.LFE20:
+ 1772              		.section	.text.u8x8_GetUTF8Len,"ax",%progbits
+ 1773              		.align	1
+ 1774              		.global	u8x8_GetUTF8Len
+ 1775              		.syntax unified
+ 1776              		.thumb
+ 1777              		.thumb_func
+ 1779              	u8x8_GetUTF8Len:
+ 1780              	.LVL228:
+ 1781              	.LFB21:
+ 473:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 474:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 475:Core/Src/u8g2/Src/u8x8_8x8.c **** 
+ 476:Core/Src/u8g2/Src/u8x8_8x8.c **** uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
+ 477:Core/Src/u8g2/Src/u8x8_8x8.c **** {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 45
+
+
+ 1782              		.loc 1 477 1 is_stmt 1 view -0
+ 1783              		.cfi_startproc
+ 1784              		@ args = 0, pretend = 0, frame = 0
+ 1785              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1786              		.loc 1 477 1 is_stmt 0 view .LVU515
+ 1787 0000 70B5     		push	{r4, r5, r6, lr}
+ 1788              	.LCFI25:
+ 1789              		.cfi_def_cfa_offset 16
+ 1790              		.cfi_offset 4, -16
+ 1791              		.cfi_offset 5, -12
+ 1792              		.cfi_offset 6, -8
+ 1793              		.cfi_offset 14, -4
+ 1794 0002 0646     		mov	r6, r0
+ 1795 0004 0C46     		mov	r4, r1
+ 478:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint16_t e;
+ 1796              		.loc 1 478 3 is_stmt 1 view .LVU516
+ 479:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1797              		.loc 1 479 3 view .LVU517
+ 1798              	.LVL229:
+ 480:Core/Src/u8g2/Src/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1799              		.loc 1 480 3 view .LVU518
+ 1800 0006 FFF7FEFF 		bl	u8x8_utf8_init
+ 1801              	.LVL230:
+ 479:Core/Src/u8g2/Src/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 1802              		.loc 1 479 11 is_stmt 0 view .LVU519
+ 1803 000a 0025     		movs	r5, #0
+ 1804              	.LVL231:
+ 1805              	.L102:
+ 481:Core/Src/u8g2/Src/u8x8_8x8.c ****   for(;;)
+ 1806              		.loc 1 481 3 is_stmt 1 view .LVU520
+ 482:Core/Src/u8g2/Src/u8x8_8x8.c ****   {
+ 483:Core/Src/u8g2/Src/u8x8_8x8.c ****     e = u8x8_utf8_next(u8x8, *s);
+ 1807              		.loc 1 483 5 view .LVU521
+ 1808              		.loc 1 483 9 is_stmt 0 view .LVU522
+ 1809 000c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1810 000e 3046     		mov	r0, r6
+ 1811 0010 FFF7FEFF 		bl	u8x8_utf8_next
+ 1812              	.LVL232:
+ 484:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1813              		.loc 1 484 5 is_stmt 1 view .LVU523
+ 1814              		.loc 1 484 8 is_stmt 0 view .LVU524
+ 1815 0014 4FF6FF73 		movw	r3, #65535
+ 1816 0018 9842     		cmp	r0, r3
+ 1817 001a 07D0     		beq	.L103
+ 485:Core/Src/u8g2/Src/u8x8_8x8.c ****       break;
+ 486:Core/Src/u8g2/Src/u8x8_8x8.c ****     s++;
+ 1818              		.loc 1 486 5 is_stmt 1 view .LVU525
+ 1819              		.loc 1 486 6 is_stmt 0 view .LVU526
+ 1820 001c 0134     		adds	r4, r4, #1
+ 1821              	.LVL233:
+ 487:Core/Src/u8g2/Src/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1822              		.loc 1 487 5 is_stmt 1 view .LVU527
+ 1823              		.loc 1 487 8 is_stmt 0 view .LVU528
+ 1824 001e 4FF6FE73 		movw	r3, #65534
+ 1825 0022 9842     		cmp	r0, r3
+ 1826 0024 F2D0     		beq	.L102
+ 488:Core/Src/u8g2/Src/u8x8_8x8.c ****       cnt++;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 46
+
+
+ 1827              		.loc 1 488 7 is_stmt 1 view .LVU529
+ 1828              		.loc 1 488 10 is_stmt 0 view .LVU530
+ 1829 0026 0135     		adds	r5, r5, #1
+ 1830              	.LVL234:
+ 1831              		.loc 1 488 10 view .LVU531
+ 1832 0028 EDB2     		uxtb	r5, r5
+ 1833              	.LVL235:
+ 1834              		.loc 1 488 10 view .LVU532
+ 1835 002a EFE7     		b	.L102
+ 1836              	.L103:
+ 489:Core/Src/u8g2/Src/u8x8_8x8.c ****   }
+ 490:Core/Src/u8g2/Src/u8x8_8x8.c ****   return cnt;
+ 1837              		.loc 1 490 3 is_stmt 1 view .LVU533
+ 491:Core/Src/u8g2/Src/u8x8_8x8.c **** }
+ 1838              		.loc 1 491 1 is_stmt 0 view .LVU534
+ 1839 002c 2846     		mov	r0, r5
+ 1840              	.LVL236:
+ 1841              		.loc 1 491 1 view .LVU535
+ 1842 002e 70BD     		pop	{r4, r5, r6, pc}
+ 1843              		.loc 1 491 1 view .LVU536
+ 1844              		.cfi_endproc
+ 1845              	.LFE21:
+ 1847              		.text
+ 1848              	.Letext0:
+ 1849              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 1850              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 1851              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s 			page 47
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_8x8.c
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:20     .text.u8x8_get_glyph_data:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:25     .text.u8x8_get_glyph_data:00000000 u8x8_get_glyph_data
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:207    .text.u8x8_upscale_buf:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:212    .text.u8x8_upscale_buf:00000000 u8x8_upscale_buf
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:254    .text.u8x8_ascii_next:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:260    .text.u8x8_ascii_next:00000000 u8x8_ascii_next
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:298    .text.u8x8_utf8_next:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:304    .text.u8x8_utf8_next:00000000 u8x8_utf8_next
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:474    .text.u8x8_SetFont:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:480    .text.u8x8_SetFont:00000000 u8x8_SetFont
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:497    .text.u8x8_DrawGlyph:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:503    .text.u8x8_DrawGlyph:00000000 u8x8_DrawGlyph
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:625    .text.u8x8_upscale_byte:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:631    .text.u8x8_upscale_byte:00000000 u8x8_upscale_byte
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:689    .text.u8x8_draw_2x2_subglyph:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:694    .text.u8x8_draw_2x2_subglyph:00000000 u8x8_draw_2x2_subglyph
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:836    .text.u8x8_draw_1x2_subglyph:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:841    .text.u8x8_draw_1x2_subglyph:00000000 u8x8_draw_1x2_subglyph
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:943    .text.u8x8_Draw2x2Glyph:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:949    .text.u8x8_Draw2x2Glyph:00000000 u8x8_Draw2x2Glyph
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1076   .text.u8x8_Draw1x2Glyph:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1082   .text.u8x8_Draw1x2Glyph:00000000 u8x8_Draw1x2Glyph
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1202   .text.u8x8_utf8_init:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1208   .text.u8x8_utf8_init:00000000 u8x8_utf8_init
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1226   .text.u8x8_draw_string:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1231   .text.u8x8_draw_string:00000000 u8x8_draw_string
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1332   .text.u8x8_draw_2x2_string:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1337   .text.u8x8_draw_2x2_string:00000000 u8x8_draw_2x2_string
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1445   .text.u8x8_draw_1x2_string:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1450   .text.u8x8_draw_1x2_string:00000000 u8x8_draw_1x2_string
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1551   .text.u8x8_DrawString:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1557   .text.u8x8_DrawString:00000000 u8x8_DrawString
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1583   .text.u8x8_DrawString:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1588   .text.u8x8_DrawUTF8:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1594   .text.u8x8_DrawUTF8:00000000 u8x8_DrawUTF8
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1620   .text.u8x8_DrawUTF8:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1625   .text.u8x8_Draw2x2String:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1631   .text.u8x8_Draw2x2String:00000000 u8x8_Draw2x2String
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1657   .text.u8x8_Draw2x2String:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1662   .text.u8x8_Draw2x2UTF8:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1668   .text.u8x8_Draw2x2UTF8:00000000 u8x8_Draw2x2UTF8
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1694   .text.u8x8_Draw2x2UTF8:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1699   .text.u8x8_Draw1x2String:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1705   .text.u8x8_Draw1x2String:00000000 u8x8_Draw1x2String
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1731   .text.u8x8_Draw1x2String:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1736   .text.u8x8_Draw1x2UTF8:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1742   .text.u8x8_Draw1x2UTF8:00000000 u8x8_Draw1x2UTF8
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1768   .text.u8x8_Draw1x2UTF8:0000000c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1773   .text.u8x8_GetUTF8Len:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccmDIhJb.s:1779   .text.u8x8_GetUTF8Len:00000000 u8x8_GetUTF8Len
+
+UNDEFINED SYMBOLS
+u8x8_DrawTile

@@ -1,0 +1,1208 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_box.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_DrawBox,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_DrawBox
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_DrawBox:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8g2_box.c"
+   1:Core/Src/u8g2/Src/u8g2_box.c **** /*
+   2:Core/Src/u8g2/Src/u8g2_box.c **** 
+   3:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_box.c
+   4:Core/Src/u8g2/Src/u8g2_box.c **** 
+   5:Core/Src/u8g2/Src/u8g2_box.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/Src/u8g2/Src/u8g2_box.c **** 
+   7:Core/Src/u8g2/Src/u8g2_box.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/Src/u8g2/Src/u8g2_box.c ****   All rights reserved.
+   9:Core/Src/u8g2/Src/u8g2_box.c **** 
+  10:Core/Src/u8g2/Src/u8g2_box.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/Src/u8g2/Src/u8g2_box.c ****   are permitted provided that the following conditions are met:
+  12:Core/Src/u8g2/Src/u8g2_box.c **** 
+  13:Core/Src/u8g2/Src/u8g2_box.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/Src/u8g2/Src/u8g2_box.c ****     of conditions and the following disclaimer.
+  15:Core/Src/u8g2/Src/u8g2_box.c ****     
+  16:Core/Src/u8g2/Src/u8g2_box.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/Src/u8g2/Src/u8g2_box.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/Src/u8g2/Src/u8g2_box.c ****     materials provided with the distribution.
+  19:Core/Src/u8g2/Src/u8g2_box.c **** 
+  20:Core/Src/u8g2/Src/u8g2_box.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/Src/u8g2/Src/u8g2_box.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/Src/u8g2/Src/u8g2_box.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/Src/u8g2/Src/u8g2_box.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/Src/u8g2/Src/u8g2_box.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/Src/u8g2/Src/u8g2_box.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/Src/u8g2/Src/u8g2_box.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/Src/u8g2/Src/u8g2_box.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/Src/u8g2/Src/u8g2_box.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/Src/u8g2/Src/u8g2_box.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8g2_box.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/Src/u8g2/Src/u8g2_box.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/Src/u8g2/Src/u8g2_box.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/Src/u8g2/Src/u8g2_box.c **** 
+  34:Core/Src/u8g2/Src/u8g2_box.c **** */
+  35:Core/Src/u8g2/Src/u8g2_box.c **** 
+  36:Core/Src/u8g2/Src/u8g2_box.c **** #include "u8g2.h"
+  37:Core/Src/u8g2/Src/u8g2_box.c **** 
+  38:Core/Src/u8g2/Src/u8g2_box.c **** /*
+  39:Core/Src/u8g2/Src/u8g2_box.c ****   draw a filled box
+  40:Core/Src/u8g2/Src/u8g2_box.c ****   restriction: does not work for w = 0 or h = 0
+  41:Core/Src/u8g2/Src/u8g2_box.c **** */
+  42:Core/Src/u8g2/Src/u8g2_box.c **** void u8g2_DrawBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+  43:Core/Src/u8g2/Src/u8g2_box.c **** {
+  30              		.loc 1 43 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 4, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 43 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 24
+  38              		.cfi_offset 4, -24
+  39              		.cfi_offset 5, -20
+  40              		.cfi_offset 6, -16
+  41              		.cfi_offset 7, -12
+  42              		.cfi_offset 8, -8
+  43              		.cfi_offset 14, -4
+  44 0004 82B0     		sub	sp, sp, #8
+  45              	.LCFI1:
+  46              		.cfi_def_cfa_offset 32
+  47 0006 8046     		mov	r8, r0
+  48 0008 0F46     		mov	r7, r1
+  49 000a 1446     		mov	r4, r2
+  50 000c 1E46     		mov	r6, r3
+  51 000e BDF82050 		ldrh	r5, [sp, #32]
+  44:Core/Src/u8g2/Src/u8g2_box.c **** #ifdef U8G2_WITH_INTERSECTION
+  45:Core/Src/u8g2/Src/u8g2_box.c ****   if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+  52              		.loc 1 45 3 is_stmt 1 view .LVU2
+  53              		.loc 1 45 8 is_stmt 0 view .LVU3
+  54 0012 01EB030C 		add	ip, r1, r3
+  55 0016 5319     		adds	r3, r2, r5
+  56              	.LVL1:
+  57              		.loc 1 45 8 view .LVU4
+  58 0018 9BB2     		uxth	r3, r3
+  59 001a 0093     		str	r3, [sp]
+  60 001c 1FFA8CF3 		uxth	r3, ip
+  61 0020 FFF7FEFF 		bl	u8g2_IsIntersection
+  62              	.LVL2:
+  63              		.loc 1 45 6 view .LVU5
+  64 0024 60B9     		cbnz	r0, .L3
+  65 0026 0DE0     		b	.L1
+  66              	.LVL3:
+  67              	.L4:
+  46:Core/Src/u8g2/Src/u8g2_box.c ****     return;
+  47:Core/Src/u8g2/Src/u8g2_box.c **** #endif /* U8G2_WITH_INTERSECTION */
+  48:Core/Src/u8g2/Src/u8g2_box.c ****   while( h != 0 )
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 3
+
+
+  49:Core/Src/u8g2/Src/u8g2_box.c ****   { 
+  50:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawHVLine(u8g2, x, y, w, 0);
+  68              		.loc 1 50 5 is_stmt 1 view .LVU6
+  69 0028 0022     		movs	r2, #0
+  70 002a 0092     		str	r2, [sp]
+  71 002c 3346     		mov	r3, r6
+  72 002e 2246     		mov	r2, r4
+  73 0030 3946     		mov	r1, r7
+  74 0032 4046     		mov	r0, r8
+  75 0034 FFF7FEFF 		bl	u8g2_DrawHVLine
+  76              	.LVL4:
+  51:Core/Src/u8g2/Src/u8g2_box.c ****     y++;    
+  77              		.loc 1 51 5 view .LVU7
+  78              		.loc 1 51 6 is_stmt 0 view .LVU8
+  79 0038 0134     		adds	r4, r4, #1
+  80              	.LVL5:
+  81              		.loc 1 51 6 view .LVU9
+  82 003a A4B2     		uxth	r4, r4
+  83              	.LVL6:
+  52:Core/Src/u8g2/Src/u8g2_box.c ****     h--;
+  84              		.loc 1 52 5 is_stmt 1 view .LVU10
+  85              		.loc 1 52 6 is_stmt 0 view .LVU11
+  86 003c 013D     		subs	r5, r5, #1
+  87              	.LVL7:
+  88              		.loc 1 52 6 view .LVU12
+  89 003e ADB2     		uxth	r5, r5
+  90              	.LVL8:
+  91              	.L3:
+  48:Core/Src/u8g2/Src/u8g2_box.c ****   { 
+  92              		.loc 1 48 8 is_stmt 1 view .LVU13
+  93 0040 002D     		cmp	r5, #0
+  94 0042 F1D1     		bne	.L4
+  95              	.LVL9:
+  96              	.L1:
+  53:Core/Src/u8g2/Src/u8g2_box.c ****   }
+  54:Core/Src/u8g2/Src/u8g2_box.c **** }
+  97              		.loc 1 54 1 is_stmt 0 view .LVU14
+  98 0044 02B0     		add	sp, sp, #8
+  99              	.LCFI2:
+ 100              		.cfi_def_cfa_offset 24
+ 101              		@ sp needed
+ 102 0046 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 103              		.loc 1 54 1 view .LVU15
+ 104              		.cfi_endproc
+ 105              	.LFE0:
+ 107              		.section	.text.u8g2_DrawFrame,"ax",%progbits
+ 108              		.align	1
+ 109              		.global	u8g2_DrawFrame
+ 110              		.syntax unified
+ 111              		.thumb
+ 112              		.thumb_func
+ 114              	u8g2_DrawFrame:
+ 115              	.LVL10:
+ 116              	.LFB1:
+  55:Core/Src/u8g2/Src/u8g2_box.c **** 
+  56:Core/Src/u8g2/Src/u8g2_box.c **** 
+  57:Core/Src/u8g2/Src/u8g2_box.c **** /*
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 4
+
+
+  58:Core/Src/u8g2/Src/u8g2_box.c ****   draw a frame (empty box)
+  59:Core/Src/u8g2/Src/u8g2_box.c ****   restriction: does not work for w = 0 or h = 0
+  60:Core/Src/u8g2/Src/u8g2_box.c **** */
+  61:Core/Src/u8g2/Src/u8g2_box.c **** void u8g2_DrawFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h)
+  62:Core/Src/u8g2/Src/u8g2_box.c **** {
+ 117              		.loc 1 62 1 is_stmt 1 view -0
+ 118              		.cfi_startproc
+ 119              		@ args = 4, pretend = 0, frame = 0
+ 120              		@ frame_needed = 0, uses_anonymous_args = 0
+ 121              		.loc 1 62 1 is_stmt 0 view .LVU17
+ 122 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 123              	.LCFI3:
+ 124              		.cfi_def_cfa_offset 32
+ 125              		.cfi_offset 4, -32
+ 126              		.cfi_offset 5, -28
+ 127              		.cfi_offset 6, -24
+ 128              		.cfi_offset 7, -20
+ 129              		.cfi_offset 8, -16
+ 130              		.cfi_offset 9, -12
+ 131              		.cfi_offset 10, -8
+ 132              		.cfi_offset 14, -4
+ 133 0004 82B0     		sub	sp, sp, #8
+ 134              	.LCFI4:
+ 135              		.cfi_def_cfa_offset 40
+ 136 0006 8046     		mov	r8, r0
+ 137 0008 0D46     		mov	r5, r1
+ 138 000a 1446     		mov	r4, r2
+ 139 000c 1E46     		mov	r6, r3
+ 140 000e BDF82890 		ldrh	r9, [sp, #40]
+  63:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_uint_t xtmp = x;
+ 141              		.loc 1 63 3 is_stmt 1 view .LVU18
+ 142              	.LVL11:
+  64:Core/Src/u8g2/Src/u8g2_box.c ****   
+  65:Core/Src/u8g2/Src/u8g2_box.c **** #ifdef U8G2_WITH_INTERSECTION
+  66:Core/Src/u8g2/Src/u8g2_box.c ****   if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+ 143              		.loc 1 66 3 view .LVU19
+ 144              		.loc 1 66 8 is_stmt 0 view .LVU20
+ 145 0012 CF18     		adds	r7, r1, r3
+ 146 0014 BFB2     		uxth	r7, r7
+ 147 0016 02EB0903 		add	r3, r2, r9
+ 148              	.LVL12:
+ 149              		.loc 1 66 8 view .LVU21
+ 150 001a 9BB2     		uxth	r3, r3
+ 151 001c 0093     		str	r3, [sp]
+ 152 001e 3B46     		mov	r3, r7
+ 153 0020 FFF7FEFF 		bl	u8g2_IsIntersection
+ 154              	.LVL13:
+ 155              		.loc 1 66 6 view .LVU22
+ 156 0024 10B9     		cbnz	r0, .L10
+ 157              	.LVL14:
+ 158              	.L6:
+  67:Core/Src/u8g2/Src/u8g2_box.c ****     return;
+  68:Core/Src/u8g2/Src/u8g2_box.c **** #endif /* U8G2_WITH_INTERSECTION */
+  69:Core/Src/u8g2/Src/u8g2_box.c ****   
+  70:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawHVLine(u8g2, x, y, w, 0);
+  71:Core/Src/u8g2/Src/u8g2_box.c ****   if (h >= 2) {
+  72:Core/Src/u8g2/Src/u8g2_box.c ****     h-=2;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 5
+
+
+  73:Core/Src/u8g2/Src/u8g2_box.c ****     y++;
+  74:Core/Src/u8g2/Src/u8g2_box.c ****     if (h > 0) {
+  75:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+  76:Core/Src/u8g2/Src/u8g2_box.c ****       x+=w;
+  77:Core/Src/u8g2/Src/u8g2_box.c ****       x--;
+  78:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+  79:Core/Src/u8g2/Src/u8g2_box.c ****       y+=h;
+  80:Core/Src/u8g2/Src/u8g2_box.c ****     }
+  81:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawHVLine(u8g2, xtmp, y, w, 0);
+  82:Core/Src/u8g2/Src/u8g2_box.c ****   }
+  83:Core/Src/u8g2/Src/u8g2_box.c **** }
+ 159              		.loc 1 83 1 view .LVU23
+ 160 0026 02B0     		add	sp, sp, #8
+ 161              	.LCFI5:
+ 162              		.cfi_remember_state
+ 163              		.cfi_def_cfa_offset 32
+ 164              		@ sp needed
+ 165 0028 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 166              	.LVL15:
+ 167              	.L10:
+ 168              	.LCFI6:
+ 169              		.cfi_restore_state
+  70:Core/Src/u8g2/Src/u8g2_box.c ****   if (h >= 2) {
+ 170              		.loc 1 70 3 is_stmt 1 view .LVU24
+ 171 002c 0023     		movs	r3, #0
+ 172 002e 0093     		str	r3, [sp]
+ 173 0030 3346     		mov	r3, r6
+ 174 0032 2246     		mov	r2, r4
+ 175 0034 2946     		mov	r1, r5
+ 176 0036 4046     		mov	r0, r8
+ 177 0038 FFF7FEFF 		bl	u8g2_DrawHVLine
+ 178              	.LVL16:
+  71:Core/Src/u8g2/Src/u8g2_box.c ****     h-=2;
+ 179              		.loc 1 71 3 view .LVU25
+  71:Core/Src/u8g2/Src/u8g2_box.c ****     h-=2;
+ 180              		.loc 1 71 6 is_stmt 0 view .LVU26
+ 181 003c B9F1010F 		cmp	r9, #1
+ 182 0040 F1D9     		bls	.L6
+  72:Core/Src/u8g2/Src/u8g2_box.c ****     y++;
+ 183              		.loc 1 72 5 is_stmt 1 view .LVU27
+  72:Core/Src/u8g2/Src/u8g2_box.c ****     y++;
+ 184              		.loc 1 72 6 is_stmt 0 view .LVU28
+ 185 0042 A9F10209 		sub	r9, r9, #2
+ 186 0046 1FFA89F9 		uxth	r9, r9
+ 187              	.LVL17:
+  73:Core/Src/u8g2/Src/u8g2_box.c ****     if (h > 0) {
+ 188              		.loc 1 73 5 is_stmt 1 view .LVU29
+  73:Core/Src/u8g2/Src/u8g2_box.c ****     if (h > 0) {
+ 189              		.loc 1 73 6 is_stmt 0 view .LVU30
+ 190 004a 0134     		adds	r4, r4, #1
+ 191 004c A4B2     		uxth	r4, r4
+ 192              	.LVL18:
+  74:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+ 193              		.loc 1 74 5 is_stmt 1 view .LVU31
+  74:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+ 194              		.loc 1 74 8 is_stmt 0 view .LVU32
+ 195 004e B9F1000F 		cmp	r9, #0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 6
+
+
+ 196 0052 08D1     		bne	.L11
+ 197              	.LVL19:
+ 198              	.L8:
+  81:Core/Src/u8g2/Src/u8g2_box.c ****   }
+ 199              		.loc 1 81 5 is_stmt 1 view .LVU33
+ 200 0054 0023     		movs	r3, #0
+ 201 0056 0093     		str	r3, [sp]
+ 202 0058 3346     		mov	r3, r6
+ 203 005a 2246     		mov	r2, r4
+ 204 005c 2946     		mov	r1, r5
+ 205 005e 4046     		mov	r0, r8
+ 206 0060 FFF7FEFF 		bl	u8g2_DrawHVLine
+ 207              	.LVL20:
+ 208 0064 DFE7     		b	.L6
+ 209              	.LVL21:
+ 210              	.L11:
+  75:Core/Src/u8g2/Src/u8g2_box.c ****       x+=w;
+ 211              		.loc 1 75 7 view .LVU34
+ 212 0066 4FF0010A 		mov	r10, #1
+ 213 006a CDF800A0 		str	r10, [sp]
+ 214 006e 4B46     		mov	r3, r9
+ 215 0070 2246     		mov	r2, r4
+ 216 0072 2946     		mov	r1, r5
+ 217 0074 4046     		mov	r0, r8
+ 218 0076 FFF7FEFF 		bl	u8g2_DrawHVLine
+ 219              	.LVL22:
+  76:Core/Src/u8g2/Src/u8g2_box.c ****       x--;
+ 220              		.loc 1 76 7 view .LVU35
+  77:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+ 221              		.loc 1 77 7 view .LVU36
+  77:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHVLine(u8g2, x, y, h, 1);
+ 222              		.loc 1 77 8 is_stmt 0 view .LVU37
+ 223 007a 791E     		subs	r1, r7, #1
+ 224              	.LVL23:
+  78:Core/Src/u8g2/Src/u8g2_box.c ****       y+=h;
+ 225              		.loc 1 78 7 is_stmt 1 view .LVU38
+ 226 007c CDF800A0 		str	r10, [sp]
+ 227 0080 4B46     		mov	r3, r9
+ 228 0082 2246     		mov	r2, r4
+ 229 0084 89B2     		uxth	r1, r1
+  78:Core/Src/u8g2/Src/u8g2_box.c ****       y+=h;
+ 230              		.loc 1 78 7 is_stmt 0 view .LVU39
+ 231 0086 4046     		mov	r0, r8
+ 232 0088 FFF7FEFF 		bl	u8g2_DrawHVLine
+ 233              	.LVL24:
+  79:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 234              		.loc 1 79 7 is_stmt 1 view .LVU40
+  79:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 235              		.loc 1 79 8 is_stmt 0 view .LVU41
+ 236 008c 4C44     		add	r4, r4, r9
+ 237              	.LVL25:
+  79:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 238              		.loc 1 79 8 view .LVU42
+ 239 008e A4B2     		uxth	r4, r4
+ 240              	.LVL26:
+  79:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 241              		.loc 1 79 8 view .LVU43
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 7
+
+
+ 242 0090 E0E7     		b	.L8
+ 243              		.cfi_endproc
+ 244              	.LFE1:
+ 246              		.section	.text.u8g2_DrawRBox,"ax",%progbits
+ 247              		.align	1
+ 248              		.global	u8g2_DrawRBox
+ 249              		.syntax unified
+ 250              		.thumb
+ 251              		.thumb_func
+ 253              	u8g2_DrawRBox:
+ 254              	.LVL27:
+ 255              	.LFB2:
+  84:Core/Src/u8g2/Src/u8g2_box.c **** 
+  85:Core/Src/u8g2/Src/u8g2_box.c **** 
+  86:Core/Src/u8g2/Src/u8g2_box.c **** 
+  87:Core/Src/u8g2/Src/u8g2_box.c **** 
+  88:Core/Src/u8g2/Src/u8g2_box.c **** void u8g2_DrawRBox(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2_u
+  89:Core/Src/u8g2/Src/u8g2_box.c **** {
+ 256              		.loc 1 89 1 is_stmt 1 view -0
+ 257              		.cfi_startproc
+ 258              		@ args = 8, pretend = 0, frame = 16
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260              		.loc 1 89 1 is_stmt 0 view .LVU45
+ 261 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 262              	.LCFI7:
+ 263              		.cfi_def_cfa_offset 36
+ 264              		.cfi_offset 4, -36
+ 265              		.cfi_offset 5, -32
+ 266              		.cfi_offset 6, -28
+ 267              		.cfi_offset 7, -24
+ 268              		.cfi_offset 8, -20
+ 269              		.cfi_offset 9, -16
+ 270              		.cfi_offset 10, -12
+ 271              		.cfi_offset 11, -8
+ 272              		.cfi_offset 14, -4
+ 273 0004 87B0     		sub	sp, sp, #28
+ 274              	.LCFI8:
+ 275              		.cfi_def_cfa_offset 64
+ 276 0006 8046     		mov	r8, r0
+ 277 0008 0C46     		mov	r4, r1
+ 278 000a 9246     		mov	r10, r2
+ 279 000c BDF84060 		ldrh	r6, [sp, #64]
+ 280 0010 BDF84470 		ldrh	r7, [sp, #68]
+  90:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_uint_t xl, yu;
+ 281              		.loc 1 90 3 is_stmt 1 view .LVU46
+  91:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_uint_t yl, xr;
+ 282              		.loc 1 91 3 view .LVU47
+  92:Core/Src/u8g2/Src/u8g2_box.c **** 
+  93:Core/Src/u8g2/Src/u8g2_box.c **** #ifdef U8G2_WITH_INTERSECTION
+  94:Core/Src/u8g2/Src/u8g2_box.c ****   if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+ 283              		.loc 1 94 3 view .LVU48
+ 284              		.loc 1 94 8 is_stmt 0 view .LVU49
+ 285 0014 0391     		str	r1, [sp, #12]
+ 286 0016 0493     		str	r3, [sp, #16]
+ 287 0018 1C44     		add	r4, r4, r3
+ 288 001a A4B2     		uxth	r4, r4
+ 289 001c 9519     		adds	r5, r2, r6
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 8
+
+
+ 290 001e ADB2     		uxth	r5, r5
+ 291 0020 0095     		str	r5, [sp]
+ 292 0022 2346     		mov	r3, r4
+ 293              	.LVL28:
+ 294              		.loc 1 94 8 view .LVU50
+ 295 0024 FFF7FEFF 		bl	u8g2_IsIntersection
+ 296              	.LVL29:
+ 297              		.loc 1 94 6 view .LVU51
+ 298 0028 10B9     		cbnz	r0, .L16
+ 299              	.L12:
+  95:Core/Src/u8g2/Src/u8g2_box.c ****     return;
+  96:Core/Src/u8g2/Src/u8g2_box.c **** #endif /* U8G2_WITH_INTERSECTION */
+  97:Core/Src/u8g2/Src/u8g2_box.c **** 
+  98:Core/Src/u8g2/Src/u8g2_box.c ****   xl = x;
+  99:Core/Src/u8g2/Src/u8g2_box.c ****   xl += r;
+ 100:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 101:Core/Src/u8g2/Src/u8g2_box.c ****   yu += r;
+ 102:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 103:Core/Src/u8g2/Src/u8g2_box.c ****   xr = x;
+ 104:Core/Src/u8g2/Src/u8g2_box.c ****   xr += w;
+ 105:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= r;
+ 106:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= 1;
+ 107:Core/Src/u8g2/Src/u8g2_box.c ****   
+ 108:Core/Src/u8g2/Src/u8g2_box.c ****   yl = y;
+ 109:Core/Src/u8g2/Src/u8g2_box.c ****   yl += h;
+ 110:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= r; 
+ 111:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= 1;
+ 112:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 113:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xl, yu, r, U8G2_DRAW_UPPER_LEFT);
+ 114:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xr, yu, r, U8G2_DRAW_UPPER_RIGHT);
+ 115:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xl, yl, r, U8G2_DRAW_LOWER_LEFT);
+ 116:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xr, yl, r, U8G2_DRAW_LOWER_RIGHT);
+ 117:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 118:Core/Src/u8g2/Src/u8g2_box.c ****   {
+ 119:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_uint_t ww, hh;
+ 120:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 121:Core/Src/u8g2/Src/u8g2_box.c ****     ww = w;
+ 122:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 123:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 124:Core/Src/u8g2/Src/u8g2_box.c ****     xl++;
+ 125:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 126:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 127:Core/Src/u8g2/Src/u8g2_box.c ****     if ( ww >= 3 )
+ 128:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 129:Core/Src/u8g2/Src/u8g2_box.c ****       ww -= 2;
+ 130:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, y, ww, r+1);
+ 131:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, yl, ww, r+1);
+ 132:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 133:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 134:Core/Src/u8g2/Src/u8g2_box.c ****     hh = h;
+ 135:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 136:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 137:Core/Src/u8g2/Src/u8g2_box.c ****     //h--;
+ 138:Core/Src/u8g2/Src/u8g2_box.c ****     if ( hh >= 3 )
+ 139:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 140:Core/Src/u8g2/Src/u8g2_box.c ****       hh -= 2;
+ 141:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, x, yu, w, hh);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 9
+
+
+ 142:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 143:Core/Src/u8g2/Src/u8g2_box.c ****   }
+ 144:Core/Src/u8g2/Src/u8g2_box.c **** }
+ 300              		.loc 1 144 1 view .LVU52
+ 301 002a 07B0     		add	sp, sp, #28
+ 302              	.LCFI9:
+ 303              		.cfi_remember_state
+ 304              		.cfi_def_cfa_offset 36
+ 305              		@ sp needed
+ 306 002c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 307              	.LVL30:
+ 308              	.L16:
+ 309              	.LCFI10:
+ 310              		.cfi_restore_state
+  98:Core/Src/u8g2/Src/u8g2_box.c ****   xl += r;
+ 311              		.loc 1 98 3 is_stmt 1 view .LVU53
+  99:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 312              		.loc 1 99 3 view .LVU54
+  99:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 313              		.loc 1 99 6 is_stmt 0 view .LVU55
+ 314 0030 039B     		ldr	r3, [sp, #12]
+ 315 0032 03EB0709 		add	r9, r3, r7
+ 316 0036 1FFA89F9 		uxth	r9, r9
+ 317              	.LVL31:
+ 100:Core/Src/u8g2/Src/u8g2_box.c ****   yu += r;
+ 318              		.loc 1 100 3 is_stmt 1 view .LVU56
+ 101:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 319              		.loc 1 101 3 view .LVU57
+ 101:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 320              		.loc 1 101 6 is_stmt 0 view .LVU58
+ 321 003a 0AEB070B 		add	fp, r10, r7
+ 322 003e 1FFA8BFB 		uxth	fp, fp
+ 323              	.LVL32:
+ 103:Core/Src/u8g2/Src/u8g2_box.c ****   xr += w;
+ 324              		.loc 1 103 3 is_stmt 1 view .LVU59
+ 104:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= r;
+ 325              		.loc 1 104 3 view .LVU60
+ 105:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= 1;
+ 326              		.loc 1 105 3 view .LVU61
+ 105:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= 1;
+ 327              		.loc 1 105 6 is_stmt 0 view .LVU62
+ 328 0042 E41B     		subs	r4, r4, r7
+ 329              	.LVL33:
+ 105:Core/Src/u8g2/Src/u8g2_box.c ****   xr -= 1;
+ 330              		.loc 1 105 6 view .LVU63
+ 331 0044 A4B2     		uxth	r4, r4
+ 332              	.LVL34:
+ 106:Core/Src/u8g2/Src/u8g2_box.c ****   
+ 333              		.loc 1 106 3 is_stmt 1 view .LVU64
+ 106:Core/Src/u8g2/Src/u8g2_box.c ****   
+ 334              		.loc 1 106 6 is_stmt 0 view .LVU65
+ 335 0046 013C     		subs	r4, r4, #1
+ 336              	.LVL35:
+ 106:Core/Src/u8g2/Src/u8g2_box.c ****   
+ 337              		.loc 1 106 6 view .LVU66
+ 338 0048 A4B2     		uxth	r4, r4
+ 339              	.LVL36:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 10
+
+
+ 108:Core/Src/u8g2/Src/u8g2_box.c ****   yl += h;
+ 340              		.loc 1 108 3 is_stmt 1 view .LVU67
+ 109:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= r; 
+ 341              		.loc 1 109 3 view .LVU68
+ 110:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= 1;
+ 342              		.loc 1 110 3 view .LVU69
+ 110:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= 1;
+ 343              		.loc 1 110 6 is_stmt 0 view .LVU70
+ 344 004a ED1B     		subs	r5, r5, r7
+ 345              	.LVL37:
+ 110:Core/Src/u8g2/Src/u8g2_box.c ****   yl -= 1;
+ 346              		.loc 1 110 6 view .LVU71
+ 347 004c ADB2     		uxth	r5, r5
+ 348              	.LVL38:
+ 111:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 349              		.loc 1 111 3 is_stmt 1 view .LVU72
+ 111:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 350              		.loc 1 111 6 is_stmt 0 view .LVU73
+ 351 004e 013D     		subs	r5, r5, #1
+ 352              	.LVL39:
+ 111:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 353              		.loc 1 111 6 view .LVU74
+ 354 0050 ADB2     		uxth	r5, r5
+ 355              	.LVL40:
+ 113:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xr, yu, r, U8G2_DRAW_UPPER_RIGHT);
+ 356              		.loc 1 113 3 is_stmt 1 view .LVU75
+ 357 0052 0223     		movs	r3, #2
+ 358 0054 0093     		str	r3, [sp]
+ 359 0056 3B46     		mov	r3, r7
+ 360 0058 5A46     		mov	r2, fp
+ 361 005a 4946     		mov	r1, r9
+ 362 005c 4046     		mov	r0, r8
+ 363 005e FFF7FEFF 		bl	u8g2_DrawDisc
+ 364              	.LVL41:
+ 114:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xl, yl, r, U8G2_DRAW_LOWER_LEFT);
+ 365              		.loc 1 114 3 view .LVU76
+ 366 0062 0123     		movs	r3, #1
+ 367 0064 0093     		str	r3, [sp]
+ 368 0066 3B46     		mov	r3, r7
+ 369 0068 5A46     		mov	r2, fp
+ 370 006a 2146     		mov	r1, r4
+ 371 006c 4046     		mov	r0, r8
+ 372 006e FFF7FEFF 		bl	u8g2_DrawDisc
+ 373              	.LVL42:
+ 115:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_DrawDisc(u8g2, xr, yl, r, U8G2_DRAW_LOWER_RIGHT);
+ 374              		.loc 1 115 3 view .LVU77
+ 375 0072 0423     		movs	r3, #4
+ 376 0074 0093     		str	r3, [sp]
+ 377 0076 3B46     		mov	r3, r7
+ 378 0078 2A46     		mov	r2, r5
+ 379 007a 4946     		mov	r1, r9
+ 380 007c 4046     		mov	r0, r8
+ 381 007e FFF7FEFF 		bl	u8g2_DrawDisc
+ 382              	.LVL43:
+ 116:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 383              		.loc 1 116 3 view .LVU78
+ 384 0082 0823     		movs	r3, #8
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 11
+
+
+ 385 0084 0093     		str	r3, [sp]
+ 386 0086 3B46     		mov	r3, r7
+ 387 0088 2A46     		mov	r2, r5
+ 388 008a 2146     		mov	r1, r4
+ 389 008c 4046     		mov	r0, r8
+ 390 008e FFF7FEFF 		bl	u8g2_DrawDisc
+ 391              	.LVL44:
+ 392              	.LBB2:
+ 119:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 393              		.loc 1 119 5 view .LVU79
+ 121:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 394              		.loc 1 121 5 view .LVU80
+ 122:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 395              		.loc 1 122 5 view .LVU81
+ 122:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 396              		.loc 1 122 8 is_stmt 0 view .LVU82
+ 397 0092 049B     		ldr	r3, [sp, #16]
+ 398 0094 DB1B     		subs	r3, r3, r7
+ 399 0096 9BB2     		uxth	r3, r3
+ 400              	.LVL45:
+ 123:Core/Src/u8g2/Src/u8g2_box.c ****     xl++;
+ 401              		.loc 1 123 5 is_stmt 1 view .LVU83
+ 123:Core/Src/u8g2/Src/u8g2_box.c ****     xl++;
+ 402              		.loc 1 123 8 is_stmt 0 view .LVU84
+ 403 0098 DB1B     		subs	r3, r3, r7
+ 404              	.LVL46:
+ 123:Core/Src/u8g2/Src/u8g2_box.c ****     xl++;
+ 405              		.loc 1 123 8 view .LVU85
+ 406 009a 9BB2     		uxth	r3, r3
+ 407              	.LVL47:
+ 124:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 408              		.loc 1 124 5 is_stmt 1 view .LVU86
+ 124:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 409              		.loc 1 124 7 is_stmt 0 view .LVU87
+ 410 009c 09F10109 		add	r9, r9, #1
+ 411              	.LVL48:
+ 124:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 412              		.loc 1 124 7 view .LVU88
+ 413 00a0 1FFA89F9 		uxth	r9, r9
+ 414              	.LVL49:
+ 125:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 415              		.loc 1 125 5 is_stmt 1 view .LVU89
+ 125:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 416              		.loc 1 125 7 is_stmt 0 view .LVU90
+ 417 00a4 0BF1010B 		add	fp, fp, #1
+ 418              	.LVL50:
+ 125:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 419              		.loc 1 125 7 view .LVU91
+ 420 00a8 1FFA8BFB 		uxth	fp, fp
+ 421              	.LVL51:
+ 127:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 422              		.loc 1 127 5 is_stmt 1 view .LVU92
+ 127:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 423              		.loc 1 127 8 is_stmt 0 view .LVU93
+ 424 00ac 022B     		cmp	r3, #2
+ 425 00ae 0FD8     		bhi	.L17
+ 426              	.LVL52:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 12
+
+
+ 427              	.L14:
+ 134:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 428              		.loc 1 134 5 is_stmt 1 view .LVU94
+ 135:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 429              		.loc 1 135 5 view .LVU95
+ 135:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 430              		.loc 1 135 8 is_stmt 0 view .LVU96
+ 431 00b0 F61B     		subs	r6, r6, r7
+ 432              	.LVL53:
+ 135:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 433              		.loc 1 135 8 view .LVU97
+ 434 00b2 B6B2     		uxth	r6, r6
+ 435              	.LVL54:
+ 136:Core/Src/u8g2/Src/u8g2_box.c ****     //h--;
+ 436              		.loc 1 136 5 is_stmt 1 view .LVU98
+ 136:Core/Src/u8g2/Src/u8g2_box.c ****     //h--;
+ 437              		.loc 1 136 8 is_stmt 0 view .LVU99
+ 438 00b4 F71B     		subs	r7, r6, r7
+ 439              	.LVL55:
+ 136:Core/Src/u8g2/Src/u8g2_box.c ****     //h--;
+ 440              		.loc 1 136 8 view .LVU100
+ 441 00b6 BFB2     		uxth	r7, r7
+ 442              	.LVL56:
+ 138:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 443              		.loc 1 138 5 is_stmt 1 view .LVU101
+ 138:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 444              		.loc 1 138 8 is_stmt 0 view .LVU102
+ 445 00b8 022F     		cmp	r7, #2
+ 446 00ba B6D9     		bls	.L12
+ 140:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, x, yu, w, hh);
+ 447              		.loc 1 140 7 is_stmt 1 view .LVU103
+ 140:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, x, yu, w, hh);
+ 448              		.loc 1 140 10 is_stmt 0 view .LVU104
+ 449 00bc 023F     		subs	r7, r7, #2
+ 450              	.LVL57:
+ 140:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, x, yu, w, hh);
+ 451              		.loc 1 140 10 view .LVU105
+ 452 00be BFB2     		uxth	r7, r7
+ 453              	.LVL58:
+ 141:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 454              		.loc 1 141 7 is_stmt 1 view .LVU106
+ 455 00c0 0097     		str	r7, [sp]
+ 456 00c2 049B     		ldr	r3, [sp, #16]
+ 457 00c4 5A46     		mov	r2, fp
+ 458 00c6 0399     		ldr	r1, [sp, #12]
+ 459 00c8 4046     		mov	r0, r8
+ 460 00ca FFF7FEFF 		bl	u8g2_DrawBox
+ 461              	.LVL59:
+ 462 00ce ACE7     		b	.L12
+ 463              	.LVL60:
+ 464              	.L17:
+ 129:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, y, ww, r+1);
+ 465              		.loc 1 129 7 view .LVU107
+ 129:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, y, ww, r+1);
+ 466              		.loc 1 129 10 is_stmt 0 view .LVU108
+ 467 00d0 023B     		subs	r3, r3, #2
+ 468              	.LVL61:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 13
+
+
+ 129:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, y, ww, r+1);
+ 469              		.loc 1 129 10 view .LVU109
+ 470 00d2 9BB2     		uxth	r3, r3
+ 471              	.LVL62:
+ 130:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, yl, ww, r+1);
+ 472              		.loc 1 130 7 is_stmt 1 view .LVU110
+ 473 00d4 7C1C     		adds	r4, r7, #1
+ 474              	.LVL63:
+ 130:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawBox(u8g2, xl, yl, ww, r+1);
+ 475              		.loc 1 130 7 is_stmt 0 view .LVU111
+ 476 00d6 A4B2     		uxth	r4, r4
+ 477 00d8 0094     		str	r4, [sp]
+ 478 00da 0593     		str	r3, [sp, #20]
+ 479 00dc 5246     		mov	r2, r10
+ 480 00de 4946     		mov	r1, r9
+ 481 00e0 4046     		mov	r0, r8
+ 482 00e2 FFF7FEFF 		bl	u8g2_DrawBox
+ 483              	.LVL64:
+ 131:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 484              		.loc 1 131 7 is_stmt 1 view .LVU112
+ 485 00e6 0094     		str	r4, [sp]
+ 486 00e8 059B     		ldr	r3, [sp, #20]
+ 487 00ea 2A46     		mov	r2, r5
+ 488 00ec 4946     		mov	r1, r9
+ 489 00ee 4046     		mov	r0, r8
+ 490 00f0 FFF7FEFF 		bl	u8g2_DrawBox
+ 491              	.LVL65:
+ 492 00f4 DCE7     		b	.L14
+ 493              	.LBE2:
+ 494              		.cfi_endproc
+ 495              	.LFE2:
+ 497              		.section	.text.u8g2_DrawRFrame,"ax",%progbits
+ 498              		.align	1
+ 499              		.global	u8g2_DrawRFrame
+ 500              		.syntax unified
+ 501              		.thumb
+ 502              		.thumb_func
+ 504              	u8g2_DrawRFrame:
+ 505              	.LVL66:
+ 506              	.LFB3:
+ 145:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 146:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 147:Core/Src/u8g2/Src/u8g2_box.c **** void u8g2_DrawRFrame(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, u8g2
+ 148:Core/Src/u8g2/Src/u8g2_box.c **** {
+ 507              		.loc 1 148 1 view -0
+ 508              		.cfi_startproc
+ 509              		@ args = 8, pretend = 0, frame = 8
+ 510              		@ frame_needed = 0, uses_anonymous_args = 0
+ 511              		.loc 1 148 1 is_stmt 0 view .LVU114
+ 512 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 513              	.LCFI11:
+ 514              		.cfi_def_cfa_offset 36
+ 515              		.cfi_offset 4, -36
+ 516              		.cfi_offset 5, -32
+ 517              		.cfi_offset 6, -28
+ 518              		.cfi_offset 7, -24
+ 519              		.cfi_offset 8, -20
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 14
+
+
+ 520              		.cfi_offset 9, -16
+ 521              		.cfi_offset 10, -12
+ 522              		.cfi_offset 11, -8
+ 523              		.cfi_offset 14, -4
+ 524 0004 85B0     		sub	sp, sp, #20
+ 525              	.LCFI12:
+ 526              		.cfi_def_cfa_offset 56
+ 527 0006 0746     		mov	r7, r0
+ 528 0008 0C46     		mov	r4, r1
+ 529 000a 9046     		mov	r8, r2
+ 530 000c BDF838B0 		ldrh	fp, [sp, #56]
+ 531 0010 BDF83C60 		ldrh	r6, [sp, #60]
+ 149:Core/Src/u8g2/Src/u8g2_box.c ****   u8g2_uint_t xl, yu;
+ 532              		.loc 1 149 3 is_stmt 1 view .LVU115
+ 150:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 151:Core/Src/u8g2/Src/u8g2_box.c **** #ifdef U8G2_WITH_INTERSECTION
+ 152:Core/Src/u8g2/Src/u8g2_box.c ****   if ( u8g2_IsIntersection(u8g2, x, y, x+w, y+h) == 0 ) 
+ 533              		.loc 1 152 3 view .LVU116
+ 534              		.loc 1 152 8 is_stmt 0 view .LVU117
+ 535 0014 0291     		str	r1, [sp, #8]
+ 536 0016 0393     		str	r3, [sp, #12]
+ 537 0018 1C44     		add	r4, r4, r3
+ 538 001a A4B2     		uxth	r4, r4
+ 539 001c 02EB0B05 		add	r5, r2, fp
+ 540 0020 ADB2     		uxth	r5, r5
+ 541 0022 0095     		str	r5, [sp]
+ 542 0024 2346     		mov	r3, r4
+ 543              	.LVL67:
+ 544              		.loc 1 152 8 view .LVU118
+ 545 0026 FFF7FEFF 		bl	u8g2_IsIntersection
+ 546              	.LVL68:
+ 547              		.loc 1 152 6 view .LVU119
+ 548 002a 10B9     		cbnz	r0, .L22
+ 549              	.LVL69:
+ 550              	.L18:
+ 153:Core/Src/u8g2/Src/u8g2_box.c ****     return;
+ 154:Core/Src/u8g2/Src/u8g2_box.c **** #endif /* U8G2_WITH_INTERSECTION */
+ 155:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 156:Core/Src/u8g2/Src/u8g2_box.c ****   xl = x;
+ 157:Core/Src/u8g2/Src/u8g2_box.c ****   xl += r;
+ 158:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 159:Core/Src/u8g2/Src/u8g2_box.c ****   yu += r;
+ 160:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 161:Core/Src/u8g2/Src/u8g2_box.c ****   {
+ 162:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_uint_t yl, xr;
+ 163:Core/Src/u8g2/Src/u8g2_box.c ****       
+ 164:Core/Src/u8g2/Src/u8g2_box.c ****     xr = x;
+ 165:Core/Src/u8g2/Src/u8g2_box.c ****     xr += w;
+ 166:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= r;
+ 167:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= 1;
+ 168:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 169:Core/Src/u8g2/Src/u8g2_box.c ****     yl = y;
+ 170:Core/Src/u8g2/Src/u8g2_box.c ****     yl += h;
+ 171:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= r; 
+ 172:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= 1;
+ 173:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 174:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xl, yu, r, U8G2_DRAW_UPPER_LEFT);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 15
+
+
+ 175:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xr, yu, r, U8G2_DRAW_UPPER_RIGHT);
+ 176:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xl, yl, r, U8G2_DRAW_LOWER_LEFT);
+ 177:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xr, yl, r, U8G2_DRAW_LOWER_RIGHT);
+ 178:Core/Src/u8g2/Src/u8g2_box.c ****   }
+ 179:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 180:Core/Src/u8g2/Src/u8g2_box.c ****   {
+ 181:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_uint_t ww, hh;
+ 182:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 183:Core/Src/u8g2/Src/u8g2_box.c ****     ww = w;
+ 184:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 185:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 186:Core/Src/u8g2/Src/u8g2_box.c ****     hh = h;
+ 187:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 188:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 189:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 190:Core/Src/u8g2/Src/u8g2_box.c ****     xl++;
+ 191:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 192:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 193:Core/Src/u8g2/Src/u8g2_box.c ****     if ( ww >= 3 )
+ 194:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 195:Core/Src/u8g2/Src/u8g2_box.c ****       ww -= 2;
+ 196:Core/Src/u8g2/Src/u8g2_box.c ****       h--;
+ 197:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y, ww);
+ 198:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y+h, ww);
+ 199:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 200:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 201:Core/Src/u8g2/Src/u8g2_box.c ****     if ( hh >= 3 )
+ 202:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 203:Core/Src/u8g2/Src/u8g2_box.c ****       hh -= 2;
+ 204:Core/Src/u8g2/Src/u8g2_box.c ****       w--;
+ 205:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x, yu, hh);
+ 206:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x+w, yu, hh);
+ 207:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 208:Core/Src/u8g2/Src/u8g2_box.c ****   }
+ 209:Core/Src/u8g2/Src/u8g2_box.c **** }
+ 551              		.loc 1 209 1 view .LVU120
+ 552 002c 05B0     		add	sp, sp, #20
+ 553              	.LCFI13:
+ 554              		.cfi_remember_state
+ 555              		.cfi_def_cfa_offset 36
+ 556              		@ sp needed
+ 557 002e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 558              	.LVL70:
+ 559              	.L22:
+ 560              	.LCFI14:
+ 561              		.cfi_restore_state
+ 156:Core/Src/u8g2/Src/u8g2_box.c ****   xl += r;
+ 562              		.loc 1 156 3 is_stmt 1 view .LVU121
+ 157:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 563              		.loc 1 157 3 view .LVU122
+ 157:Core/Src/u8g2/Src/u8g2_box.c ****   yu = y;
+ 564              		.loc 1 157 6 is_stmt 0 view .LVU123
+ 565 0032 029B     		ldr	r3, [sp, #8]
+ 566 0034 03EB060A 		add	r10, r3, r6
+ 567 0038 1FFA8AFA 		uxth	r10, r10
+ 568              	.LVL71:
+ 158:Core/Src/u8g2/Src/u8g2_box.c ****   yu += r;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 16
+
+
+ 569              		.loc 1 158 3 is_stmt 1 view .LVU124
+ 159:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 570              		.loc 1 159 3 view .LVU125
+ 159:Core/Src/u8g2/Src/u8g2_box.c ****  
+ 571              		.loc 1 159 6 is_stmt 0 view .LVU126
+ 572 003c 08EB0609 		add	r9, r8, r6
+ 573 0040 1FFA89F9 		uxth	r9, r9
+ 574              	.LVL72:
+ 575              	.LBB3:
+ 162:Core/Src/u8g2/Src/u8g2_box.c ****       
+ 576              		.loc 1 162 5 is_stmt 1 view .LVU127
+ 164:Core/Src/u8g2/Src/u8g2_box.c ****     xr += w;
+ 577              		.loc 1 164 5 view .LVU128
+ 165:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= r;
+ 578              		.loc 1 165 5 view .LVU129
+ 166:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= 1;
+ 579              		.loc 1 166 5 view .LVU130
+ 166:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= 1;
+ 580              		.loc 1 166 8 is_stmt 0 view .LVU131
+ 581 0044 A41B     		subs	r4, r4, r6
+ 582              	.LVL73:
+ 166:Core/Src/u8g2/Src/u8g2_box.c ****     xr -= 1;
+ 583              		.loc 1 166 8 view .LVU132
+ 584 0046 A4B2     		uxth	r4, r4
+ 585              	.LVL74:
+ 167:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 586              		.loc 1 167 5 is_stmt 1 view .LVU133
+ 167:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 587              		.loc 1 167 8 is_stmt 0 view .LVU134
+ 588 0048 013C     		subs	r4, r4, #1
+ 589              	.LVL75:
+ 167:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 590              		.loc 1 167 8 view .LVU135
+ 591 004a A4B2     		uxth	r4, r4
+ 592              	.LVL76:
+ 169:Core/Src/u8g2/Src/u8g2_box.c ****     yl += h;
+ 593              		.loc 1 169 5 is_stmt 1 view .LVU136
+ 170:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= r; 
+ 594              		.loc 1 170 5 view .LVU137
+ 171:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= 1;
+ 595              		.loc 1 171 5 view .LVU138
+ 171:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= 1;
+ 596              		.loc 1 171 8 is_stmt 0 view .LVU139
+ 597 004c AD1B     		subs	r5, r5, r6
+ 598              	.LVL77:
+ 171:Core/Src/u8g2/Src/u8g2_box.c ****     yl -= 1;
+ 599              		.loc 1 171 8 view .LVU140
+ 600 004e ADB2     		uxth	r5, r5
+ 601              	.LVL78:
+ 172:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 602              		.loc 1 172 5 is_stmt 1 view .LVU141
+ 172:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 603              		.loc 1 172 8 is_stmt 0 view .LVU142
+ 604 0050 013D     		subs	r5, r5, #1
+ 605              	.LVL79:
+ 172:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 606              		.loc 1 172 8 view .LVU143
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 17
+
+
+ 607 0052 ADB2     		uxth	r5, r5
+ 608              	.LVL80:
+ 174:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xr, yu, r, U8G2_DRAW_UPPER_RIGHT);
+ 609              		.loc 1 174 5 is_stmt 1 view .LVU144
+ 610 0054 0223     		movs	r3, #2
+ 611 0056 0093     		str	r3, [sp]
+ 612 0058 3346     		mov	r3, r6
+ 613 005a 4A46     		mov	r2, r9
+ 614 005c 5146     		mov	r1, r10
+ 615 005e 3846     		mov	r0, r7
+ 616 0060 FFF7FEFF 		bl	u8g2_DrawCircle
+ 617              	.LVL81:
+ 175:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xl, yl, r, U8G2_DRAW_LOWER_LEFT);
+ 618              		.loc 1 175 5 view .LVU145
+ 619 0064 0123     		movs	r3, #1
+ 620 0066 0093     		str	r3, [sp]
+ 621 0068 3346     		mov	r3, r6
+ 622 006a 4A46     		mov	r2, r9
+ 623 006c 2146     		mov	r1, r4
+ 624 006e 3846     		mov	r0, r7
+ 625 0070 FFF7FEFF 		bl	u8g2_DrawCircle
+ 626              	.LVL82:
+ 176:Core/Src/u8g2/Src/u8g2_box.c ****     u8g2_DrawCircle(u8g2, xr, yl, r, U8G2_DRAW_LOWER_RIGHT);
+ 627              		.loc 1 176 5 view .LVU146
+ 628 0074 0423     		movs	r3, #4
+ 629 0076 0093     		str	r3, [sp]
+ 630 0078 3346     		mov	r3, r6
+ 631 007a 2A46     		mov	r2, r5
+ 632 007c 5146     		mov	r1, r10
+ 633 007e 3846     		mov	r0, r7
+ 634 0080 FFF7FEFF 		bl	u8g2_DrawCircle
+ 635              	.LVL83:
+ 177:Core/Src/u8g2/Src/u8g2_box.c ****   }
+ 636              		.loc 1 177 5 view .LVU147
+ 637 0084 0823     		movs	r3, #8
+ 638 0086 0093     		str	r3, [sp]
+ 639 0088 3346     		mov	r3, r6
+ 640 008a 2A46     		mov	r2, r5
+ 641 008c 2146     		mov	r1, r4
+ 642 008e 3846     		mov	r0, r7
+ 643 0090 FFF7FEFF 		bl	u8g2_DrawCircle
+ 644              	.LVL84:
+ 645              	.LBE3:
+ 646              	.LBB4:
+ 181:Core/Src/u8g2/Src/u8g2_box.c **** 
+ 647              		.loc 1 181 5 view .LVU148
+ 183:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 648              		.loc 1 183 5 view .LVU149
+ 184:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 649              		.loc 1 184 5 view .LVU150
+ 184:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 650              		.loc 1 184 8 is_stmt 0 view .LVU151
+ 651 0094 039D     		ldr	r5, [sp, #12]
+ 652              	.LVL85:
+ 184:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 653              		.loc 1 184 8 view .LVU152
+ 654 0096 AC1B     		subs	r4, r5, r6
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 18
+
+
+ 655              	.LVL86:
+ 184:Core/Src/u8g2/Src/u8g2_box.c ****     ww -= r;
+ 656              		.loc 1 184 8 view .LVU153
+ 657 0098 A4B2     		uxth	r4, r4
+ 658              	.LVL87:
+ 185:Core/Src/u8g2/Src/u8g2_box.c ****     hh = h;
+ 659              		.loc 1 185 5 is_stmt 1 view .LVU154
+ 185:Core/Src/u8g2/Src/u8g2_box.c ****     hh = h;
+ 660              		.loc 1 185 8 is_stmt 0 view .LVU155
+ 661 009a A41B     		subs	r4, r4, r6
+ 662              	.LVL88:
+ 185:Core/Src/u8g2/Src/u8g2_box.c ****     hh = h;
+ 663              		.loc 1 185 8 view .LVU156
+ 664 009c A4B2     		uxth	r4, r4
+ 665              	.LVL89:
+ 186:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 666              		.loc 1 186 5 is_stmt 1 view .LVU157
+ 187:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 667              		.loc 1 187 5 view .LVU158
+ 187:Core/Src/u8g2/Src/u8g2_box.c ****     hh -= r;
+ 668              		.loc 1 187 8 is_stmt 0 view .LVU159
+ 669 009e ABEB0603 		sub	r3, fp, r6
+ 670 00a2 9BB2     		uxth	r3, r3
+ 671              	.LVL90:
+ 188:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 672              		.loc 1 188 5 is_stmt 1 view .LVU160
+ 188:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 673              		.loc 1 188 8 is_stmt 0 view .LVU161
+ 674 00a4 9E1B     		subs	r6, r3, r6
+ 675              	.LVL91:
+ 188:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 676              		.loc 1 188 8 view .LVU162
+ 677 00a6 B6B2     		uxth	r6, r6
+ 678              	.LVL92:
+ 190:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 679              		.loc 1 190 5 is_stmt 1 view .LVU163
+ 190:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 680              		.loc 1 190 7 is_stmt 0 view .LVU164
+ 681 00a8 0AF1010A 		add	r10, r10, #1
+ 682              	.LVL93:
+ 190:Core/Src/u8g2/Src/u8g2_box.c ****     yu++;
+ 683              		.loc 1 190 7 view .LVU165
+ 684 00ac 1FFA8AFA 		uxth	r10, r10
+ 685              	.LVL94:
+ 191:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 686              		.loc 1 191 5 is_stmt 1 view .LVU166
+ 191:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 687              		.loc 1 191 7 is_stmt 0 view .LVU167
+ 688 00b0 09F10109 		add	r9, r9, #1
+ 689              	.LVL95:
+ 191:Core/Src/u8g2/Src/u8g2_box.c ****     
+ 690              		.loc 1 191 7 view .LVU168
+ 691 00b4 1FFA89F9 		uxth	r9, r9
+ 692              	.LVL96:
+ 193:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 693              		.loc 1 193 5 is_stmt 1 view .LVU169
+ 193:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 19
+
+
+ 694              		.loc 1 193 8 is_stmt 0 view .LVU170
+ 695 00b8 022C     		cmp	r4, #2
+ 696 00ba 16D8     		bhi	.L23
+ 697              	.LVL97:
+ 698              	.L20:
+ 201:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 699              		.loc 1 201 5 is_stmt 1 view .LVU171
+ 201:Core/Src/u8g2/Src/u8g2_box.c ****     {
+ 700              		.loc 1 201 8 is_stmt 0 view .LVU172
+ 701 00bc 022E     		cmp	r6, #2
+ 702 00be B5D9     		bls	.L18
+ 203:Core/Src/u8g2/Src/u8g2_box.c ****       w--;
+ 703              		.loc 1 203 7 is_stmt 1 view .LVU173
+ 203:Core/Src/u8g2/Src/u8g2_box.c ****       w--;
+ 704              		.loc 1 203 10 is_stmt 0 view .LVU174
+ 705 00c0 023E     		subs	r6, r6, #2
+ 706              	.LVL98:
+ 203:Core/Src/u8g2/Src/u8g2_box.c ****       w--;
+ 707              		.loc 1 203 10 view .LVU175
+ 708 00c2 B6B2     		uxth	r6, r6
+ 709              	.LVL99:
+ 204:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x, yu, hh);
+ 710              		.loc 1 204 7 is_stmt 1 view .LVU176
+ 204:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x, yu, hh);
+ 711              		.loc 1 204 8 is_stmt 0 view .LVU177
+ 712 00c4 039B     		ldr	r3, [sp, #12]
+ 713 00c6 5C1E     		subs	r4, r3, #1
+ 714              	.LVL100:
+ 204:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x, yu, hh);
+ 715              		.loc 1 204 8 view .LVU178
+ 716 00c8 A4B2     		uxth	r4, r4
+ 717              	.LVL101:
+ 205:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawVLine(u8g2, x+w, yu, hh);
+ 718              		.loc 1 205 7 is_stmt 1 view .LVU179
+ 719 00ca 3346     		mov	r3, r6
+ 720 00cc 4A46     		mov	r2, r9
+ 721 00ce 029D     		ldr	r5, [sp, #8]
+ 722 00d0 2946     		mov	r1, r5
+ 723 00d2 3846     		mov	r0, r7
+ 724 00d4 FFF7FEFF 		bl	u8g2_DrawVLine
+ 725              	.LVL102:
+ 206:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 726              		.loc 1 206 7 view .LVU180
+ 727 00d8 2946     		mov	r1, r5
+ 728 00da 2144     		add	r1, r1, r4
+ 729 00dc 3346     		mov	r3, r6
+ 730 00de 4A46     		mov	r2, r9
+ 731 00e0 89B2     		uxth	r1, r1
+ 732 00e2 3846     		mov	r0, r7
+ 733 00e4 FFF7FEFF 		bl	u8g2_DrawVLine
+ 734              	.LVL103:
+ 735 00e8 A0E7     		b	.L18
+ 736              	.LVL104:
+ 737              	.L23:
+ 195:Core/Src/u8g2/Src/u8g2_box.c ****       h--;
+ 738              		.loc 1 195 7 view .LVU181
+ 195:Core/Src/u8g2/Src/u8g2_box.c ****       h--;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 20
+
+
+ 739              		.loc 1 195 10 is_stmt 0 view .LVU182
+ 740 00ea 023C     		subs	r4, r4, #2
+ 741              	.LVL105:
+ 195:Core/Src/u8g2/Src/u8g2_box.c ****       h--;
+ 742              		.loc 1 195 10 view .LVU183
+ 743 00ec A4B2     		uxth	r4, r4
+ 744              	.LVL106:
+ 196:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y, ww);
+ 745              		.loc 1 196 7 is_stmt 1 view .LVU184
+ 196:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y, ww);
+ 746              		.loc 1 196 8 is_stmt 0 view .LVU185
+ 747 00ee 0BF1FF3B 		add	fp, fp, #-1
+ 748              	.LVL107:
+ 196:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y, ww);
+ 749              		.loc 1 196 8 view .LVU186
+ 750 00f2 1FFA8BFB 		uxth	fp, fp
+ 751              	.LVL108:
+ 197:Core/Src/u8g2/Src/u8g2_box.c ****       u8g2_DrawHLine(u8g2, xl, y+h, ww);
+ 752              		.loc 1 197 7 is_stmt 1 view .LVU187
+ 753 00f6 2346     		mov	r3, r4
+ 754 00f8 4246     		mov	r2, r8
+ 755 00fa 5146     		mov	r1, r10
+ 756 00fc 3846     		mov	r0, r7
+ 757 00fe FFF7FEFF 		bl	u8g2_DrawHLine
+ 758              	.LVL109:
+ 198:Core/Src/u8g2/Src/u8g2_box.c ****     }
+ 759              		.loc 1 198 7 view .LVU188
+ 760 0102 08EB0B02 		add	r2, r8, fp
+ 761 0106 2346     		mov	r3, r4
+ 762 0108 92B2     		uxth	r2, r2
+ 763 010a 5146     		mov	r1, r10
+ 764 010c 3846     		mov	r0, r7
+ 765 010e FFF7FEFF 		bl	u8g2_DrawHLine
+ 766              	.LVL110:
+ 767 0112 D3E7     		b	.L20
+ 768              	.LBE4:
+ 769              		.cfi_endproc
+ 770              	.LFE3:
+ 772              		.text
+ 773              	.Letext0:
+ 774              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 775              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 776              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ 777              		.file 5 "Core/Src/u8g2/Inc/u8g2.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s 			page 21
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_box.c
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:20     .text.u8g2_DrawBox:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:26     .text.u8g2_DrawBox:00000000 u8g2_DrawBox
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:108    .text.u8g2_DrawFrame:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:114    .text.u8g2_DrawFrame:00000000 u8g2_DrawFrame
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:247    .text.u8g2_DrawRBox:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:253    .text.u8g2_DrawRBox:00000000 u8g2_DrawRBox
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:498    .text.u8g2_DrawRFrame:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccH1vmJD.s:504    .text.u8g2_DrawRFrame:00000000 u8g2_DrawRFrame
+
+UNDEFINED SYMBOLS
+u8g2_IsIntersection
+u8g2_DrawHVLine
+u8g2_DrawDisc
+u8g2_DrawCircle
+u8g2_DrawVLine
+u8g2_DrawHLine

@@ -1,0 +1,335 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_u16toa.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8x8_u16toap,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8x8_u16toap
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8x8_u16toap:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8x8_u16toa.c"
+   1:Core/Src/u8g2/Src/u8x8_u16toa.c **** /*
+   2:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+   3:Core/Src/u8g2/Src/u8x8_u16toa.c ****   u8x8_u16toa.c
+   4:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+   5:Core/Src/u8g2/Src/u8x8_u16toa.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+   7:Core/Src/u8g2/Src/u8x8_u16toa.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/Src/u8g2/Src/u8x8_u16toa.c ****   All rights reserved.
+   9:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  10:Core/Src/u8g2/Src/u8x8_u16toa.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/Src/u8g2/Src/u8x8_u16toa.c ****   are permitted provided that the following conditions are met:
+  12:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  13:Core/Src/u8g2/Src/u8x8_u16toa.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/Src/u8g2/Src/u8x8_u16toa.c ****     of conditions and the following disclaimer.
+  15:Core/Src/u8g2/Src/u8x8_u16toa.c ****     
+  16:Core/Src/u8g2/Src/u8x8_u16toa.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/Src/u8g2/Src/u8x8_u16toa.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/Src/u8g2/Src/u8x8_u16toa.c ****     materials provided with the distribution.
+  19:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  20:Core/Src/u8g2/Src/u8x8_u16toa.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/Src/u8g2/Src/u8x8_u16toa.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/Src/u8g2/Src/u8x8_u16toa.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/Src/u8g2/Src/u8x8_u16toa.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/Src/u8g2/Src/u8x8_u16toa.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/Src/u8g2/Src/u8x8_u16toa.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/Src/u8g2/Src/u8x8_u16toa.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/Src/u8g2/Src/u8x8_u16toa.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/Src/u8g2/Src/u8x8_u16toa.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/Src/u8g2/Src/u8x8_u16toa.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8x8_u16toa.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/Src/u8g2/Src/u8x8_u16toa.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/Src/u8g2/Src/u8x8_u16toa.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  34:Core/Src/u8g2/Src/u8x8_u16toa.c ****   
+  35:Core/Src/u8g2/Src/u8x8_u16toa.c **** */
+  36:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  37:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  38:Core/Src/u8g2/Src/u8x8_u16toa.c **** #include "u8x8.h"
+  39:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  40:Core/Src/u8g2/Src/u8x8_u16toa.c **** const char *u8x8_u16toap(char * dest, uint16_t v)
+  41:Core/Src/u8g2/Src/u8x8_u16toa.c **** {
+  30              		.loc 1 41 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  42:Core/Src/u8g2/Src/u8x8_u16toa.c ****   uint8_t pos;
+  35              		.loc 1 42 3 view .LVU1
+  43:Core/Src/u8g2/Src/u8x8_u16toa.c ****   uint8_t d;
+  36              		.loc 1 43 3 view .LVU2
+  44:Core/Src/u8g2/Src/u8x8_u16toa.c ****   uint16_t c;
+  37              		.loc 1 44 3 view .LVU3
+  45:Core/Src/u8g2/Src/u8x8_u16toa.c ****   c = 10000;
+  38              		.loc 1 45 3 view .LVU4
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   for( pos = 0; pos < 5; pos++ )
+  39              		.loc 1 46 3 view .LVU5
+  45:Core/Src/u8g2/Src/u8x8_u16toa.c ****   c = 10000;
+  40              		.loc 1 45 5 is_stmt 0 view .LVU6
+  41 0000 42F21072 		movw	r2, #10000
+  42              		.loc 1 46 12 view .LVU7
+  43 0004 4FF0000C 		mov	ip, #0
+  44              		.loc 1 46 3 view .LVU8
+  45 0008 0FE0     		b	.L2
+  46              	.LVL1:
+  47              	.L3:
+  47:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  48:Core/Src/u8g2/Src/u8x8_u16toa.c ****       d = '0';
+  49:Core/Src/u8g2/Src/u8x8_u16toa.c ****       while( v >= c )
+  50:Core/Src/u8g2/Src/u8x8_u16toa.c ****       {
+  51:Core/Src/u8g2/Src/u8x8_u16toa.c **** 	v -= c;
+  48              		.loc 1 51 2 is_stmt 1 view .LVU9
+  49              		.loc 1 51 4 is_stmt 0 view .LVU10
+  50 000a 891A     		subs	r1, r1, r2
+  51              	.LVL2:
+  52              		.loc 1 51 4 view .LVU11
+  53 000c 89B2     		uxth	r1, r1
+  54              	.LVL3:
+  52:Core/Src/u8g2/Src/u8x8_u16toa.c **** 	d++;
+  55              		.loc 1 52 2 is_stmt 1 view .LVU12
+  56              		.loc 1 52 3 is_stmt 0 view .LVU13
+  57 000e 0133     		adds	r3, r3, #1
+  58              	.LVL4:
+  59              		.loc 1 52 3 view .LVU14
+  60 0010 DBB2     		uxtb	r3, r3
+  61              	.LVL5:
+  62              	.L4:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 3
+
+
+  49:Core/Src/u8g2/Src/u8x8_u16toa.c ****       {
+  63              		.loc 1 49 12 is_stmt 1 view .LVU15
+  64 0012 9142     		cmp	r1, r2
+  65 0014 F9D2     		bcs	.L3
+  53:Core/Src/u8g2/Src/u8x8_u16toa.c ****       }
+  54:Core/Src/u8g2/Src/u8x8_u16toa.c ****       dest[pos] = d;
+  66              		.loc 1 54 7 discriminator 2 view .LVU16
+  67              		.loc 1 54 17 is_stmt 0 discriminator 2 view .LVU17
+  68 0016 00F80C30 		strb	r3, [r0, ip]
+  55:Core/Src/u8g2/Src/u8x8_u16toa.c ****       c /= 10;
+  69              		.loc 1 55 7 is_stmt 1 discriminator 2 view .LVU18
+  70              		.loc 1 55 9 is_stmt 0 discriminator 2 view .LVU19
+  71 001a 084B     		ldr	r3, .L7
+  72              	.LVL6:
+  73              		.loc 1 55 9 discriminator 2 view .LVU20
+  74 001c A3FB0232 		umull	r3, r2, r3, r2
+  75              	.LVL7:
+  76              		.loc 1 55 9 discriminator 2 view .LVU21
+  77 0020 D208     		lsrs	r2, r2, #3
+  78              	.LVL8:
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  79              		.loc 1 46 26 is_stmt 1 discriminator 2 view .LVU22
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  80              		.loc 1 46 29 is_stmt 0 discriminator 2 view .LVU23
+  81 0022 0CF1010C 		add	ip, ip, #1
+  82              	.LVL9:
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  83              		.loc 1 46 29 discriminator 2 view .LVU24
+  84 0026 5FFA8CFC 		uxtb	ip, ip
+  85              	.LVL10:
+  86              	.L2:
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  87              		.loc 1 46 17 is_stmt 1 discriminator 1 view .LVU25
+  46:Core/Src/u8g2/Src/u8x8_u16toa.c ****   {
+  88              		.loc 1 46 3 is_stmt 0 discriminator 1 view .LVU26
+  89 002a BCF1040F 		cmp	ip, #4
+  90 002e 01D8     		bhi	.L6
+  48:Core/Src/u8g2/Src/u8x8_u16toa.c ****       while( v >= c )
+  91              		.loc 1 48 9 view .LVU27
+  92 0030 3023     		movs	r3, #48
+  93 0032 EEE7     		b	.L4
+  94              	.L6:
+  56:Core/Src/u8g2/Src/u8x8_u16toa.c ****   }  
+  57:Core/Src/u8g2/Src/u8x8_u16toa.c ****   dest[5] = '\0';
+  95              		.loc 1 57 3 is_stmt 1 view .LVU28
+  96              		.loc 1 57 11 is_stmt 0 view .LVU29
+  97 0034 0023     		movs	r3, #0
+  98 0036 4371     		strb	r3, [r0, #5]
+  58:Core/Src/u8g2/Src/u8x8_u16toa.c ****   return dest;
+  99              		.loc 1 58 3 is_stmt 1 view .LVU30
+  59:Core/Src/u8g2/Src/u8x8_u16toa.c **** }
+ 100              		.loc 1 59 1 is_stmt 0 view .LVU31
+ 101 0038 7047     		bx	lr
+ 102              	.L8:
+ 103 003a 00BF     		.align	2
+ 104              	.L7:
+ 105 003c CDCCCCCC 		.word	-858993459
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 4
+
+
+ 106              		.cfi_endproc
+ 107              	.LFE0:
+ 109              		.section	.text.u8x8_u16toa,"ax",%progbits
+ 110              		.align	1
+ 111              		.global	u8x8_u16toa
+ 112              		.syntax unified
+ 113              		.thumb
+ 114              		.thumb_func
+ 116              	u8x8_u16toa:
+ 117              	.LVL11:
+ 118              	.LFB1:
+  60:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  61:Core/Src/u8g2/Src/u8x8_u16toa.c **** /* v = value, d = number of digits */
+  62:Core/Src/u8g2/Src/u8x8_u16toa.c **** const char *u8x8_u16toa(uint16_t v, uint8_t d)
+  63:Core/Src/u8g2/Src/u8x8_u16toa.c **** {
+ 119              		.loc 1 63 1 is_stmt 1 view -0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              		.loc 1 63 1 is_stmt 0 view .LVU33
+ 124 0000 10B5     		push	{r4, lr}
+ 125              	.LCFI0:
+ 126              		.cfi_def_cfa_offset 8
+ 127              		.cfi_offset 4, -8
+ 128              		.cfi_offset 14, -4
+  64:Core/Src/u8g2/Src/u8x8_u16toa.c ****   static char buf[6];
+ 129              		.loc 1 64 3 is_stmt 1 view .LVU34
+  65:Core/Src/u8g2/Src/u8x8_u16toa.c ****   d = 5-d;
+ 130              		.loc 1 65 3 view .LVU35
+ 131              		.loc 1 65 5 is_stmt 0 view .LVU36
+ 132 0002 C1F10504 		rsb	r4, r1, #5
+ 133 0006 E4B2     		uxtb	r4, r4
+ 134              	.LVL12:
+  66:Core/Src/u8g2/Src/u8x8_u16toa.c ****   return u8x8_u16toap(buf, v) + d;
+ 135              		.loc 1 66 3 is_stmt 1 view .LVU37
+ 136              		.loc 1 66 10 is_stmt 0 view .LVU38
+ 137 0008 0146     		mov	r1, r0
+ 138 000a 0248     		ldr	r0, .L11
+ 139              	.LVL13:
+ 140              		.loc 1 66 10 view .LVU39
+ 141 000c FFF7FEFF 		bl	u8x8_u16toap
+ 142              	.LVL14:
+  67:Core/Src/u8g2/Src/u8x8_u16toa.c **** }
+ 143              		.loc 1 67 1 view .LVU40
+ 144 0010 2044     		add	r0, r0, r4
+ 145 0012 10BD     		pop	{r4, pc}
+ 146              	.LVL15:
+ 147              	.L12:
+ 148              		.loc 1 67 1 view .LVU41
+ 149              		.align	2
+ 150              	.L11:
+ 151 0014 00000000 		.word	.LANCHOR0
+ 152              		.cfi_endproc
+ 153              	.LFE1:
+ 155              		.section	.text.u8x8_utoa,"ax",%progbits
+ 156              		.align	1
+ 157              		.global	u8x8_utoa
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 5
+
+
+ 158              		.syntax unified
+ 159              		.thumb
+ 160              		.thumb_func
+ 162              	u8x8_utoa:
+ 163              	.LVL16:
+ 164              	.LFB2:
+  68:Core/Src/u8g2/Src/u8x8_u16toa.c **** 
+  69:Core/Src/u8g2/Src/u8x8_u16toa.c **** const char *u8x8_utoa(uint16_t v)
+  70:Core/Src/u8g2/Src/u8x8_u16toa.c **** {
+ 165              		.loc 1 70 1 is_stmt 1 view -0
+ 166              		.cfi_startproc
+ 167              		@ args = 0, pretend = 0, frame = 0
+ 168              		@ frame_needed = 0, uses_anonymous_args = 0
+ 169              		.loc 1 70 1 is_stmt 0 view .LVU43
+ 170 0000 08B5     		push	{r3, lr}
+ 171              	.LCFI1:
+ 172              		.cfi_def_cfa_offset 8
+ 173              		.cfi_offset 3, -8
+ 174              		.cfi_offset 14, -4
+  71:Core/Src/u8g2/Src/u8x8_u16toa.c ****   const char *s = u8x8_u16toa(v, 5);
+ 175              		.loc 1 71 3 is_stmt 1 view .LVU44
+ 176              		.loc 1 71 19 is_stmt 0 view .LVU45
+ 177 0002 0521     		movs	r1, #5
+ 178 0004 FFF7FEFF 		bl	u8x8_u16toa
+ 179              	.LVL17:
+  72:Core/Src/u8g2/Src/u8x8_u16toa.c ****   while( *s == '0' )
+ 180              		.loc 1 72 3 is_stmt 1 view .LVU46
+ 181              		.loc 1 72 8 is_stmt 0 view .LVU47
+ 182 0008 00E0     		b	.L14
+ 183              	.L15:
+  73:Core/Src/u8g2/Src/u8x8_u16toa.c ****     s++;
+ 184              		.loc 1 73 5 is_stmt 1 view .LVU48
+ 185              		.loc 1 73 6 is_stmt 0 view .LVU49
+ 186 000a 0130     		adds	r0, r0, #1
+ 187              	.LVL18:
+ 188              	.L14:
+  72:Core/Src/u8g2/Src/u8x8_u16toa.c ****   while( *s == '0' )
+ 189              		.loc 1 72 8 is_stmt 1 view .LVU50
+  72:Core/Src/u8g2/Src/u8x8_u16toa.c ****   while( *s == '0' )
+ 190              		.loc 1 72 10 is_stmt 0 view .LVU51
+ 191 000c 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  72:Core/Src/u8g2/Src/u8x8_u16toa.c ****   while( *s == '0' )
+ 192              		.loc 1 72 8 view .LVU52
+ 193 000e 302B     		cmp	r3, #48
+ 194 0010 FBD0     		beq	.L15
+  74:Core/Src/u8g2/Src/u8x8_u16toa.c ****   if ( *s == '\0' )
+ 195              		.loc 1 74 3 is_stmt 1 view .LVU53
+ 196              		.loc 1 74 6 is_stmt 0 view .LVU54
+ 197 0012 03B9     		cbnz	r3, .L13
+  75:Core/Src/u8g2/Src/u8x8_u16toa.c ****     s--;
+ 198              		.loc 1 75 5 is_stmt 1 view .LVU55
+ 199              		.loc 1 75 6 is_stmt 0 view .LVU56
+ 200 0014 0138     		subs	r0, r0, #1
+ 201              	.LVL19:
+  76:Core/Src/u8g2/Src/u8x8_u16toa.c ****   return s;
+ 202              		.loc 1 76 3 is_stmt 1 view .LVU57
+ 203              	.L13:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 6
+
+
+  77:Core/Src/u8g2/Src/u8x8_u16toa.c **** }...
+ 204              		.loc 1 77 1 is_stmt 0 view .LVU58
+ 205 0016 08BD     		pop	{r3, pc}
+ 206              		.cfi_endproc
+ 207              	.LFE2:
+ 209              		.section	.bss.buf.0,"aw",%nobits
+ 210              		.align	2
+ 211              		.set	.LANCHOR0,. + 0
+ 214              	buf.0:
+ 215 0000 00000000 		.space	6
+ 215      0000
+ 216              		.text
+ 217              	.Letext0:
+ 218              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 219              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_u16toa.c
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:20     .text.u8x8_u16toap:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:26     .text.u8x8_u16toap:00000000 u8x8_u16toap
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:105    .text.u8x8_u16toap:0000003c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:110    .text.u8x8_u16toa:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:116    .text.u8x8_u16toa:00000000 u8x8_u16toa
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:151    .text.u8x8_u16toa:00000014 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:156    .text.u8x8_utoa:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:162    .text.u8x8_utoa:00000000 u8x8_utoa
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:210    .bss.buf.0:00000000 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccvPHHLk.s:214    .bss.buf.0:00000000 buf.0
+
+NO UNDEFINED SYMBOLS

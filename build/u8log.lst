@@ -1,0 +1,1298 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8log.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8log_clear_screen,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	u8log_clear_screen:
+  26              	.LVL0:
+  27              	.LFB0:
+  28              		.file 1 "Core/Src/u8g2/Src/u8log.c"
+   1:Core/Src/u8g2/Src/u8log.c **** /*
+   2:Core/Src/u8g2/Src/u8log.c **** 
+   3:Core/Src/u8g2/Src/u8log.c ****   u8log.c
+   4:Core/Src/u8g2/Src/u8log.c ****   
+   5:Core/Src/u8g2/Src/u8log.c **** 
+   6:Core/Src/u8g2/Src/u8log.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   7:Core/Src/u8g2/Src/u8log.c **** 
+   8:Core/Src/u8g2/Src/u8log.c ****   Copyright (c) 2018, olikraus@gmail.com
+   9:Core/Src/u8g2/Src/u8log.c ****   All rights reserved.
+  10:Core/Src/u8g2/Src/u8log.c **** 
+  11:Core/Src/u8g2/Src/u8log.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  12:Core/Src/u8g2/Src/u8log.c ****   are permitted provided that the following conditions are met:
+  13:Core/Src/u8g2/Src/u8log.c **** 
+  14:Core/Src/u8g2/Src/u8log.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  15:Core/Src/u8g2/Src/u8log.c ****     of conditions and the following disclaimer.
+  16:Core/Src/u8g2/Src/u8log.c ****     
+  17:Core/Src/u8g2/Src/u8log.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  18:Core/Src/u8g2/Src/u8log.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  19:Core/Src/u8g2/Src/u8log.c ****     materials provided with the distribution.
+  20:Core/Src/u8g2/Src/u8log.c **** 
+  21:Core/Src/u8g2/Src/u8log.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  22:Core/Src/u8g2/Src/u8log.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  23:Core/Src/u8g2/Src/u8log.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  24:Core/Src/u8g2/Src/u8log.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  25:Core/Src/u8g2/Src/u8log.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  26:Core/Src/u8g2/Src/u8log.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  27:Core/Src/u8g2/Src/u8log.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  28:Core/Src/u8g2/Src/u8log.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  29:Core/Src/u8g2/Src/u8log.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  30:Core/Src/u8g2/Src/u8log.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 2
+
+
+  31:Core/Src/u8g2/Src/u8log.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  32:Core/Src/u8g2/Src/u8log.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  33:Core/Src/u8g2/Src/u8log.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  34:Core/Src/u8g2/Src/u8log.c **** 
+  35:Core/Src/u8g2/Src/u8log.c **** */
+  36:Core/Src/u8g2/Src/u8log.c **** 
+  37:Core/Src/u8g2/Src/u8log.c **** #include <stdint.h>
+  38:Core/Src/u8g2/Src/u8log.c **** #include <string.h>
+  39:Core/Src/u8g2/Src/u8log.c **** #include "u8x8.h"
+  40:Core/Src/u8g2/Src/u8log.c **** 
+  41:Core/Src/u8g2/Src/u8log.c **** 
+  42:Core/Src/u8g2/Src/u8log.c **** /*
+  43:Core/Src/u8g2/Src/u8log.c **** static uint8_t u8log_is_on_screen(u8log_t *u8log, uint8_t x, uint8_t y)
+  44:Core/Src/u8g2/Src/u8log.c **** {
+  45:Core/Src/u8g2/Src/u8log.c ****   if ( x >= u8log->width )
+  46:Core/Src/u8g2/Src/u8log.c ****     return 0;
+  47:Core/Src/u8g2/Src/u8log.c ****   if ( y >= u8log->height )
+  48:Core/Src/u8g2/Src/u8log.c ****     return 0;
+  49:Core/Src/u8g2/Src/u8log.c ****   return 1;
+  50:Core/Src/u8g2/Src/u8log.c **** }
+  51:Core/Src/u8g2/Src/u8log.c **** */
+  52:Core/Src/u8g2/Src/u8log.c **** 
+  53:Core/Src/u8g2/Src/u8log.c **** static void u8log_clear_screen(u8log_t *u8log)
+  54:Core/Src/u8g2/Src/u8log.c **** {
+  29              		.loc 1 54 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+  55:Core/Src/u8g2/Src/u8log.c ****   uint8_t *dest = u8log->screen_buffer;
+  34              		.loc 1 55 3 view .LVU1
+  35              		.loc 1 55 12 is_stmt 0 view .LVU2
+  36 0000 C168     		ldr	r1, [r0, #12]
+  37              	.LVL1:
+  56:Core/Src/u8g2/Src/u8log.c ****   uint16_t cnt = u8log->height;
+  38              		.loc 1 56 3 is_stmt 1 view .LVU3
+  39              		.loc 1 56 12 is_stmt 0 view .LVU4
+  40 0002 4379     		ldrb	r3, [r0, #5]	@ zero_extendqisi2
+  41              	.LVL2:
+  57:Core/Src/u8g2/Src/u8log.c ****   cnt *= u8log->width;
+  42              		.loc 1 57 3 is_stmt 1 view .LVU5
+  43              		.loc 1 57 15 is_stmt 0 view .LVU6
+  44 0004 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+  45              		.loc 1 57 7 view .LVU7
+  46 0006 02FB03F3 		mul	r3, r2, r3
+  47              	.LVL3:
+  48              	.L2:
+  58:Core/Src/u8g2/Src/u8log.c ****   do
+  49              		.loc 1 58 3 is_stmt 1 discriminator 1 view .LVU8
+  59:Core/Src/u8g2/Src/u8log.c ****   {
+  60:Core/Src/u8g2/Src/u8log.c ****     *dest++ = ' ';
+  50              		.loc 1 60 5 discriminator 1 view .LVU9
+  51              		.loc 1 60 13 is_stmt 0 discriminator 1 view .LVU10
+  52 000a 2020     		movs	r0, #32
+  53 000c 0870     		strb	r0, [r1]
+  54 000e 0131     		adds	r1, r1, #1
+  55              	.LVL4:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 3
+
+
+  61:Core/Src/u8g2/Src/u8log.c ****     cnt--;
+  56              		.loc 1 61 5 is_stmt 1 discriminator 1 view .LVU11
+  57              		.loc 1 61 8 is_stmt 0 discriminator 1 view .LVU12
+  58 0010 013B     		subs	r3, r3, #1
+  59              	.LVL5:
+  60              		.loc 1 61 8 discriminator 1 view .LVU13
+  61 0012 9BB2     		uxth	r3, r3
+  62              	.LVL6:
+  62:Core/Src/u8g2/Src/u8log.c ****   } while( cnt > 0 );
+  63              		.loc 1 62 10 is_stmt 1 discriminator 1 view .LVU14
+  64              		.loc 1 62 3 is_stmt 0 discriminator 1 view .LVU15
+  65 0014 002B     		cmp	r3, #0
+  66 0016 F8D1     		bne	.L2
+  63:Core/Src/u8g2/Src/u8log.c ****   
+  64:Core/Src/u8g2/Src/u8log.c **** }
+  67              		.loc 1 64 1 view .LVU16
+  68 0018 7047     		bx	lr
+  69              		.cfi_endproc
+  70              	.LFE0:
+  72              		.section	.text.u8log_scroll_up,"ax",%progbits
+  73              		.align	1
+  74              		.syntax unified
+  75              		.thumb
+  76              		.thumb_func
+  78              	u8log_scroll_up:
+  79              	.LVL7:
+  80              	.LFB1:
+  65:Core/Src/u8g2/Src/u8log.c **** 
+  66:Core/Src/u8g2/Src/u8log.c **** 
+  67:Core/Src/u8g2/Src/u8log.c **** /* scroll the content of the complete buffer, set redraw_line to 255 */
+  68:Core/Src/u8g2/Src/u8log.c **** static void u8log_scroll_up(u8log_t *u8log)
+  69:Core/Src/u8g2/Src/u8log.c **** {
+  81              		.loc 1 69 1 is_stmt 1 view -0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85              		.loc 1 69 1 is_stmt 0 view .LVU18
+  86 0000 00B5     		push	{lr}
+  87              	.LCFI0:
+  88              		.cfi_def_cfa_offset 4
+  89              		.cfi_offset 14, -4
+  70:Core/Src/u8g2/Src/u8log.c ****   uint8_t *dest = u8log->screen_buffer;
+  90              		.loc 1 70 3 is_stmt 1 view .LVU19
+  91              		.loc 1 70 12 is_stmt 0 view .LVU20
+  92 0002 C368     		ldr	r3, [r0, #12]
+  93              	.LVL8:
+  71:Core/Src/u8g2/Src/u8log.c ****   uint8_t *src = dest+u8log->width;
+  94              		.loc 1 71 3 is_stmt 1 view .LVU21
+  95              		.loc 1 71 28 is_stmt 0 view .LVU22
+  96 0004 0179     		ldrb	r1, [r0, #4]	@ zero_extendqisi2
+  97              		.loc 1 71 12 view .LVU23
+  98 0006 03EB010E 		add	lr, r3, r1
+  99              	.LVL9:
+  72:Core/Src/u8g2/Src/u8log.c ****   uint16_t cnt = u8log->height;
+ 100              		.loc 1 72 3 is_stmt 1 view .LVU24
+ 101              		.loc 1 72 12 is_stmt 0 view .LVU25
+ 102 000a 4279     		ldrb	r2, [r0, #5]	@ zero_extendqisi2
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 4
+
+
+ 103              	.LVL10:
+  73:Core/Src/u8g2/Src/u8log.c ****   cnt--;
+ 104              		.loc 1 73 3 is_stmt 1 view .LVU26
+ 105              		.loc 1 73 6 is_stmt 0 view .LVU27
+ 106 000c 013A     		subs	r2, r2, #1
+ 107              	.LVL11:
+  74:Core/Src/u8g2/Src/u8log.c ****   cnt *= u8log->width;
+ 108              		.loc 1 74 3 is_stmt 1 view .LVU28
+ 109              		.loc 1 74 7 is_stmt 0 view .LVU29
+ 110 000e 01FB02F2 		mul	r2, r1, r2
+ 111              	.LVL12:
+ 112              		.loc 1 74 7 view .LVU30
+ 113 0012 92B2     		uxth	r2, r2
+ 114              	.LVL13:
+ 115              	.L4:
+  75:Core/Src/u8g2/Src/u8log.c ****   do
+ 116              		.loc 1 75 3 is_stmt 1 discriminator 1 view .LVU31
+  76:Core/Src/u8g2/Src/u8log.c ****   {
+  77:Core/Src/u8g2/Src/u8log.c ****     *dest++ = *src++;
+ 117              		.loc 1 77 5 discriminator 1 view .LVU32
+ 118              		.loc 1 77 15 is_stmt 0 discriminator 1 view .LVU33
+ 119 0014 9EF800C0 		ldrb	ip, [lr]	@ zero_extendqisi2
+ 120 0018 0EF1010E 		add	lr, lr, #1
+ 121              	.LVL14:
+ 122              		.loc 1 77 13 discriminator 1 view .LVU34
+ 123 001c 83F800C0 		strb	ip, [r3]
+ 124 0020 0133     		adds	r3, r3, #1
+ 125              	.LVL15:
+  78:Core/Src/u8g2/Src/u8log.c ****     cnt--;
+ 126              		.loc 1 78 5 is_stmt 1 discriminator 1 view .LVU35
+ 127              		.loc 1 78 8 is_stmt 0 discriminator 1 view .LVU36
+ 128 0022 013A     		subs	r2, r2, #1
+ 129              	.LVL16:
+ 130              		.loc 1 78 8 discriminator 1 view .LVU37
+ 131 0024 92B2     		uxth	r2, r2
+ 132              	.LVL17:
+  79:Core/Src/u8g2/Src/u8log.c ****   } while( cnt > 0 );
+ 133              		.loc 1 79 10 is_stmt 1 discriminator 1 view .LVU38
+ 134              		.loc 1 79 3 is_stmt 0 discriminator 1 view .LVU39
+ 135 0026 002A     		cmp	r2, #0
+ 136 0028 F4D1     		bne	.L4
+  80:Core/Src/u8g2/Src/u8log.c ****   cnt = u8log->width;
+ 137              		.loc 1 80 3 is_stmt 1 view .LVU40
+ 138              		.loc 1 80 7 is_stmt 0 view .LVU41
+ 139 002a 0279     		ldrb	r2, [r0, #4]	@ zero_extendqisi2
+ 140              	.LVL18:
+ 141              	.L5:
+  81:Core/Src/u8g2/Src/u8log.c ****   do
+ 142              		.loc 1 81 3 is_stmt 1 discriminator 1 view .LVU42
+  82:Core/Src/u8g2/Src/u8log.c ****   {
+  83:Core/Src/u8g2/Src/u8log.c ****     *dest++ = ' ';
+ 143              		.loc 1 83 5 discriminator 1 view .LVU43
+ 144              		.loc 1 83 13 is_stmt 0 discriminator 1 view .LVU44
+ 145 002c 4FF0200C 		mov	ip, #32
+ 146 0030 83F800C0 		strb	ip, [r3]
+ 147 0034 0133     		adds	r3, r3, #1
+ 148              	.LVL19:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 5
+
+
+  84:Core/Src/u8g2/Src/u8log.c ****     cnt--;
+ 149              		.loc 1 84 5 is_stmt 1 discriminator 1 view .LVU45
+ 150              		.loc 1 84 8 is_stmt 0 discriminator 1 view .LVU46
+ 151 0036 013A     		subs	r2, r2, #1
+ 152              	.LVL20:
+ 153              		.loc 1 84 8 discriminator 1 view .LVU47
+ 154 0038 92B2     		uxth	r2, r2
+ 155              	.LVL21:
+  85:Core/Src/u8g2/Src/u8log.c ****   } while(cnt > 0);
+ 156              		.loc 1 85 10 is_stmt 1 discriminator 1 view .LVU48
+ 157              		.loc 1 85 3 is_stmt 0 discriminator 1 view .LVU49
+ 158 003a 002A     		cmp	r2, #0
+ 159 003c F6D1     		bne	.L5
+  86:Core/Src/u8g2/Src/u8log.c ****   
+  87:Core/Src/u8g2/Src/u8log.c ****   if ( u8log->is_redraw_line_for_each_char )
+ 160              		.loc 1 87 3 is_stmt 1 view .LVU50
+ 161              		.loc 1 87 13 is_stmt 0 view .LVU51
+ 162 003e 037C     		ldrb	r3, [r0, #16]	@ zero_extendqisi2
+ 163              	.LVL22:
+ 164              		.loc 1 87 6 view .LVU52
+ 165 0040 1BB1     		cbz	r3, .L6
+  88:Core/Src/u8g2/Src/u8log.c ****     u8log->is_redraw_all = 1;
+ 166              		.loc 1 88 5 is_stmt 1 view .LVU53
+ 167              		.loc 1 88 26 is_stmt 0 view .LVU54
+ 168 0042 0123     		movs	r3, #1
+ 169 0044 8375     		strb	r3, [r0, #22]
+ 170              	.L3:
+  89:Core/Src/u8g2/Src/u8log.c ****   else
+  90:Core/Src/u8g2/Src/u8log.c ****     u8log->is_redraw_all_required_for_next_nl = 1;
+  91:Core/Src/u8g2/Src/u8log.c **** }
+ 171              		.loc 1 91 1 view .LVU55
+ 172 0046 5DF804FB 		ldr	pc, [sp], #4
+ 173              	.L6:
+  90:Core/Src/u8g2/Src/u8log.c **** }
+ 174              		.loc 1 90 5 is_stmt 1 view .LVU56
+  90:Core/Src/u8g2/Src/u8log.c **** }
+ 175              		.loc 1 90 47 is_stmt 0 view .LVU57
+ 176 004a 0123     		movs	r3, #1
+ 177 004c C375     		strb	r3, [r0, #23]
+ 178              		.loc 1 91 1 view .LVU58
+ 179 004e FAE7     		b	.L3
+ 180              		.cfi_endproc
+ 181              	.LFE1:
+ 183              		.section	.text.u8log_cursor_on_screen,"ax",%progbits
+ 184              		.align	1
+ 185              		.syntax unified
+ 186              		.thumb
+ 187              		.thumb_func
+ 189              	u8log_cursor_on_screen:
+ 190              	.LVL23:
+ 191              	.LFB2:
+  92:Core/Src/u8g2/Src/u8log.c **** 
+  93:Core/Src/u8g2/Src/u8log.c **** /*
+  94:Core/Src/u8g2/Src/u8log.c ****   Place the cursor on the screen. This will also scroll, if required 
+  95:Core/Src/u8g2/Src/u8log.c **** */
+  96:Core/Src/u8g2/Src/u8log.c **** static void u8log_cursor_on_screen(u8log_t *u8log)
+  97:Core/Src/u8g2/Src/u8log.c **** {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 6
+
+
+ 192              		.loc 1 97 1 is_stmt 1 view -0
+ 193              		.cfi_startproc
+ 194              		@ args = 0, pretend = 0, frame = 0
+ 195              		@ frame_needed = 0, uses_anonymous_args = 0
+ 196              		.loc 1 97 1 is_stmt 0 view .LVU60
+ 197 0000 10B5     		push	{r4, lr}
+ 198              	.LCFI1:
+ 199              		.cfi_def_cfa_offset 8
+ 200              		.cfi_offset 4, -8
+ 201              		.cfi_offset 14, -4
+ 202 0002 0446     		mov	r4, r0
+  98:Core/Src/u8g2/Src/u8log.c ****   //printf("u8log_cursor_on_screen, cursor_y=%d\n", u8log->cursor_y);
+  99:Core/Src/u8g2/Src/u8log.c ****   if ( u8log->cursor_x >= u8log->width )
+ 203              		.loc 1 99 3 is_stmt 1 view .LVU61
+ 204              		.loc 1 99 13 is_stmt 0 view .LVU62
+ 205 0004 827C     		ldrb	r2, [r0, #18]	@ zero_extendqisi2
+ 206              		.loc 1 99 32 view .LVU63
+ 207 0006 0379     		ldrb	r3, [r0, #4]	@ zero_extendqisi2
+ 208              		.loc 1 99 6 view .LVU64
+ 209 0008 9A42     		cmp	r2, r3
+ 210 000a 0BD3     		bcc	.L11
+ 100:Core/Src/u8g2/Src/u8log.c ****   {
+ 101:Core/Src/u8g2/Src/u8log.c ****     u8log->cursor_x = 0;
+ 211              		.loc 1 101 5 is_stmt 1 view .LVU65
+ 212              		.loc 1 101 21 is_stmt 0 view .LVU66
+ 213 000c 0023     		movs	r3, #0
+ 214 000e 8374     		strb	r3, [r0, #18]
+ 102:Core/Src/u8g2/Src/u8log.c ****     u8log->cursor_y++;
+ 215              		.loc 1 102 5 is_stmt 1 view .LVU67
+ 216              		.loc 1 102 10 is_stmt 0 view .LVU68
+ 217 0010 C37C     		ldrb	r3, [r0, #19]	@ zero_extendqisi2
+ 218              		.loc 1 102 20 view .LVU69
+ 219 0012 0133     		adds	r3, r3, #1
+ 220 0014 C374     		strb	r3, [r0, #19]
+ 221 0016 05E0     		b	.L11
+ 222              	.LVL24:
+ 223              	.L12:
+ 103:Core/Src/u8g2/Src/u8log.c ****   }
+ 104:Core/Src/u8g2/Src/u8log.c ****   while ( u8log->cursor_y >= u8log->height )
+ 105:Core/Src/u8g2/Src/u8log.c ****   {
+ 106:Core/Src/u8g2/Src/u8log.c ****     u8log_scroll_up(u8log);
+ 224              		.loc 1 106 5 is_stmt 1 view .LVU70
+ 225 0018 2046     		mov	r0, r4
+ 226 001a FFF7FEFF 		bl	u8log_scroll_up
+ 227              	.LVL25:
+ 107:Core/Src/u8g2/Src/u8log.c ****     u8log->cursor_y--;
+ 228              		.loc 1 107 5 view .LVU71
+ 229              		.loc 1 107 10 is_stmt 0 view .LVU72
+ 230 001e E37C     		ldrb	r3, [r4, #19]	@ zero_extendqisi2
+ 231              		.loc 1 107 20 view .LVU73
+ 232 0020 013B     		subs	r3, r3, #1
+ 233 0022 E374     		strb	r3, [r4, #19]
+ 234              	.L11:
+ 104:Core/Src/u8g2/Src/u8log.c ****   {
+ 235              		.loc 1 104 9 is_stmt 1 view .LVU74
+ 104:Core/Src/u8g2/Src/u8log.c ****   {
+ 236              		.loc 1 104 16 is_stmt 0 view .LVU75
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 7
+
+
+ 237 0024 E27C     		ldrb	r2, [r4, #19]	@ zero_extendqisi2
+ 104:Core/Src/u8g2/Src/u8log.c ****   {
+ 238              		.loc 1 104 35 view .LVU76
+ 239 0026 6379     		ldrb	r3, [r4, #5]	@ zero_extendqisi2
+ 104:Core/Src/u8g2/Src/u8log.c ****   {
+ 240              		.loc 1 104 9 view .LVU77
+ 241 0028 9A42     		cmp	r2, r3
+ 242 002a F5D2     		bcs	.L12
+ 108:Core/Src/u8g2/Src/u8log.c ****   }
+ 109:Core/Src/u8g2/Src/u8log.c **** }
+ 243              		.loc 1 109 1 view .LVU78
+ 244 002c 10BD     		pop	{r4, pc}
+ 245              		.loc 1 109 1 view .LVU79
+ 246              		.cfi_endproc
+ 247              	.LFE2:
+ 249              		.section	.text.u8log_write_to_screen,"ax",%progbits
+ 250              		.align	1
+ 251              		.syntax unified
+ 252              		.thumb
+ 253              		.thumb_func
+ 255              	u8log_write_to_screen:
+ 256              	.LVL26:
+ 257              	.LFB3:
+ 110:Core/Src/u8g2/Src/u8log.c **** 
+ 111:Core/Src/u8g2/Src/u8log.c **** /*
+ 112:Core/Src/u8g2/Src/u8log.c ****   Write a printable, single char on the screen, do any kind of scrolling
+ 113:Core/Src/u8g2/Src/u8log.c **** */
+ 114:Core/Src/u8g2/Src/u8log.c **** static void u8log_write_to_screen(u8log_t *u8log, uint8_t c)
+ 115:Core/Src/u8g2/Src/u8log.c **** {
+ 258              		.loc 1 115 1 is_stmt 1 view -0
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              		.loc 1 115 1 is_stmt 0 view .LVU81
+ 263 0000 38B5     		push	{r3, r4, r5, lr}
+ 264              	.LCFI2:
+ 265              		.cfi_def_cfa_offset 16
+ 266              		.cfi_offset 3, -16
+ 267              		.cfi_offset 4, -12
+ 268              		.cfi_offset 5, -8
+ 269              		.cfi_offset 14, -4
+ 270 0002 0446     		mov	r4, r0
+ 271 0004 0D46     		mov	r5, r1
+ 116:Core/Src/u8g2/Src/u8log.c ****   u8log_cursor_on_screen(u8log);
+ 272              		.loc 1 116 3 is_stmt 1 view .LVU82
+ 273 0006 FFF7FEFF 		bl	u8log_cursor_on_screen
+ 274              	.LVL27:
+ 117:Core/Src/u8g2/Src/u8log.c ****   u8log->screen_buffer[u8log->cursor_y * u8log->width + u8log->cursor_x] = c;
+ 275              		.loc 1 117 3 view .LVU83
+ 276              		.loc 1 117 8 is_stmt 0 view .LVU84
+ 277 000a E268     		ldr	r2, [r4, #12]
+ 278              		.loc 1 117 29 view .LVU85
+ 279 000c E17C     		ldrb	r1, [r4, #19]	@ zero_extendqisi2
+ 280              		.loc 1 117 47 view .LVU86
+ 281 000e 2079     		ldrb	r0, [r4, #4]	@ zero_extendqisi2
+ 282              		.loc 1 117 62 view .LVU87
+ 283 0010 A37C     		ldrb	r3, [r4, #18]	@ zero_extendqisi2
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 8
+
+
+ 284              		.loc 1 117 55 view .LVU88
+ 285 0012 00FB0133 		mla	r3, r0, r1, r3
+ 286              		.loc 1 117 74 view .LVU89
+ 287 0016 D554     		strb	r5, [r2, r3]
+ 118:Core/Src/u8g2/Src/u8log.c ****   u8log->cursor_x++;
+ 288              		.loc 1 118 3 is_stmt 1 view .LVU90
+ 289              		.loc 1 118 8 is_stmt 0 view .LVU91
+ 290 0018 A37C     		ldrb	r3, [r4, #18]	@ zero_extendqisi2
+ 291              		.loc 1 118 18 view .LVU92
+ 292 001a 0133     		adds	r3, r3, #1
+ 293 001c A374     		strb	r3, [r4, #18]
+ 119:Core/Src/u8g2/Src/u8log.c ****   
+ 120:Core/Src/u8g2/Src/u8log.c ****   if ( u8log->is_redraw_line_for_each_char )
+ 294              		.loc 1 120 3 is_stmt 1 view .LVU93
+ 295              		.loc 1 120 13 is_stmt 0 view .LVU94
+ 296 001e 237C     		ldrb	r3, [r4, #16]	@ zero_extendqisi2
+ 297              		.loc 1 120 6 view .LVU95
+ 298 0020 1BB1     		cbz	r3, .L14
+ 121:Core/Src/u8g2/Src/u8log.c ****   {
+ 122:Core/Src/u8g2/Src/u8log.c ****     u8log->is_redraw_line = 1;
+ 299              		.loc 1 122 5 is_stmt 1 view .LVU96
+ 300              		.loc 1 122 27 is_stmt 0 view .LVU97
+ 301 0022 0123     		movs	r3, #1
+ 302 0024 6375     		strb	r3, [r4, #21]
+ 123:Core/Src/u8g2/Src/u8log.c ****     u8log->redraw_line = u8log->cursor_y;
+ 303              		.loc 1 123 5 is_stmt 1 view .LVU98
+ 304              		.loc 1 123 31 is_stmt 0 view .LVU99
+ 305 0026 E37C     		ldrb	r3, [r4, #19]	@ zero_extendqisi2
+ 306              		.loc 1 123 24 view .LVU100
+ 307 0028 2375     		strb	r3, [r4, #20]
+ 308              	.L14:
+ 124:Core/Src/u8g2/Src/u8log.c ****   }
+ 125:Core/Src/u8g2/Src/u8log.c **** }
+ 309              		.loc 1 125 1 view .LVU101
+ 310 002a 38BD     		pop	{r3, r4, r5, pc}
+ 311              		.loc 1 125 1 view .LVU102
+ 312              		.cfi_endproc
+ 313              	.LFE3:
+ 315              		.section	.text.u8log_write_char,"ax",%progbits
+ 316              		.align	1
+ 317              		.global	u8log_write_char
+ 318              		.syntax unified
+ 319              		.thumb
+ 320              		.thumb_func
+ 322              	u8log_write_char:
+ 323              	.LVL28:
+ 324              	.LFB4:
+ 126:Core/Src/u8g2/Src/u8log.c **** 
+ 127:Core/Src/u8g2/Src/u8log.c **** /*
+ 128:Core/Src/u8g2/Src/u8log.c ****   Handle control codes or write the char to the screen.
+ 129:Core/Src/u8g2/Src/u8log.c ****   Supported control codes are:
+ 130:Core/Src/u8g2/Src/u8log.c ****   
+ 131:Core/Src/u8g2/Src/u8log.c ****     \n		10		Goto first position of the next line. Line is marked for redraw.
+ 132:Core/Src/u8g2/Src/u8log.c ****     \r		13		Goto first position in the same line. Line is marked for redraw.
+ 133:Core/Src/u8g2/Src/u8log.c ****     \t		9		Jump to the next tab position
+ 134:Core/Src/u8g2/Src/u8log.c ****     \f		12		Clear the screen and mark redraw for whole screen
+ 135:Core/Src/u8g2/Src/u8log.c ****     any other char	Write char to screen. Line redraw mark depends on 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 9
+
+
+ 136:Core/Src/u8g2/Src/u8log.c **** 				is_redraw_line_for_each_char flag.
+ 137:Core/Src/u8g2/Src/u8log.c **** */
+ 138:Core/Src/u8g2/Src/u8log.c **** void u8log_write_char(u8log_t *u8log, uint8_t c)
+ 139:Core/Src/u8g2/Src/u8log.c **** {
+ 325              		.loc 1 139 1 is_stmt 1 view -0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              		.loc 1 139 1 is_stmt 0 view .LVU104
+ 330 0000 10B5     		push	{r4, lr}
+ 331              	.LCFI3:
+ 332              		.cfi_def_cfa_offset 8
+ 333              		.cfi_offset 4, -8
+ 334              		.cfi_offset 14, -4
+ 335 0002 0446     		mov	r4, r0
+ 140:Core/Src/u8g2/Src/u8log.c ****   switch(c)
+ 336              		.loc 1 140 3 is_stmt 1 view .LVU105
+ 337 0004 A1F10903 		sub	r3, r1, #9
+ 338 0008 042B     		cmp	r3, #4
+ 339 000a 27D8     		bhi	.L18
+ 340 000c DFE803F0 		tbb	[pc, r3]
+ 341              	.L20:
+ 342 0010 18       		.byte	(.L23-.L20)/2
+ 343 0011 03       		.byte	(.L22-.L20)/2
+ 344 0012 26       		.byte	(.L18-.L20)/2
+ 345 0013 1E       		.byte	(.L21-.L20)/2
+ 346 0014 11       		.byte	(.L19-.L20)/2
+ 347 0015 00       		.p2align 1
+ 348              	.L22:
+ 141:Core/Src/u8g2/Src/u8log.c ****   {
+ 142:Core/Src/u8g2/Src/u8log.c ****     case '\n':	// 10
+ 143:Core/Src/u8g2/Src/u8log.c ****       u8log->is_redraw_line = 1;
+ 349              		.loc 1 143 7 view .LVU106
+ 350              		.loc 1 143 29 is_stmt 0 view .LVU107
+ 351 0016 0123     		movs	r3, #1
+ 352 0018 4375     		strb	r3, [r0, #21]
+ 144:Core/Src/u8g2/Src/u8log.c ****       u8log->redraw_line = u8log->cursor_y;
+ 353              		.loc 1 144 7 is_stmt 1 view .LVU108
+ 354              		.loc 1 144 33 is_stmt 0 view .LVU109
+ 355 001a C37C     		ldrb	r3, [r0, #19]	@ zero_extendqisi2
+ 356              		.loc 1 144 26 view .LVU110
+ 357 001c 0375     		strb	r3, [r0, #20]
+ 145:Core/Src/u8g2/Src/u8log.c ****       if ( u8log->is_redraw_all_required_for_next_nl )
+ 358              		.loc 1 145 7 is_stmt 1 view .LVU111
+ 359              		.loc 1 145 17 is_stmt 0 view .LVU112
+ 360 001e C27D     		ldrb	r2, [r0, #23]	@ zero_extendqisi2
+ 361              		.loc 1 145 10 view .LVU113
+ 362 0020 0AB1     		cbz	r2, .L24
+ 146:Core/Src/u8g2/Src/u8log.c **** 	u8log->is_redraw_all = 1;
+ 363              		.loc 1 146 2 is_stmt 1 view .LVU114
+ 364              		.loc 1 146 23 is_stmt 0 view .LVU115
+ 365 0022 0122     		movs	r2, #1
+ 366 0024 8275     		strb	r2, [r0, #22]
+ 367              	.L24:
+ 147:Core/Src/u8g2/Src/u8log.c ****       u8log->is_redraw_all_required_for_next_nl = 0;
+ 368              		.loc 1 147 7 is_stmt 1 view .LVU116
+ 369              		.loc 1 147 49 is_stmt 0 view .LVU117
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 10
+
+
+ 370 0026 0022     		movs	r2, #0
+ 371 0028 E275     		strb	r2, [r4, #23]
+ 148:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_y++;
+ 372              		.loc 1 148 7 is_stmt 1 view .LVU118
+ 373              		.loc 1 148 22 is_stmt 0 view .LVU119
+ 374 002a 0133     		adds	r3, r3, #1
+ 375 002c E374     		strb	r3, [r4, #19]
+ 149:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 376              		.loc 1 149 7 is_stmt 1 view .LVU120
+ 377              		.loc 1 149 23 is_stmt 0 view .LVU121
+ 378 002e A274     		strb	r2, [r4, #18]
+ 150:Core/Src/u8g2/Src/u8log.c ****       break;	
+ 379              		.loc 1 150 7 is_stmt 1 view .LVU122
+ 380              	.LVL29:
+ 381              	.L17:
+ 151:Core/Src/u8g2/Src/u8log.c ****     case '\r':	// 13
+ 152:Core/Src/u8g2/Src/u8log.c ****       u8log->is_redraw_line = 1;
+ 153:Core/Src/u8g2/Src/u8log.c ****       u8log->redraw_line = u8log->cursor_y;
+ 154:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 155:Core/Src/u8g2/Src/u8log.c ****       break;
+ 156:Core/Src/u8g2/Src/u8log.c ****     case '\t':	// 9
+ 157:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = (u8log->cursor_x + 8) & 0xf8;
+ 158:Core/Src/u8g2/Src/u8log.c ****       break;
+ 159:Core/Src/u8g2/Src/u8log.c ****     case '\f':	// 12
+ 160:Core/Src/u8g2/Src/u8log.c ****       u8log_clear_screen(u8log);
+ 161:Core/Src/u8g2/Src/u8log.c ****       u8log->is_redraw_all = 1;
+ 162:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 163:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_y = 0;
+ 164:Core/Src/u8g2/Src/u8log.c ****       break;
+ 165:Core/Src/u8g2/Src/u8log.c ****     default:
+ 166:Core/Src/u8g2/Src/u8log.c ****       u8log_write_to_screen(u8log, c);
+ 167:Core/Src/u8g2/Src/u8log.c ****       break;
+ 168:Core/Src/u8g2/Src/u8log.c ****   }
+ 169:Core/Src/u8g2/Src/u8log.c **** }
+ 382              		.loc 1 169 1 is_stmt 0 view .LVU123
+ 383 0030 10BD     		pop	{r4, pc}
+ 384              	.LVL30:
+ 385              	.L19:
+ 152:Core/Src/u8g2/Src/u8log.c ****       u8log->redraw_line = u8log->cursor_y;
+ 386              		.loc 1 152 7 is_stmt 1 view .LVU124
+ 152:Core/Src/u8g2/Src/u8log.c ****       u8log->redraw_line = u8log->cursor_y;
+ 387              		.loc 1 152 29 is_stmt 0 view .LVU125
+ 388 0032 0123     		movs	r3, #1
+ 389 0034 4375     		strb	r3, [r0, #21]
+ 153:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 390              		.loc 1 153 7 is_stmt 1 view .LVU126
+ 153:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 391              		.loc 1 153 33 is_stmt 0 view .LVU127
+ 392 0036 C37C     		ldrb	r3, [r0, #19]	@ zero_extendqisi2
+ 153:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 393              		.loc 1 153 26 view .LVU128
+ 394 0038 0375     		strb	r3, [r0, #20]
+ 154:Core/Src/u8g2/Src/u8log.c ****       break;
+ 395              		.loc 1 154 7 is_stmt 1 view .LVU129
+ 154:Core/Src/u8g2/Src/u8log.c ****       break;
+ 396              		.loc 1 154 23 is_stmt 0 view .LVU130
+ 397 003a 0023     		movs	r3, #0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 11
+
+
+ 398 003c 8374     		strb	r3, [r0, #18]
+ 155:Core/Src/u8g2/Src/u8log.c ****     case '\t':	// 9
+ 399              		.loc 1 155 7 is_stmt 1 view .LVU131
+ 400 003e F7E7     		b	.L17
+ 401              	.L23:
+ 157:Core/Src/u8g2/Src/u8log.c ****       break;
+ 402              		.loc 1 157 7 view .LVU132
+ 157:Core/Src/u8g2/Src/u8log.c ****       break;
+ 403              		.loc 1 157 31 is_stmt 0 view .LVU133
+ 404 0040 837C     		ldrb	r3, [r0, #18]	@ zero_extendqisi2
+ 157:Core/Src/u8g2/Src/u8log.c ****       break;
+ 405              		.loc 1 157 42 view .LVU134
+ 406 0042 0833     		adds	r3, r3, #8
+ 157:Core/Src/u8g2/Src/u8log.c ****       break;
+ 407              		.loc 1 157 47 view .LVU135
+ 408 0044 03F0F803 		and	r3, r3, #248
+ 157:Core/Src/u8g2/Src/u8log.c ****       break;
+ 409              		.loc 1 157 23 view .LVU136
+ 410 0048 8374     		strb	r3, [r0, #18]
+ 158:Core/Src/u8g2/Src/u8log.c ****     case '\f':	// 12
+ 411              		.loc 1 158 7 is_stmt 1 view .LVU137
+ 412 004a F1E7     		b	.L17
+ 413              	.L21:
+ 160:Core/Src/u8g2/Src/u8log.c ****       u8log->is_redraw_all = 1;
+ 414              		.loc 1 160 7 view .LVU138
+ 415 004c FFF7FEFF 		bl	u8log_clear_screen
+ 416              	.LVL31:
+ 161:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 417              		.loc 1 161 7 view .LVU139
+ 161:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_x = 0;
+ 418              		.loc 1 161 28 is_stmt 0 view .LVU140
+ 419 0050 0123     		movs	r3, #1
+ 420 0052 A375     		strb	r3, [r4, #22]
+ 162:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_y = 0;
+ 421              		.loc 1 162 7 is_stmt 1 view .LVU141
+ 162:Core/Src/u8g2/Src/u8log.c ****       u8log->cursor_y = 0;
+ 422              		.loc 1 162 23 is_stmt 0 view .LVU142
+ 423 0054 0023     		movs	r3, #0
+ 424 0056 A374     		strb	r3, [r4, #18]
+ 163:Core/Src/u8g2/Src/u8log.c ****       break;
+ 425              		.loc 1 163 7 is_stmt 1 view .LVU143
+ 163:Core/Src/u8g2/Src/u8log.c ****       break;
+ 426              		.loc 1 163 23 is_stmt 0 view .LVU144
+ 427 0058 E374     		strb	r3, [r4, #19]
+ 164:Core/Src/u8g2/Src/u8log.c ****     default:
+ 428              		.loc 1 164 7 is_stmt 1 view .LVU145
+ 429 005a E9E7     		b	.L17
+ 430              	.LVL32:
+ 431              	.L18:
+ 166:Core/Src/u8g2/Src/u8log.c ****       break;
+ 432              		.loc 1 166 7 view .LVU146
+ 433 005c FFF7FEFF 		bl	u8log_write_to_screen
+ 434              	.LVL33:
+ 167:Core/Src/u8g2/Src/u8log.c ****   }
+ 435              		.loc 1 167 7 view .LVU147
+ 436              		.loc 1 169 1 is_stmt 0 view .LVU148
+ 437 0060 E6E7     		b	.L17
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 12
+
+
+ 438              		.cfi_endproc
+ 439              	.LFE4:
+ 441              		.section	.text.u8log_Init,"ax",%progbits
+ 442              		.align	1
+ 443              		.global	u8log_Init
+ 444              		.syntax unified
+ 445              		.thumb
+ 446              		.thumb_func
+ 448              	u8log_Init:
+ 449              	.LVL34:
+ 450              	.LFB5:
+ 170:Core/Src/u8g2/Src/u8log.c **** 
+ 171:Core/Src/u8g2/Src/u8log.c **** void u8log_Init(u8log_t *u8log, uint8_t width, uint8_t height, uint8_t *buf)
+ 172:Core/Src/u8g2/Src/u8log.c **** {
+ 451              		.loc 1 172 1 is_stmt 1 view -0
+ 452              		.cfi_startproc
+ 453              		@ args = 0, pretend = 0, frame = 0
+ 454              		@ frame_needed = 0, uses_anonymous_args = 0
+ 455              		.loc 1 172 1 is_stmt 0 view .LVU150
+ 456 0000 08B5     		push	{r3, lr}
+ 457              	.LCFI4:
+ 458              		.cfi_def_cfa_offset 8
+ 459              		.cfi_offset 3, -8
+ 460              		.cfi_offset 14, -4
+ 173:Core/Src/u8g2/Src/u8log.c ****   memset(u8log, 0, sizeof(u8log_t));
+ 461              		.loc 1 173 3 is_stmt 1 view .LVU151
+ 462 0002 4FF0000E 		mov	lr, #0
+ 463 0006 C0F800E0 		str	lr, [r0]	@ unaligned
+ 464 000a C0F804E0 		str	lr, [r0, #4]	@ unaligned
+ 465 000e C0F808E0 		str	lr, [r0, #8]	@ unaligned
+ 466 0012 C0F80CE0 		str	lr, [r0, #12]	@ unaligned
+ 467 0016 C0F810E0 		str	lr, [r0, #16]	@ unaligned
+ 468 001a C0F814E0 		str	lr, [r0, #20]	@ unaligned
+ 174:Core/Src/u8g2/Src/u8log.c ****   u8log->width = width;
+ 469              		.loc 1 174 3 view .LVU152
+ 470              		.loc 1 174 16 is_stmt 0 view .LVU153
+ 471 001e 0171     		strb	r1, [r0, #4]
+ 175:Core/Src/u8g2/Src/u8log.c ****   u8log->height = height;
+ 472              		.loc 1 175 3 is_stmt 1 view .LVU154
+ 473              		.loc 1 175 17 is_stmt 0 view .LVU155
+ 474 0020 4271     		strb	r2, [r0, #5]
+ 176:Core/Src/u8g2/Src/u8log.c ****   u8log->screen_buffer = buf;
+ 475              		.loc 1 176 3 is_stmt 1 view .LVU156
+ 476              		.loc 1 176 24 is_stmt 0 view .LVU157
+ 477 0022 C360     		str	r3, [r0, #12]
+ 177:Core/Src/u8g2/Src/u8log.c ****   u8log_clear_screen(u8log);
+ 478              		.loc 1 177 3 is_stmt 1 view .LVU158
+ 479 0024 FFF7FEFF 		bl	u8log_clear_screen
+ 480              	.LVL35:
+ 178:Core/Src/u8g2/Src/u8log.c **** }
+ 481              		.loc 1 178 1 is_stmt 0 view .LVU159
+ 482 0028 08BD     		pop	{r3, pc}
+ 483              		.cfi_endproc
+ 484              	.LFE5:
+ 486              		.section	.text.u8log_SetCallback,"ax",%progbits
+ 487              		.align	1
+ 488              		.global	u8log_SetCallback
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 13
+
+
+ 489              		.syntax unified
+ 490              		.thumb
+ 491              		.thumb_func
+ 493              	u8log_SetCallback:
+ 494              	.LVL36:
+ 495              	.LFB6:
+ 179:Core/Src/u8g2/Src/u8log.c **** 
+ 180:Core/Src/u8g2/Src/u8log.c **** void u8log_SetCallback(u8log_t *u8log, u8log_cb cb, void *aux_data)
+ 181:Core/Src/u8g2/Src/u8log.c **** {
+ 496              		.loc 1 181 1 is_stmt 1 view -0
+ 497              		.cfi_startproc
+ 498              		@ args = 0, pretend = 0, frame = 0
+ 499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 500              		@ link register save eliminated.
+ 182:Core/Src/u8g2/Src/u8log.c ****   u8log->cb = cb;
+ 501              		.loc 1 182 3 view .LVU161
+ 502              		.loc 1 182 13 is_stmt 0 view .LVU162
+ 503 0000 8160     		str	r1, [r0, #8]
+ 183:Core/Src/u8g2/Src/u8log.c ****   u8log->aux_data = aux_data;
+ 504              		.loc 1 183 3 is_stmt 1 view .LVU163
+ 505              		.loc 1 183 19 is_stmt 0 view .LVU164
+ 506 0002 0260     		str	r2, [r0]
+ 184:Core/Src/u8g2/Src/u8log.c **** }
+ 507              		.loc 1 184 1 view .LVU165
+ 508 0004 7047     		bx	lr
+ 509              		.cfi_endproc
+ 510              	.LFE6:
+ 512              		.section	.text.u8log_SetRedrawMode,"ax",%progbits
+ 513              		.align	1
+ 514              		.global	u8log_SetRedrawMode
+ 515              		.syntax unified
+ 516              		.thumb
+ 517              		.thumb_func
+ 519              	u8log_SetRedrawMode:
+ 520              	.LVL37:
+ 521              	.LFB7:
+ 185:Core/Src/u8g2/Src/u8log.c **** 
+ 186:Core/Src/u8g2/Src/u8log.c **** void u8log_SetRedrawMode(u8log_t *u8log, uint8_t is_redraw_line_for_each_char)
+ 187:Core/Src/u8g2/Src/u8log.c **** {
+ 522              		.loc 1 187 1 is_stmt 1 view -0
+ 523              		.cfi_startproc
+ 524              		@ args = 0, pretend = 0, frame = 0
+ 525              		@ frame_needed = 0, uses_anonymous_args = 0
+ 526              		@ link register save eliminated.
+ 188:Core/Src/u8g2/Src/u8log.c ****   u8log->is_redraw_line_for_each_char = is_redraw_line_for_each_char;
+ 527              		.loc 1 188 3 view .LVU167
+ 528              		.loc 1 188 39 is_stmt 0 view .LVU168
+ 529 0000 0174     		strb	r1, [r0, #16]
+ 189:Core/Src/u8g2/Src/u8log.c **** }
+ 530              		.loc 1 189 1 view .LVU169
+ 531 0002 7047     		bx	lr
+ 532              		.cfi_endproc
+ 533              	.LFE7:
+ 535              		.section	.text.u8log_SetLineHeightOffset,"ax",%progbits
+ 536              		.align	1
+ 537              		.global	u8log_SetLineHeightOffset
+ 538              		.syntax unified
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 14
+
+
+ 539              		.thumb
+ 540              		.thumb_func
+ 542              	u8log_SetLineHeightOffset:
+ 543              	.LVL38:
+ 544              	.LFB8:
+ 190:Core/Src/u8g2/Src/u8log.c **** 
+ 191:Core/Src/u8g2/Src/u8log.c **** /* offset can be negative or positive, it is 0 by default */
+ 192:Core/Src/u8g2/Src/u8log.c **** void u8log_SetLineHeightOffset(u8log_t *u8log, int8_t line_height_offset)
+ 193:Core/Src/u8g2/Src/u8log.c **** {
+ 545              		.loc 1 193 1 is_stmt 1 view -0
+ 546              		.cfi_startproc
+ 547              		@ args = 0, pretend = 0, frame = 0
+ 548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549              		@ link register save eliminated.
+ 194:Core/Src/u8g2/Src/u8log.c ****   u8log->line_height_offset = line_height_offset;
+ 550              		.loc 1 194 3 view .LVU171
+ 551              		.loc 1 194 29 is_stmt 0 view .LVU172
+ 552 0000 4174     		strb	r1, [r0, #17]
+ 195:Core/Src/u8g2/Src/u8log.c **** }
+ 553              		.loc 1 195 1 view .LVU173
+ 554 0002 7047     		bx	lr
+ 555              		.cfi_endproc
+ 556              	.LFE8:
+ 558              		.section	.text.u8log_WriteChar,"ax",%progbits
+ 559              		.align	1
+ 560              		.global	u8log_WriteChar
+ 561              		.syntax unified
+ 562              		.thumb
+ 563              		.thumb_func
+ 565              	u8log_WriteChar:
+ 566              	.LVL39:
+ 567              	.LFB9:
+ 196:Core/Src/u8g2/Src/u8log.c **** 
+ 197:Core/Src/u8g2/Src/u8log.c **** 
+ 198:Core/Src/u8g2/Src/u8log.c **** 
+ 199:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteChar(u8log_t *u8log, uint8_t c)
+ 200:Core/Src/u8g2/Src/u8log.c **** {
+ 568              		.loc 1 200 1 is_stmt 1 view -0
+ 569              		.cfi_startproc
+ 570              		@ args = 0, pretend = 0, frame = 0
+ 571              		@ frame_needed = 0, uses_anonymous_args = 0
+ 572              		.loc 1 200 1 is_stmt 0 view .LVU175
+ 573 0000 10B5     		push	{r4, lr}
+ 574              	.LCFI5:
+ 575              		.cfi_def_cfa_offset 8
+ 576              		.cfi_offset 4, -8
+ 577              		.cfi_offset 14, -4
+ 578 0002 0446     		mov	r4, r0
+ 201:Core/Src/u8g2/Src/u8log.c ****   u8log_write_char(u8log, c);
+ 579              		.loc 1 201 3 is_stmt 1 view .LVU176
+ 580 0004 FFF7FEFF 		bl	u8log_write_char
+ 581              	.LVL40:
+ 202:Core/Src/u8g2/Src/u8log.c ****   if ( u8log->is_redraw_line || u8log->is_redraw_all )
+ 582              		.loc 1 202 3 view .LVU177
+ 583              		.loc 1 202 30 is_stmt 0 view .LVU178
+ 584 0008 6369     		ldr	r3, [r4, #20]
+ 585 000a 23F07F43 		bic	r3, r3, #-16777216
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 15
+
+
+ 586 000e 23F0FF03 		bic	r3, r3, #255
+ 587              		.loc 1 202 6 view .LVU179
+ 588 0012 33B1     		cbz	r3, .L32
+ 203:Core/Src/u8g2/Src/u8log.c ****   {
+ 204:Core/Src/u8g2/Src/u8log.c ****     if ( u8log->cb != 0 )
+ 589              		.loc 1 204 5 is_stmt 1 view .LVU180
+ 590              		.loc 1 204 15 is_stmt 0 view .LVU181
+ 591 0014 A368     		ldr	r3, [r4, #8]
+ 592              		.loc 1 204 8 view .LVU182
+ 593 0016 0BB1     		cbz	r3, .L34
+ 205:Core/Src/u8g2/Src/u8log.c ****     {
+ 206:Core/Src/u8g2/Src/u8log.c ****       u8log->cb(u8log);
+ 594              		.loc 1 206 7 is_stmt 1 view .LVU183
+ 595 0018 2046     		mov	r0, r4
+ 596 001a 9847     		blx	r3
+ 597              	.LVL41:
+ 598              	.L34:
+ 207:Core/Src/u8g2/Src/u8log.c ****     }
+ 208:Core/Src/u8g2/Src/u8log.c ****     u8log->is_redraw_line = 0;
+ 599              		.loc 1 208 5 view .LVU184
+ 600              		.loc 1 208 27 is_stmt 0 view .LVU185
+ 601 001c 0023     		movs	r3, #0
+ 602 001e 6375     		strb	r3, [r4, #21]
+ 209:Core/Src/u8g2/Src/u8log.c ****     u8log->is_redraw_all = 0;
+ 603              		.loc 1 209 5 is_stmt 1 view .LVU186
+ 604              		.loc 1 209 26 is_stmt 0 view .LVU187
+ 605 0020 A375     		strb	r3, [r4, #22]
+ 606              	.L32:
+ 210:Core/Src/u8g2/Src/u8log.c ****   }
+ 211:Core/Src/u8g2/Src/u8log.c **** }
+ 607              		.loc 1 211 1 view .LVU188
+ 608 0022 10BD     		pop	{r4, pc}
+ 609              		.loc 1 211 1 view .LVU189
+ 610              		.cfi_endproc
+ 611              	.LFE9:
+ 613              		.section	.text.u8log_WriteHexHalfByte,"ax",%progbits
+ 614              		.align	1
+ 615              		.syntax unified
+ 616              		.thumb
+ 617              		.thumb_func
+ 619              	u8log_WriteHexHalfByte:
+ 620              	.LVL42:
+ 621              	.LFB11:
+ 212:Core/Src/u8g2/Src/u8log.c **** 
+ 213:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteString(u8log_t *u8log, const char *s)
+ 214:Core/Src/u8g2/Src/u8log.c **** {
+ 215:Core/Src/u8g2/Src/u8log.c ****   while( *s != '\0' )
+ 216:Core/Src/u8g2/Src/u8log.c ****   {
+ 217:Core/Src/u8g2/Src/u8log.c ****     u8log_WriteChar(u8log, *s);
+ 218:Core/Src/u8g2/Src/u8log.c ****     s++;
+ 219:Core/Src/u8g2/Src/u8log.c ****   }
+ 220:Core/Src/u8g2/Src/u8log.c **** }
+ 221:Core/Src/u8g2/Src/u8log.c **** 
+ 222:Core/Src/u8g2/Src/u8log.c **** static void u8log_WriteHexHalfByte(u8log_t *u8log, uint8_t b) U8X8_NOINLINE;
+ 223:Core/Src/u8g2/Src/u8log.c **** static void u8log_WriteHexHalfByte(u8log_t *u8log, uint8_t b)
+ 224:Core/Src/u8g2/Src/u8log.c **** {
+ 622              		.loc 1 224 1 is_stmt 1 view -0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 16
+
+
+ 623              		.cfi_startproc
+ 624              		@ args = 0, pretend = 0, frame = 0
+ 625              		@ frame_needed = 0, uses_anonymous_args = 0
+ 626              		.loc 1 224 1 is_stmt 0 view .LVU191
+ 627 0000 08B5     		push	{r3, lr}
+ 628              	.LCFI6:
+ 629              		.cfi_def_cfa_offset 8
+ 630              		.cfi_offset 3, -8
+ 631              		.cfi_offset 14, -4
+ 225:Core/Src/u8g2/Src/u8log.c ****   b &= 0x0f;
+ 632              		.loc 1 225 3 is_stmt 1 view .LVU192
+ 633              		.loc 1 225 5 is_stmt 0 view .LVU193
+ 634 0002 01F00F01 		and	r1, r1, #15
+ 635              	.LVL43:
+ 226:Core/Src/u8g2/Src/u8log.c ****   if ( b < 10 )
+ 636              		.loc 1 226 3 is_stmt 1 view .LVU194
+ 637              		.loc 1 226 6 is_stmt 0 view .LVU195
+ 638 0006 0929     		cmp	r1, #9
+ 639 0008 03D8     		bhi	.L37
+ 227:Core/Src/u8g2/Src/u8log.c ****     u8log_WriteChar(u8log, b+'0');
+ 640              		.loc 1 227 5 is_stmt 1 view .LVU196
+ 641 000a 3031     		adds	r1, r1, #48
+ 642              	.LVL44:
+ 643              		.loc 1 227 5 is_stmt 0 view .LVU197
+ 644 000c FFF7FEFF 		bl	u8log_WriteChar
+ 645              	.LVL45:
+ 646              	.L36:
+ 228:Core/Src/u8g2/Src/u8log.c ****   else
+ 229:Core/Src/u8g2/Src/u8log.c ****     u8log_WriteChar(u8log, b+'a'-10);
+ 230:Core/Src/u8g2/Src/u8log.c **** }
+ 647              		.loc 1 230 1 view .LVU198
+ 648 0010 08BD     		pop	{r3, pc}
+ 649              	.LVL46:
+ 650              	.L37:
+ 229:Core/Src/u8g2/Src/u8log.c **** }
+ 651              		.loc 1 229 5 is_stmt 1 view .LVU199
+ 652 0012 5731     		adds	r1, r1, #87
+ 653              	.LVL47:
+ 229:Core/Src/u8g2/Src/u8log.c **** }
+ 654              		.loc 1 229 5 is_stmt 0 view .LVU200
+ 655 0014 FFF7FEFF 		bl	u8log_WriteChar
+ 656              	.LVL48:
+ 657              		.loc 1 230 1 view .LVU201
+ 658 0018 FAE7     		b	.L36
+ 659              		.cfi_endproc
+ 660              	.LFE11:
+ 662              		.section	.text.u8log_WriteString,"ax",%progbits
+ 663              		.align	1
+ 664              		.global	u8log_WriteString
+ 665              		.syntax unified
+ 666              		.thumb
+ 667              		.thumb_func
+ 669              	u8log_WriteString:
+ 670              	.LVL49:
+ 671              	.LFB10:
+ 214:Core/Src/u8g2/Src/u8log.c ****   while( *s != '\0' )
+ 672              		.loc 1 214 1 is_stmt 1 view -0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 17
+
+
+ 673              		.cfi_startproc
+ 674              		@ args = 0, pretend = 0, frame = 0
+ 675              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214:Core/Src/u8g2/Src/u8log.c ****   while( *s != '\0' )
+ 676              		.loc 1 214 1 is_stmt 0 view .LVU203
+ 677 0000 38B5     		push	{r3, r4, r5, lr}
+ 678              	.LCFI7:
+ 679              		.cfi_def_cfa_offset 16
+ 680              		.cfi_offset 3, -16
+ 681              		.cfi_offset 4, -12
+ 682              		.cfi_offset 5, -8
+ 683              		.cfi_offset 14, -4
+ 684 0002 0546     		mov	r5, r0
+ 685 0004 0C46     		mov	r4, r1
+ 215:Core/Src/u8g2/Src/u8log.c ****   {
+ 686              		.loc 1 215 3 is_stmt 1 view .LVU204
+ 215:Core/Src/u8g2/Src/u8log.c ****   {
+ 687              		.loc 1 215 8 is_stmt 0 view .LVU205
+ 688 0006 03E0     		b	.L41
+ 689              	.LVL50:
+ 690              	.L42:
+ 217:Core/Src/u8g2/Src/u8log.c ****     s++;
+ 691              		.loc 1 217 5 is_stmt 1 view .LVU206
+ 692 0008 2846     		mov	r0, r5
+ 693 000a FFF7FEFF 		bl	u8log_WriteChar
+ 694              	.LVL51:
+ 218:Core/Src/u8g2/Src/u8log.c ****   }
+ 695              		.loc 1 218 5 view .LVU207
+ 218:Core/Src/u8g2/Src/u8log.c ****   }
+ 696              		.loc 1 218 6 is_stmt 0 view .LVU208
+ 697 000e 0134     		adds	r4, r4, #1
+ 698              	.LVL52:
+ 699              	.L41:
+ 215:Core/Src/u8g2/Src/u8log.c ****   {
+ 700              		.loc 1 215 8 is_stmt 1 view .LVU209
+ 215:Core/Src/u8g2/Src/u8log.c ****   {
+ 701              		.loc 1 215 10 is_stmt 0 view .LVU210
+ 702 0010 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 215:Core/Src/u8g2/Src/u8log.c ****   {
+ 703              		.loc 1 215 8 view .LVU211
+ 704 0012 0029     		cmp	r1, #0
+ 705 0014 F8D1     		bne	.L42
+ 220:Core/Src/u8g2/Src/u8log.c **** 
+ 706              		.loc 1 220 1 view .LVU212
+ 707 0016 38BD     		pop	{r3, r4, r5, pc}
+ 220:Core/Src/u8g2/Src/u8log.c **** 
+ 708              		.loc 1 220 1 view .LVU213
+ 709              		.cfi_endproc
+ 710              	.LFE10:
+ 712              		.section	.text.u8log_WriteHex8,"ax",%progbits
+ 713              		.align	1
+ 714              		.global	u8log_WriteHex8
+ 715              		.syntax unified
+ 716              		.thumb
+ 717              		.thumb_func
+ 719              	u8log_WriteHex8:
+ 720              	.LVL53:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 18
+
+
+ 721              	.LFB12:
+ 231:Core/Src/u8g2/Src/u8log.c **** 
+ 232:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteHex8(u8log_t *u8log, uint8_t b)
+ 233:Core/Src/u8g2/Src/u8log.c **** {
+ 722              		.loc 1 233 1 is_stmt 1 view -0
+ 723              		.cfi_startproc
+ 724              		@ args = 0, pretend = 0, frame = 0
+ 725              		@ frame_needed = 0, uses_anonymous_args = 0
+ 726              		.loc 1 233 1 is_stmt 0 view .LVU215
+ 727 0000 38B5     		push	{r3, r4, r5, lr}
+ 728              	.LCFI8:
+ 729              		.cfi_def_cfa_offset 16
+ 730              		.cfi_offset 3, -16
+ 731              		.cfi_offset 4, -12
+ 732              		.cfi_offset 5, -8
+ 733              		.cfi_offset 14, -4
+ 734 0002 0546     		mov	r5, r0
+ 735 0004 0C46     		mov	r4, r1
+ 234:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHexHalfByte(u8log, b >> 4);
+ 736              		.loc 1 234 3 is_stmt 1 view .LVU216
+ 737 0006 0909     		lsrs	r1, r1, #4
+ 738              	.LVL54:
+ 739              		.loc 1 234 3 is_stmt 0 view .LVU217
+ 740 0008 FFF7FEFF 		bl	u8log_WriteHexHalfByte
+ 741              	.LVL55:
+ 235:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHexHalfByte(u8log, b);
+ 742              		.loc 1 235 3 is_stmt 1 view .LVU218
+ 743 000c 2146     		mov	r1, r4
+ 744 000e 2846     		mov	r0, r5
+ 745 0010 FFF7FEFF 		bl	u8log_WriteHexHalfByte
+ 746              	.LVL56:
+ 236:Core/Src/u8g2/Src/u8log.c **** }
+ 747              		.loc 1 236 1 is_stmt 0 view .LVU219
+ 748 0014 38BD     		pop	{r3, r4, r5, pc}
+ 749              		.loc 1 236 1 view .LVU220
+ 750              		.cfi_endproc
+ 751              	.LFE12:
+ 753              		.section	.text.u8log_WriteHex16,"ax",%progbits
+ 754              		.align	1
+ 755              		.global	u8log_WriteHex16
+ 756              		.syntax unified
+ 757              		.thumb
+ 758              		.thumb_func
+ 760              	u8log_WriteHex16:
+ 761              	.LVL57:
+ 762              	.LFB13:
+ 237:Core/Src/u8g2/Src/u8log.c **** 
+ 238:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteHex16(u8log_t *u8log, uint16_t v)
+ 239:Core/Src/u8g2/Src/u8log.c **** {
+ 763              		.loc 1 239 1 is_stmt 1 view -0
+ 764              		.cfi_startproc
+ 765              		@ args = 0, pretend = 0, frame = 0
+ 766              		@ frame_needed = 0, uses_anonymous_args = 0
+ 767              		.loc 1 239 1 is_stmt 0 view .LVU222
+ 768 0000 38B5     		push	{r3, r4, r5, lr}
+ 769              	.LCFI9:
+ 770              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 19
+
+
+ 771              		.cfi_offset 3, -16
+ 772              		.cfi_offset 4, -12
+ 773              		.cfi_offset 5, -8
+ 774              		.cfi_offset 14, -4
+ 775 0002 0546     		mov	r5, r0
+ 776 0004 0C46     		mov	r4, r1
+ 240:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHex8(u8log, v>>8);
+ 777              		.loc 1 240 3 is_stmt 1 view .LVU223
+ 778 0006 090A     		lsrs	r1, r1, #8
+ 779              	.LVL58:
+ 780              		.loc 1 240 3 is_stmt 0 view .LVU224
+ 781 0008 FFF7FEFF 		bl	u8log_WriteHex8
+ 782              	.LVL59:
+ 241:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHex8(u8log, v);
+ 783              		.loc 1 241 3 is_stmt 1 view .LVU225
+ 784 000c E1B2     		uxtb	r1, r4
+ 785 000e 2846     		mov	r0, r5
+ 786 0010 FFF7FEFF 		bl	u8log_WriteHex8
+ 787              	.LVL60:
+ 242:Core/Src/u8g2/Src/u8log.c **** }
+ 788              		.loc 1 242 1 is_stmt 0 view .LVU226
+ 789 0014 38BD     		pop	{r3, r4, r5, pc}
+ 790              		.loc 1 242 1 view .LVU227
+ 791              		.cfi_endproc
+ 792              	.LFE13:
+ 794              		.section	.text.u8log_WriteHex32,"ax",%progbits
+ 795              		.align	1
+ 796              		.global	u8log_WriteHex32
+ 797              		.syntax unified
+ 798              		.thumb
+ 799              		.thumb_func
+ 801              	u8log_WriteHex32:
+ 802              	.LVL61:
+ 803              	.LFB14:
+ 243:Core/Src/u8g2/Src/u8log.c **** 
+ 244:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteHex32(u8log_t *u8log, uint32_t v)
+ 245:Core/Src/u8g2/Src/u8log.c **** {
+ 804              		.loc 1 245 1 is_stmt 1 view -0
+ 805              		.cfi_startproc
+ 806              		@ args = 0, pretend = 0, frame = 0
+ 807              		@ frame_needed = 0, uses_anonymous_args = 0
+ 808              		.loc 1 245 1 is_stmt 0 view .LVU229
+ 809 0000 38B5     		push	{r3, r4, r5, lr}
+ 810              	.LCFI10:
+ 811              		.cfi_def_cfa_offset 16
+ 812              		.cfi_offset 3, -16
+ 813              		.cfi_offset 4, -12
+ 814              		.cfi_offset 5, -8
+ 815              		.cfi_offset 14, -4
+ 816 0002 0546     		mov	r5, r0
+ 817 0004 0C46     		mov	r4, r1
+ 246:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHex16(u8log, v>>16);
+ 818              		.loc 1 246 3 is_stmt 1 view .LVU230
+ 819 0006 090C     		lsrs	r1, r1, #16
+ 820              	.LVL62:
+ 821              		.loc 1 246 3 is_stmt 0 view .LVU231
+ 822 0008 FFF7FEFF 		bl	u8log_WriteHex16
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 20
+
+
+ 823              	.LVL63:
+ 247:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteHex16(u8log, v);
+ 824              		.loc 1 247 3 is_stmt 1 view .LVU232
+ 825 000c A1B2     		uxth	r1, r4
+ 826 000e 2846     		mov	r0, r5
+ 827 0010 FFF7FEFF 		bl	u8log_WriteHex16
+ 828              	.LVL64:
+ 248:Core/Src/u8g2/Src/u8log.c **** }
+ 829              		.loc 1 248 1 is_stmt 0 view .LVU233
+ 830 0014 38BD     		pop	{r3, r4, r5, pc}
+ 831              		.loc 1 248 1 view .LVU234
+ 832              		.cfi_endproc
+ 833              	.LFE14:
+ 835              		.section	.text.u8log_WriteDec8,"ax",%progbits
+ 836              		.align	1
+ 837              		.global	u8log_WriteDec8
+ 838              		.syntax unified
+ 839              		.thumb
+ 840              		.thumb_func
+ 842              	u8log_WriteDec8:
+ 843              	.LVL65:
+ 844              	.LFB15:
+ 249:Core/Src/u8g2/Src/u8log.c **** 
+ 250:Core/Src/u8g2/Src/u8log.c **** /* v = value, d = number of digits (1..3) */
+ 251:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteDec8(u8log_t *u8log, uint8_t v, uint8_t d)
+ 252:Core/Src/u8g2/Src/u8log.c **** {
+ 845              		.loc 1 252 1 is_stmt 1 view -0
+ 846              		.cfi_startproc
+ 847              		@ args = 0, pretend = 0, frame = 0
+ 848              		@ frame_needed = 0, uses_anonymous_args = 0
+ 849              		.loc 1 252 1 is_stmt 0 view .LVU236
+ 850 0000 10B5     		push	{r4, lr}
+ 851              	.LCFI11:
+ 852              		.cfi_def_cfa_offset 8
+ 853              		.cfi_offset 4, -8
+ 854              		.cfi_offset 14, -4
+ 855 0002 0446     		mov	r4, r0
+ 856 0004 0846     		mov	r0, r1
+ 857              	.LVL66:
+ 253:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteString(u8log, u8x8_u8toa(v, d));
+ 858              		.loc 1 253 3 is_stmt 1 view .LVU237
+ 859 0006 1146     		mov	r1, r2
+ 860              	.LVL67:
+ 861              		.loc 1 253 3 is_stmt 0 view .LVU238
+ 862 0008 FFF7FEFF 		bl	u8x8_u8toa
+ 863              	.LVL68:
+ 864              		.loc 1 253 3 view .LVU239
+ 865 000c 0146     		mov	r1, r0
+ 866 000e 2046     		mov	r0, r4
+ 867 0010 FFF7FEFF 		bl	u8log_WriteString
+ 868              	.LVL69:
+ 254:Core/Src/u8g2/Src/u8log.c **** }
+ 869              		.loc 1 254 1 view .LVU240
+ 870 0014 10BD     		pop	{r4, pc}
+ 871              		.loc 1 254 1 view .LVU241
+ 872              		.cfi_endproc
+ 873              	.LFE15:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 21
+
+
+ 875              		.section	.text.u8log_WriteDec16,"ax",%progbits
+ 876              		.align	1
+ 877              		.global	u8log_WriteDec16
+ 878              		.syntax unified
+ 879              		.thumb
+ 880              		.thumb_func
+ 882              	u8log_WriteDec16:
+ 883              	.LVL70:
+ 884              	.LFB16:
+ 255:Core/Src/u8g2/Src/u8log.c **** 
+ 256:Core/Src/u8g2/Src/u8log.c **** /* v = value, d = number of digits (1..5) */
+ 257:Core/Src/u8g2/Src/u8log.c **** void u8log_WriteDec16(u8log_t *u8log, uint16_t v, uint8_t d)
+ 258:Core/Src/u8g2/Src/u8log.c **** {
+ 885              		.loc 1 258 1 is_stmt 1 view -0
+ 886              		.cfi_startproc
+ 887              		@ args = 0, pretend = 0, frame = 0
+ 888              		@ frame_needed = 0, uses_anonymous_args = 0
+ 889              		.loc 1 258 1 is_stmt 0 view .LVU243
+ 890 0000 10B5     		push	{r4, lr}
+ 891              	.LCFI12:
+ 892              		.cfi_def_cfa_offset 8
+ 893              		.cfi_offset 4, -8
+ 894              		.cfi_offset 14, -4
+ 895 0002 0446     		mov	r4, r0
+ 896 0004 0846     		mov	r0, r1
+ 897              	.LVL71:
+ 259:Core/Src/u8g2/Src/u8log.c ****   u8log_WriteString(u8log, u8x8_u16toa(v, d));
+ 898              		.loc 1 259 3 is_stmt 1 view .LVU244
+ 899 0006 1146     		mov	r1, r2
+ 900              	.LVL72:
+ 901              		.loc 1 259 3 is_stmt 0 view .LVU245
+ 902 0008 FFF7FEFF 		bl	u8x8_u16toa
+ 903              	.LVL73:
+ 904              		.loc 1 259 3 view .LVU246
+ 905 000c 0146     		mov	r1, r0
+ 906 000e 2046     		mov	r0, r4
+ 907 0010 FFF7FEFF 		bl	u8log_WriteString
+ 908              	.LVL74:
+ 260:Core/Src/u8g2/Src/u8log.c **** }
+ 909              		.loc 1 260 1 view .LVU247
+ 910 0014 10BD     		pop	{r4, pc}
+ 911              		.loc 1 260 1 view .LVU248
+ 912              		.cfi_endproc
+ 913              	.LFE16:
+ 915              		.text
+ 916              	.Letext0:
+ 917              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 918              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 919              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s 			page 22
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8log.c
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:20     .text.u8log_clear_screen:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:25     .text.u8log_clear_screen:00000000 u8log_clear_screen
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:73     .text.u8log_scroll_up:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:78     .text.u8log_scroll_up:00000000 u8log_scroll_up
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:184    .text.u8log_cursor_on_screen:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:189    .text.u8log_cursor_on_screen:00000000 u8log_cursor_on_screen
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:250    .text.u8log_write_to_screen:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:255    .text.u8log_write_to_screen:00000000 u8log_write_to_screen
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:316    .text.u8log_write_char:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:322    .text.u8log_write_char:00000000 u8log_write_char
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:342    .text.u8log_write_char:00000010 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:442    .text.u8log_Init:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:448    .text.u8log_Init:00000000 u8log_Init
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:487    .text.u8log_SetCallback:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:493    .text.u8log_SetCallback:00000000 u8log_SetCallback
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:513    .text.u8log_SetRedrawMode:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:519    .text.u8log_SetRedrawMode:00000000 u8log_SetRedrawMode
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:536    .text.u8log_SetLineHeightOffset:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:542    .text.u8log_SetLineHeightOffset:00000000 u8log_SetLineHeightOffset
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:559    .text.u8log_WriteChar:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:565    .text.u8log_WriteChar:00000000 u8log_WriteChar
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:614    .text.u8log_WriteHexHalfByte:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:619    .text.u8log_WriteHexHalfByte:00000000 u8log_WriteHexHalfByte
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:663    .text.u8log_WriteString:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:669    .text.u8log_WriteString:00000000 u8log_WriteString
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:713    .text.u8log_WriteHex8:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:719    .text.u8log_WriteHex8:00000000 u8log_WriteHex8
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:754    .text.u8log_WriteHex16:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:760    .text.u8log_WriteHex16:00000000 u8log_WriteHex16
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:795    .text.u8log_WriteHex32:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:801    .text.u8log_WriteHex32:00000000 u8log_WriteHex32
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:836    .text.u8log_WriteDec8:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:842    .text.u8log_WriteDec8:00000000 u8log_WriteDec8
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:876    .text.u8log_WriteDec16:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:882    .text.u8log_WriteDec16:00000000 u8log_WriteDec16
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:347    .text.u8log_write_char:00000015 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\cc98JHzd.s:347    .text.u8log_write_char:00000016 $t
+
+UNDEFINED SYMBOLS
+u8x8_u8toa
+u8x8_u16toa

@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "构建",
+      "command": "make",
+      "args": [],
+      "problemMatcher": ["$gcc"],
+      "group": "build",
+      "detail": "编译器: C:\\Users\\Moroshima\\scoop\\apps\\mingw\\current\\bin\\gcc.exe"
+    },
+    {
+      "type": "shell",
+      "label": "下载",
+      "command": "openocd",
+      "args": [
+        "-f",
+        "interface/stlink-v2.cfg",
+        "-f",
+        "targrt/stm32f4x.cfg",
+        "program build/embedded.hex verify reset exit"
+      ],
+      "problemMatcher": ["$gcc"],
+      "group": "build",
+      "detail": "编译器: C:\\Users\\Moroshima\\scoop\\apps\\mingw\\current\\bin\\gcc.exe"
+    }
+  ]
+}

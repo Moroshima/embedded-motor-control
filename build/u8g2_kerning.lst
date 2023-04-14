@@ -1,0 +1,416 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_kerning.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_GetKerning,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_GetKerning
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_GetKerning:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8g2_kerning.c"
+   1:Core/Src/u8g2/Src/u8g2_kerning.c **** /*
+   2:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+   3:Core/Src/u8g2/Src/u8g2_kerning.c ****   u8g2_kerning.c
+   4:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+   5:Core/Src/u8g2/Src/u8g2_kerning.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+   7:Core/Src/u8g2/Src/u8g2_kerning.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/Src/u8g2/Src/u8g2_kerning.c ****   All rights reserved.
+   9:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  10:Core/Src/u8g2/Src/u8g2_kerning.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/Src/u8g2/Src/u8g2_kerning.c ****   are permitted provided that the following conditions are met:
+  12:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  13:Core/Src/u8g2/Src/u8g2_kerning.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/Src/u8g2/Src/u8g2_kerning.c ****     of conditions and the following disclaimer.
+  15:Core/Src/u8g2/Src/u8g2_kerning.c ****     
+  16:Core/Src/u8g2/Src/u8g2_kerning.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/Src/u8g2/Src/u8g2_kerning.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/Src/u8g2/Src/u8g2_kerning.c ****     materials provided with the distribution.
+  19:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  20:Core/Src/u8g2/Src/u8g2_kerning.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/Src/u8g2/Src/u8g2_kerning.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/Src/u8g2/Src/u8g2_kerning.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/Src/u8g2/Src/u8g2_kerning.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/Src/u8g2/Src/u8g2_kerning.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/Src/u8g2/Src/u8g2_kerning.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/Src/u8g2/Src/u8g2_kerning.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/Src/u8g2/Src/u8g2_kerning.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/Src/u8g2/Src/u8g2_kerning.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/Src/u8g2/Src/u8g2_kerning.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8g2_kerning.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/Src/u8g2/Src/u8g2_kerning.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/Src/u8g2/Src/u8g2_kerning.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  34:Core/Src/u8g2/Src/u8g2_kerning.c **** */
+  35:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  36:Core/Src/u8g2/Src/u8g2_kerning.c **** #include "u8g2.h"
+  37:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  38:Core/Src/u8g2/Src/u8g2_kerning.c **** /* this function is used as "u8g2_get_kerning_cb" */
+  39:Core/Src/u8g2/Src/u8g2_kerning.c **** /*
+  40:Core/Src/u8g2/Src/u8g2_kerning.c **** uint8_t u8g2_GetNullKerning(u8g2_t *u8g2, uint16_t e1, uint16_t e2)
+  41:Core/Src/u8g2/Src/u8g2_kerning.c **** {
+  42:Core/Src/u8g2/Src/u8g2_kerning.c ****   return 0;
+  43:Core/Src/u8g2/Src/u8g2_kerning.c **** }
+  44:Core/Src/u8g2/Src/u8g2_kerning.c **** */
+  45:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  46:Core/Src/u8g2/Src/u8g2_kerning.c **** /* this function is used as "u8g2_get_kerning_cb" */
+  47:Core/Src/u8g2/Src/u8g2_kerning.c **** uint8_t u8g2_GetKerning(U8X8_UNUSED u8g2_t *u8g2, u8g2_kerning_t *kerning, uint16_t e1, uint16_t e2
+  48:Core/Src/u8g2/Src/u8g2_kerning.c **** {
+  30              		.loc 1 48 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  49:Core/Src/u8g2/Src/u8g2_kerning.c ****   uint16_t i1, i2, cnt, end;
+  34              		.loc 1 49 3 view .LVU1
+  50:Core/Src/u8g2/Src/u8g2_kerning.c ****   if ( kerning == NULL )
+  35              		.loc 1 50 3 view .LVU2
+  36              		.loc 1 50 6 is_stmt 0 view .LVU3
+  37 0000 51B3     		cbz	r1, .L9
+  48:Core/Src/u8g2/Src/u8g2_kerning.c ****   uint16_t i1, i2, cnt, end;
+  38              		.loc 1 48 1 view .LVU4
+  39 0002 10B5     		push	{r4, lr}
+  40              	.LCFI0:
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 4, -8
+  43              		.cfi_offset 14, -4
+  44 0004 0846     		mov	r0, r1
+  45              	.LVL1:
+  51:Core/Src/u8g2/Src/u8g2_kerning.c ****     return 0;
+  52:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+  53:Core/Src/u8g2/Src/u8g2_kerning.c ****   /* search for the encoding in the first table */
+  54:Core/Src/u8g2/Src/u8g2_kerning.c ****   cnt = kerning->first_table_cnt;
+  46              		.loc 1 54 3 is_stmt 1 view .LVU5
+  47              		.loc 1 54 7 is_stmt 0 view .LVU6
+  48 0006 B1F800E0 		ldrh	lr, [r1]
+  49              	.LVL2:
+  55:Core/Src/u8g2/Src/u8g2_kerning.c ****   cnt--;	/* ignore the last element of the table, which is 0x0ffff */
+  50              		.loc 1 55 3 is_stmt 1 view .LVU7
+  51              		.loc 1 55 6 is_stmt 0 view .LVU8
+  52 000a 0EF1FF3E 		add	lr, lr, #-1
+  53              	.LVL3:
+  54              		.loc 1 55 6 view .LVU9
+  55 000e 1FFA8EFE 		uxth	lr, lr
+  56              	.LVL4:
+  56:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i1 = 0; i1 < cnt; i1++ )
+  57              		.loc 1 56 3 is_stmt 1 view .LVU10
+  58              		.loc 1 56 11 is_stmt 0 view .LVU11
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 3
+
+
+  59 0012 0021     		movs	r1, #0
+  60              	.LVL5:
+  61              	.L3:
+  62              		.loc 1 56 16 is_stmt 1 discriminator 1 view .LVU12
+  63              		.loc 1 56 3 is_stmt 0 discriminator 1 view .LVU13
+  64 0014 7145     		cmp	r1, lr
+  65 0016 07D2     		bcs	.L4
+  57:Core/Src/u8g2/Src/u8g2_kerning.c ****   {
+  58:Core/Src/u8g2/Src/u8g2_kerning.c ****     if ( kerning->first_encoding_table[i1] == e1 )
+  66              		.loc 1 58 5 is_stmt 1 view .LVU14
+  67              		.loc 1 58 39 is_stmt 0 view .LVU15
+  68 0018 4468     		ldr	r4, [r0, #4]
+  69 001a 34F811C0 		ldrh	ip, [r4, r1, lsl #1]
+  70              		.loc 1 58 8 view .LVU16
+  71 001e 9445     		cmp	ip, r2
+  72 0020 02D0     		beq	.L4
+  56:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i1 = 0; i1 < cnt; i1++ )
+  73              		.loc 1 56 26 is_stmt 1 discriminator 2 view .LVU17
+  56:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i1 = 0; i1 < cnt; i1++ )
+  74              		.loc 1 56 28 is_stmt 0 discriminator 2 view .LVU18
+  75 0022 0131     		adds	r1, r1, #1
+  76              	.LVL6:
+  56:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i1 = 0; i1 < cnt; i1++ )
+  77              		.loc 1 56 28 discriminator 2 view .LVU19
+  78 0024 89B2     		uxth	r1, r1
+  79              	.LVL7:
+  56:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i1 = 0; i1 < cnt; i1++ )
+  80              		.loc 1 56 28 discriminator 2 view .LVU20
+  81 0026 F5E7     		b	.L3
+  82              	.L4:
+  59:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+  60:Core/Src/u8g2/Src/u8g2_kerning.c ****   }
+  61:Core/Src/u8g2/Src/u8g2_kerning.c ****   if ( i1 >= cnt )
+  83              		.loc 1 61 3 is_stmt 1 view .LVU21
+  84              		.loc 1 61 6 is_stmt 0 view .LVU22
+  85 0028 7145     		cmp	r1, lr
+  86 002a 17D2     		bcs	.L10
+  62:Core/Src/u8g2/Src/u8g2_kerning.c ****     return 0;	/* e1 not part of the kerning table, return 0 */
+  63:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  64:Core/Src/u8g2/Src/u8g2_kerning.c ****   /* get the upper index for i2 */
+  65:Core/Src/u8g2/Src/u8g2_kerning.c ****   end = kerning->index_to_second_table[i1+1];
+  87              		.loc 1 65 3 is_stmt 1 view .LVU23
+  88              		.loc 1 65 16 is_stmt 0 view .LVU24
+  89 002c 8268     		ldr	r2, [r0, #8]
+  90              	.LVL8:
+  91              		.loc 1 65 39 view .LVU25
+  92 002e 01F1010C 		add	ip, r1, #1
+  93              		.loc 1 65 7 view .LVU26
+  94 0032 32F81CC0 		ldrh	ip, [r2, ip, lsl #1]
+  95              	.LVL9:
+  66:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i2 = kerning->index_to_second_table[i1]; i2 < end; i2++ )
+  96              		.loc 1 66 3 is_stmt 1 view .LVU27
+  97              		.loc 1 66 11 is_stmt 0 view .LVU28
+  98 0036 32F81120 		ldrh	r2, [r2, r1, lsl #1]
+  99              	.LVL10:
+ 100              	.L6:
+ 101              		.loc 1 66 49 is_stmt 1 discriminator 1 view .LVU29
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 4
+
+
+ 102              		.loc 1 66 3 is_stmt 0 discriminator 1 view .LVU30
+ 103 003a 6245     		cmp	r2, ip
+ 104 003c 07D2     		bcs	.L7
+  67:Core/Src/u8g2/Src/u8g2_kerning.c ****   {
+  68:Core/Src/u8g2/Src/u8g2_kerning.c ****     if ( kerning->second_encoding_table[i2] == e2 )
+ 105              		.loc 1 68 5 is_stmt 1 view .LVU31
+ 106              		.loc 1 68 17 is_stmt 0 view .LVU32
+ 107 003e C168     		ldr	r1, [r0, #12]
+ 108              		.loc 1 68 40 view .LVU33
+ 109 0040 31F81210 		ldrh	r1, [r1, r2, lsl #1]
+ 110              		.loc 1 68 8 view .LVU34
+ 111 0044 9942     		cmp	r1, r3
+ 112 0046 02D0     		beq	.L7
+  66:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i2 = kerning->index_to_second_table[i1]; i2 < end; i2++ )
+ 113              		.loc 1 66 59 is_stmt 1 discriminator 2 view .LVU35
+  66:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i2 = kerning->index_to_second_table[i1]; i2 < end; i2++ )
+ 114              		.loc 1 66 61 is_stmt 0 discriminator 2 view .LVU36
+ 115 0048 0132     		adds	r2, r2, #1
+ 116              	.LVL11:
+  66:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i2 = kerning->index_to_second_table[i1]; i2 < end; i2++ )
+ 117              		.loc 1 66 61 discriminator 2 view .LVU37
+ 118 004a 92B2     		uxth	r2, r2
+ 119              	.LVL12:
+  66:Core/Src/u8g2/Src/u8g2_kerning.c ****   for( i2 = kerning->index_to_second_table[i1]; i2 < end; i2++ )
+ 120              		.loc 1 66 61 discriminator 2 view .LVU38
+ 121 004c F5E7     		b	.L6
+ 122              	.L7:
+  69:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+  70:Core/Src/u8g2/Src/u8g2_kerning.c ****   }
+  71:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+  72:Core/Src/u8g2/Src/u8g2_kerning.c ****   if ( i2 >= end )
+ 123              		.loc 1 72 3 is_stmt 1 view .LVU39
+ 124              		.loc 1 72 6 is_stmt 0 view .LVU40
+ 125 004e 6245     		cmp	r2, ip
+ 126 0050 06D2     		bcs	.L11
+  73:Core/Src/u8g2/Src/u8g2_kerning.c ****     return 0;	/* e2 not part of any pair with e1, return 0 */
+  74:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+  75:Core/Src/u8g2/Src/u8g2_kerning.c ****   return kerning->kerning_values[i2];
+ 127              		.loc 1 75 3 is_stmt 1 view .LVU41
+ 128              		.loc 1 75 17 is_stmt 0 view .LVU42
+ 129 0052 0369     		ldr	r3, [r0, #16]
+ 130              	.LVL13:
+ 131              		.loc 1 75 33 view .LVU43
+ 132 0054 985C     		ldrb	r0, [r3, r2]	@ zero_extendqisi2
+ 133              	.LVL14:
+ 134              	.L2:
+  76:Core/Src/u8g2/Src/u8g2_kerning.c **** }
+ 135              		.loc 1 76 1 view .LVU44
+ 136 0056 10BD     		pop	{r4, pc}
+ 137              	.LVL15:
+ 138              	.L9:
+ 139              	.LCFI1:
+ 140              		.cfi_def_cfa_offset 0
+ 141              		.cfi_restore 4
+ 142              		.cfi_restore 14
+  51:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+ 143              		.loc 1 51 12 view .LVU45
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 5
+
+
+ 144 0058 0020     		movs	r0, #0
+ 145              	.LVL16:
+ 146              		.loc 1 76 1 view .LVU46
+ 147 005a 7047     		bx	lr
+ 148              	.LVL17:
+ 149              	.L10:
+ 150              	.LCFI2:
+ 151              		.cfi_def_cfa_offset 8
+ 152              		.cfi_offset 4, -8
+ 153              		.cfi_offset 14, -4
+  62:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+ 154              		.loc 1 62 12 view .LVU47
+ 155 005c 0020     		movs	r0, #0
+ 156              	.LVL18:
+  62:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+ 157              		.loc 1 62 12 view .LVU48
+ 158 005e FAE7     		b	.L2
+ 159              	.LVL19:
+ 160              	.L11:
+  73:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+ 161              		.loc 1 73 12 view .LVU49
+ 162 0060 0020     		movs	r0, #0
+ 163              	.LVL20:
+  73:Core/Src/u8g2/Src/u8g2_kerning.c ****   
+ 164              		.loc 1 73 12 view .LVU50
+ 165 0062 F8E7     		b	.L2
+ 166              		.cfi_endproc
+ 167              	.LFE0:
+ 169              		.section	.text.u8g2_GetKerningByTable,"ax",%progbits
+ 170              		.align	1
+ 171              		.global	u8g2_GetKerningByTable
+ 172              		.syntax unified
+ 173              		.thumb
+ 174              		.thumb_func
+ 176              	u8g2_GetKerningByTable:
+ 177              	.LVL21:
+ 178              	.LFB1:
+  77:Core/Src/u8g2/Src/u8g2_kerning.c **** 
+  78:Core/Src/u8g2/Src/u8g2_kerning.c **** uint8_t u8g2_GetKerningByTable(U8X8_UNUSED u8g2_t *u8g2, const uint16_t *kt, uint16_t e1, uint16_t 
+  79:Core/Src/u8g2/Src/u8g2_kerning.c **** {
+ 179              		.loc 1 79 1 is_stmt 1 view -0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+  80:Core/Src/u8g2/Src/u8g2_kerning.c ****   uint16_t i;
+ 183              		.loc 1 80 3 view .LVU52
+  81:Core/Src/u8g2/Src/u8g2_kerning.c ****   i = 0;
+ 184              		.loc 1 81 3 view .LVU53
+  82:Core/Src/u8g2/Src/u8g2_kerning.c ****   if ( kt == NULL )
+ 185              		.loc 1 82 3 view .LVU54
+ 186              		.loc 1 82 6 is_stmt 0 view .LVU55
+ 187 0000 B9B1     		cbz	r1, .L20
+  79:Core/Src/u8g2/Src/u8g2_kerning.c ****   uint16_t i;
+ 188              		.loc 1 79 1 view .LVU56
+ 189 0002 10B5     		push	{r4, lr}
+ 190              	.LCFI3:
+ 191              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 6
+
+
+ 192              		.cfi_offset 4, -8
+ 193              		.cfi_offset 14, -4
+ 194 0004 8E46     		mov	lr, r1
+  81:Core/Src/u8g2/Src/u8g2_kerning.c ****   i = 0;
+ 195              		.loc 1 81 5 view .LVU57
+ 196 0006 0021     		movs	r1, #0
+ 197              	.LVL22:
+  81:Core/Src/u8g2/Src/u8g2_kerning.c ****   i = 0;
+ 198              		.loc 1 81 5 view .LVU58
+ 199 0008 01E0     		b	.L19
+ 200              	.LVL23:
+ 201              	.L18:
+  83:Core/Src/u8g2/Src/u8g2_kerning.c ****     return 0;
+  84:Core/Src/u8g2/Src/u8g2_kerning.c ****   for(;;)
+  85:Core/Src/u8g2/Src/u8g2_kerning.c ****   {
+  86:Core/Src/u8g2/Src/u8g2_kerning.c ****     if ( kt[i] == 0x0ffff )
+  87:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+  88:Core/Src/u8g2/Src/u8g2_kerning.c ****     if ( kt[i] == e1 && kt[i+1] == e2 )
+  89:Core/Src/u8g2/Src/u8g2_kerning.c ****       return kt[i+2];
+  90:Core/Src/u8g2/Src/u8g2_kerning.c ****     i+=3;
+ 202              		.loc 1 90 5 is_stmt 1 view .LVU59
+ 203              		.loc 1 90 6 is_stmt 0 view .LVU60
+ 204 000a 0331     		adds	r1, r1, #3
+ 205              	.LVL24:
+ 206              		.loc 1 90 6 view .LVU61
+ 207 000c 89B2     		uxth	r1, r1
+ 208              	.LVL25:
+  84:Core/Src/u8g2/Src/u8g2_kerning.c ****   {
+ 209              		.loc 1 84 8 is_stmt 1 view .LVU62
+ 210              	.L19:
+  84:Core/Src/u8g2/Src/u8g2_kerning.c ****   {
+ 211              		.loc 1 84 3 view .LVU63
+  86:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+ 212              		.loc 1 86 5 view .LVU64
+  86:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+ 213              		.loc 1 86 12 is_stmt 0 view .LVU65
+ 214 000e 0C46     		mov	r4, r1
+ 215 0010 3EF81100 		ldrh	r0, [lr, r1, lsl #1]
+  86:Core/Src/u8g2/Src/u8g2_kerning.c ****       break;
+ 216              		.loc 1 86 8 view .LVU66
+ 217 0014 4FF6FF7C 		movw	ip, #65535
+ 218 0018 6045     		cmp	r0, ip
+ 219 001a 0CD0     		beq	.L21
+  88:Core/Src/u8g2/Src/u8g2_kerning.c ****       return kt[i+2];
+ 220              		.loc 1 88 5 is_stmt 1 view .LVU67
+  88:Core/Src/u8g2/Src/u8g2_kerning.c ****       return kt[i+2];
+ 221              		.loc 1 88 8 is_stmt 0 view .LVU68
+ 222 001c 9042     		cmp	r0, r2
+ 223 001e F4D1     		bne	.L18
+  88:Core/Src/u8g2/Src/u8g2_kerning.c ****       return kt[i+2];
+ 224              		.loc 1 88 27 discriminator 1 view .LVU69
+ 225 0020 481C     		adds	r0, r1, #1
+ 226 0022 3EF81000 		ldrh	r0, [lr, r0, lsl #1]
+  88:Core/Src/u8g2/Src/u8g2_kerning.c ****       return kt[i+2];
+ 227              		.loc 1 88 22 discriminator 1 view .LVU70
+ 228 0026 9842     		cmp	r0, r3
+ 229 0028 EFD1     		bne	.L18
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 7
+
+
+  89:Core/Src/u8g2/Src/u8g2_kerning.c ****     i+=3;
+ 230              		.loc 1 89 7 is_stmt 1 view .LVU71
+  89:Core/Src/u8g2/Src/u8g2_kerning.c ****     i+=3;
+ 231              		.loc 1 89 16 is_stmt 0 view .LVU72
+ 232 002a 0234     		adds	r4, r4, #2
+ 233 002c 1EF81400 		ldrb	r0, [lr, r4, lsl #1]	@ zero_extendqisi2
+ 234 0030 02E0     		b	.L17
+ 235              	.LVL26:
+ 236              	.L20:
+ 237              	.LCFI4:
+ 238              		.cfi_def_cfa_offset 0
+ 239              		.cfi_restore 4
+ 240              		.cfi_restore 14
+  83:Core/Src/u8g2/Src/u8g2_kerning.c ****   for(;;)
+ 241              		.loc 1 83 12 view .LVU73
+ 242 0032 0020     		movs	r0, #0
+ 243              	.LVL27:
+  91:Core/Src/u8g2/Src/u8g2_kerning.c ****   }
+  92:Core/Src/u8g2/Src/u8g2_kerning.c ****   return 0;
+  93:Core/Src/u8g2/Src/u8g2_kerning.c **** }
+ 244              		.loc 1 93 1 view .LVU74
+ 245 0034 7047     		bx	lr
+ 246              	.LVL28:
+ 247              	.L21:
+ 248              	.LCFI5:
+ 249              		.cfi_def_cfa_offset 8
+ 250              		.cfi_offset 4, -8
+ 251              		.cfi_offset 14, -4
+  92:Core/Src/u8g2/Src/u8g2_kerning.c **** }
+ 252              		.loc 1 92 10 view .LVU75
+ 253 0036 0020     		movs	r0, #0
+ 254              	.L17:
+ 255              		.loc 1 93 1 view .LVU76
+ 256 0038 10BD     		pop	{r4, pc}
+ 257              		.cfi_endproc
+ 258              	.LFE1:
+ 260              		.text
+ 261              	.Letext0:
+ 262              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 263              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 264              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ 265              		.file 5 "Core/Src/u8g2/Inc/u8g2.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_kerning.c
+C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s:20     .text.u8g2_GetKerning:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s:26     .text.u8g2_GetKerning:00000000 u8g2_GetKerning
+C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s:170    .text.u8g2_GetKerningByTable:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\cc4WjLb0.s:176    .text.u8g2_GetKerningByTable:00000000 u8g2_GetKerningByTable
+
+NO UNDEFINED SYMBOLS

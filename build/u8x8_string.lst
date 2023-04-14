@@ -1,0 +1,733 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8x8_string.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8x8_GetStringLineCnt,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8x8_GetStringLineCnt
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8x8_GetStringLineCnt:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8x8_string.c"
+   1:Core/Src/u8g2/Src/u8x8_string.c **** /*
+   2:Core/Src/u8g2/Src/u8x8_string.c **** 
+   3:Core/Src/u8g2/Src/u8x8_string.c ****   u8x8_string.c
+   4:Core/Src/u8g2/Src/u8x8_string.c ****   
+   5:Core/Src/u8g2/Src/u8x8_string.c ****   string line procedures
+   6:Core/Src/u8g2/Src/u8x8_string.c ****   
+   7:Core/Src/u8g2/Src/u8x8_string.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:Core/Src/u8g2/Src/u8x8_string.c **** 
+   9:Core/Src/u8g2/Src/u8x8_string.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:Core/Src/u8g2/Src/u8x8_string.c ****   All rights reserved.
+  11:Core/Src/u8g2/Src/u8x8_string.c **** 
+  12:Core/Src/u8g2/Src/u8x8_string.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:Core/Src/u8g2/Src/u8x8_string.c ****   are permitted provided that the following conditions are met:
+  14:Core/Src/u8g2/Src/u8x8_string.c **** 
+  15:Core/Src/u8g2/Src/u8x8_string.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:Core/Src/u8g2/Src/u8x8_string.c ****     of conditions and the following disclaimer.
+  17:Core/Src/u8g2/Src/u8x8_string.c ****     
+  18:Core/Src/u8g2/Src/u8x8_string.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:Core/Src/u8g2/Src/u8x8_string.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:Core/Src/u8g2/Src/u8x8_string.c ****     materials provided with the distribution.
+  21:Core/Src/u8g2/Src/u8x8_string.c **** 
+  22:Core/Src/u8g2/Src/u8x8_string.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:Core/Src/u8g2/Src/u8x8_string.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:Core/Src/u8g2/Src/u8x8_string.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:Core/Src/u8g2/Src/u8x8_string.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:Core/Src/u8g2/Src/u8x8_string.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:Core/Src/u8g2/Src/u8x8_string.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:Core/Src/u8g2/Src/u8x8_string.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:Core/Src/u8g2/Src/u8x8_string.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8x8_string.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  31:Core/Src/u8g2/Src/u8x8_string.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:Core/Src/u8g2/Src/u8x8_string.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:Core/Src/u8g2/Src/u8x8_string.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:Core/Src/u8g2/Src/u8x8_string.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+  35:Core/Src/u8g2/Src/u8x8_string.c **** 
+  36:Core/Src/u8g2/Src/u8x8_string.c **** */
+  37:Core/Src/u8g2/Src/u8x8_string.c **** 
+  38:Core/Src/u8g2/Src/u8x8_string.c **** #include "u8x8.h"
+  39:Core/Src/u8g2/Src/u8x8_string.c **** 
+  40:Core/Src/u8g2/Src/u8x8_string.c **** uint8_t u8x8_GetStringLineCnt(const char *str)
+  41:Core/Src/u8g2/Src/u8x8_string.c **** {
+  30              		.loc 1 41 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  42:Core/Src/u8g2/Src/u8x8_string.c ****   char e;
+  35              		.loc 1 42 3 view .LVU1
+  43:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t line_cnt = 1;
+  36              		.loc 1 43 3 view .LVU2
+  44:Core/Src/u8g2/Src/u8x8_string.c ****   if ( str == NULL )
+  37              		.loc 1 44 3 view .LVU3
+  38              		.loc 1 44 6 is_stmt 0 view .LVU4
+  39 0000 0346     		mov	r3, r0
+  40 0002 40B1     		cbz	r0, .L5
+  43:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t line_cnt = 1;
+  41              		.loc 1 43 11 view .LVU5
+  42 0004 0120     		movs	r0, #1
+  43              	.LVL1:
+  44              	.L3:
+  45:Core/Src/u8g2/Src/u8x8_string.c ****     return 0;
+  46:Core/Src/u8g2/Src/u8x8_string.c ****   for(;;)
+  45              		.loc 1 46 3 is_stmt 1 view .LVU6
+  47:Core/Src/u8g2/Src/u8x8_string.c ****   {
+  48:Core/Src/u8g2/Src/u8x8_string.c ****     e = *str;
+  46              		.loc 1 48 5 view .LVU7
+  47              		.loc 1 48 7 is_stmt 0 view .LVU8
+  48 0006 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+  49              	.LVL2:
+  49:Core/Src/u8g2/Src/u8x8_string.c ****     if ( e == '\0' )
+  50              		.loc 1 49 5 is_stmt 1 view .LVU9
+  51              		.loc 1 49 8 is_stmt 0 view .LVU10
+  52 0008 32B1     		cbz	r2, .L2
+  50:Core/Src/u8g2/Src/u8x8_string.c ****       break;
+  51:Core/Src/u8g2/Src/u8x8_string.c ****     str++;
+  53              		.loc 1 51 5 is_stmt 1 view .LVU11
+  54              		.loc 1 51 8 is_stmt 0 view .LVU12
+  55 000a 0133     		adds	r3, r3, #1
+  56              	.LVL3:
+  52:Core/Src/u8g2/Src/u8x8_string.c ****     if ( e == '\n' )
+  57              		.loc 1 52 5 is_stmt 1 view .LVU13
+  58              		.loc 1 52 8 is_stmt 0 view .LVU14
+  59 000c 0A2A     		cmp	r2, #10
+  60 000e FAD1     		bne	.L3
+  53:Core/Src/u8g2/Src/u8x8_string.c ****       line_cnt++;
+  61              		.loc 1 53 7 is_stmt 1 view .LVU15
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 3
+
+
+  62              		.loc 1 53 15 is_stmt 0 view .LVU16
+  63 0010 0130     		adds	r0, r0, #1
+  64              	.LVL4:
+  65              		.loc 1 53 15 view .LVU17
+  66 0012 C0B2     		uxtb	r0, r0
+  67              	.LVL5:
+  68              		.loc 1 53 15 view .LVU18
+  69 0014 F7E7     		b	.L3
+  70              	.LVL6:
+  71              	.L5:
+  45:Core/Src/u8g2/Src/u8x8_string.c ****   for(;;)
+  72              		.loc 1 45 12 view .LVU19
+  73 0016 0020     		movs	r0, #0
+  74              	.LVL7:
+  75              	.L2:
+  54:Core/Src/u8g2/Src/u8x8_string.c ****   }
+  55:Core/Src/u8g2/Src/u8x8_string.c ****   return line_cnt;
+  56:Core/Src/u8g2/Src/u8x8_string.c **** }
+  76              		.loc 1 56 1 view .LVU20
+  77 0018 7047     		bx	lr
+  78              		.cfi_endproc
+  79              	.LFE0:
+  81              		.section	.text.u8x8_GetStringLineStart,"ax",%progbits
+  82              		.align	1
+  83              		.global	u8x8_GetStringLineStart
+  84              		.syntax unified
+  85              		.thumb
+  86              		.thumb_func
+  88              	u8x8_GetStringLineStart:
+  89              	.LVL8:
+  90              	.LFB1:
+  57:Core/Src/u8g2/Src/u8x8_string.c **** 
+  58:Core/Src/u8g2/Src/u8x8_string.c **** 
+  59:Core/Src/u8g2/Src/u8x8_string.c **** /*
+  60:Core/Src/u8g2/Src/u8x8_string.c ****     Assumes strings, separated by '\n' in "str".
+  61:Core/Src/u8g2/Src/u8x8_string.c ****     Returns the string at index "line_idx". First strng has line_idx = 0
+  62:Core/Src/u8g2/Src/u8x8_string.c ****     Example:
+  63:Core/Src/u8g2/Src/u8x8_string.c ****       Returns "xyz" for line_idx = 1 with str = "abc\nxyz"
+  64:Core/Src/u8g2/Src/u8x8_string.c ****     Support both UTF8 and normal strings.
+  65:Core/Src/u8g2/Src/u8x8_string.c **** */
+  66:Core/Src/u8g2/Src/u8x8_string.c **** const char *u8x8_GetStringLineStart(uint8_t line_idx, const char *str )
+  67:Core/Src/u8g2/Src/u8x8_string.c **** {
+  91              		.loc 1 67 1 is_stmt 1 view -0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              		@ link register save eliminated.
+  68:Core/Src/u8g2/Src/u8x8_string.c ****   char e;
+  96              		.loc 1 68 3 view .LVU22
+  69:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t line_cnt = 1;
+  97              		.loc 1 69 3 view .LVU23
+  70:Core/Src/u8g2/Src/u8x8_string.c ****   
+  71:Core/Src/u8g2/Src/u8x8_string.c ****   if ( line_idx == 0 )
+  98              		.loc 1 71 3 view .LVU24
+  99              		.loc 1 71 6 is_stmt 0 view .LVU25
+ 100 0000 8446     		mov	ip, r0
+ 101 0002 50B1     		cbz	r0, .L10
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 4
+
+
+  69:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t line_cnt = 1;
+ 102              		.loc 1 69 11 view .LVU26
+ 103 0004 0122     		movs	r2, #1
+ 104              	.LVL9:
+ 105              	.L8:
+  72:Core/Src/u8g2/Src/u8x8_string.c ****     return str;
+  73:Core/Src/u8g2/Src/u8x8_string.c **** 
+  74:Core/Src/u8g2/Src/u8x8_string.c ****   for(;;)
+ 106              		.loc 1 74 3 is_stmt 1 view .LVU27
+  75:Core/Src/u8g2/Src/u8x8_string.c ****   {
+  76:Core/Src/u8g2/Src/u8x8_string.c ****     e = *str;
+ 107              		.loc 1 76 5 view .LVU28
+ 108              		.loc 1 76 7 is_stmt 0 view .LVU29
+ 109 0006 0B78     		ldrb	r3, [r1]	@ zero_extendqisi2
+ 110              	.LVL10:
+  77:Core/Src/u8g2/Src/u8x8_string.c ****     if ( e == '\0' )
+ 111              		.loc 1 77 5 is_stmt 1 view .LVU30
+ 112              		.loc 1 77 8 is_stmt 0 view .LVU31
+ 113 0008 4BB1     		cbz	r3, .L11
+  78:Core/Src/u8g2/Src/u8x8_string.c ****       break;
+  79:Core/Src/u8g2/Src/u8x8_string.c ****     str++;
+ 114              		.loc 1 79 5 is_stmt 1 view .LVU32
+ 115              		.loc 1 79 8 is_stmt 0 view .LVU33
+ 116 000a 0131     		adds	r1, r1, #1
+ 117              	.LVL11:
+  80:Core/Src/u8g2/Src/u8x8_string.c ****     if ( e == '\n' )
+ 118              		.loc 1 80 5 is_stmt 1 view .LVU34
+ 119              		.loc 1 80 8 is_stmt 0 view .LVU35
+ 120 000c 0A2B     		cmp	r3, #10
+ 121 000e FAD1     		bne	.L8
+  81:Core/Src/u8g2/Src/u8x8_string.c ****     {
+  82:Core/Src/u8g2/Src/u8x8_string.c ****       if ( line_cnt == line_idx )
+ 122              		.loc 1 82 7 is_stmt 1 view .LVU36
+ 123              		.loc 1 82 10 is_stmt 0 view .LVU37
+ 124 0010 6245     		cmp	r2, ip
+ 125 0012 06D0     		beq	.L12
+  83:Core/Src/u8g2/Src/u8x8_string.c **** 	return str;
+  84:Core/Src/u8g2/Src/u8x8_string.c ****       line_cnt++;
+ 126              		.loc 1 84 7 is_stmt 1 view .LVU38
+ 127              		.loc 1 84 15 is_stmt 0 view .LVU39
+ 128 0014 0132     		adds	r2, r2, #1
+ 129              	.LVL12:
+ 130              		.loc 1 84 15 view .LVU40
+ 131 0016 D2B2     		uxtb	r2, r2
+ 132              	.LVL13:
+ 133              		.loc 1 84 15 view .LVU41
+ 134 0018 F5E7     		b	.L8
+ 135              	.LVL14:
+ 136              	.L10:
+  72:Core/Src/u8g2/Src/u8x8_string.c **** 
+ 137              		.loc 1 72 12 view .LVU42
+ 138 001a 0846     		mov	r0, r1
+ 139              	.LVL15:
+  72:Core/Src/u8g2/Src/u8x8_string.c **** 
+ 140              		.loc 1 72 12 view .LVU43
+ 141 001c 7047     		bx	lr
+ 142              	.LVL16:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 5
+
+
+ 143              	.L11:
+  85:Core/Src/u8g2/Src/u8x8_string.c ****     }
+  86:Core/Src/u8g2/Src/u8x8_string.c ****   }
+  87:Core/Src/u8g2/Src/u8x8_string.c ****   return NULL;	/* line not found */
+ 144              		.loc 1 87 10 view .LVU44
+ 145 001e 0020     		movs	r0, #0
+ 146              	.LVL17:
+ 147              		.loc 1 87 10 view .LVU45
+ 148 0020 7047     		bx	lr
+ 149              	.LVL18:
+ 150              	.L12:
+  83:Core/Src/u8g2/Src/u8x8_string.c ****       line_cnt++;
+ 151              		.loc 1 83 9 view .LVU46
+ 152 0022 0846     		mov	r0, r1
+ 153              	.LVL19:
+  88:Core/Src/u8g2/Src/u8x8_string.c **** }
+ 154              		.loc 1 88 1 view .LVU47
+ 155 0024 7047     		bx	lr
+ 156              		.cfi_endproc
+ 157              	.LFE1:
+ 159              		.section	.text.u8x8_CopyStringLine,"ax",%progbits
+ 160              		.align	1
+ 161              		.global	u8x8_CopyStringLine
+ 162              		.syntax unified
+ 163              		.thumb
+ 164              		.thumb_func
+ 166              	u8x8_CopyStringLine:
+ 167              	.LVL20:
+ 168              	.LFB2:
+  89:Core/Src/u8g2/Src/u8x8_string.c **** 
+  90:Core/Src/u8g2/Src/u8x8_string.c **** /* copy until first '\n' or '\0' in str */
+  91:Core/Src/u8g2/Src/u8x8_string.c **** /* Important: There is no string overflow check, ensure */
+  92:Core/Src/u8g2/Src/u8x8_string.c **** /* that the destination buffer is large enough */
+  93:Core/Src/u8g2/Src/u8x8_string.c **** void u8x8_CopyStringLine(char *dest, uint8_t line_idx, const char *str)
+  94:Core/Src/u8g2/Src/u8x8_string.c **** {
+ 169              		.loc 1 94 1 is_stmt 1 view -0
+ 170              		.cfi_startproc
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+  95:Core/Src/u8g2/Src/u8x8_string.c ****   if ( dest == NULL )
+ 173              		.loc 1 95 3 view .LVU49
+ 174              		.loc 1 95 6 is_stmt 0 view .LVU50
+ 175 0000 98B1     		cbz	r0, .L18
+  94:Core/Src/u8g2/Src/u8x8_string.c ****   if ( dest == NULL )
+ 176              		.loc 1 94 1 view .LVU51
+ 177 0002 10B5     		push	{r4, lr}
+ 178              	.LCFI0:
+ 179              		.cfi_def_cfa_offset 8
+ 180              		.cfi_offset 4, -8
+ 181              		.cfi_offset 14, -4
+ 182 0004 0B46     		mov	r3, r1
+ 183 0006 1146     		mov	r1, r2
+ 184              	.LVL21:
+  94:Core/Src/u8g2/Src/u8x8_string.c ****   if ( dest == NULL )
+ 185              		.loc 1 94 1 view .LVU52
+ 186 0008 0446     		mov	r4, r0
+  96:Core/Src/u8g2/Src/u8x8_string.c ****     return;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 6
+
+
+  97:Core/Src/u8g2/Src/u8x8_string.c ****   str = u8x8_GetStringLineStart( line_idx, str );
+ 187              		.loc 1 97 3 is_stmt 1 view .LVU53
+ 188              		.loc 1 97 9 is_stmt 0 view .LVU54
+ 189 000a 1846     		mov	r0, r3
+ 190              	.LVL22:
+ 191              		.loc 1 97 9 view .LVU55
+ 192 000c FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 193              	.LVL23:
+  98:Core/Src/u8g2/Src/u8x8_string.c ****   if ( str != NULL )
+ 194              		.loc 1 98 3 is_stmt 1 view .LVU56
+ 195              		.loc 1 98 6 is_stmt 0 view .LVU57
+ 196 0010 0246     		mov	r2, r0
+ 197 0012 38B1     		cbz	r0, .L15
+ 198              	.LVL24:
+ 199              	.L16:
+  99:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 100:Core/Src/u8g2/Src/u8x8_string.c ****     for(;;)
+ 200              		.loc 1 100 5 is_stmt 1 view .LVU58
+ 101:Core/Src/u8g2/Src/u8x8_string.c ****     {
+ 102:Core/Src/u8g2/Src/u8x8_string.c ****       if ( *str == '\n' || *str == '\0' )
+ 201              		.loc 1 102 7 view .LVU59
+ 202              		.loc 1 102 12 is_stmt 0 view .LVU60
+ 203 0014 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 204              		.loc 1 102 10 view .LVU61
+ 205 0016 0A2B     		cmp	r3, #10
+ 206 0018 04D0     		beq	.L15
+ 207              		.loc 1 102 25 discriminator 1 view .LVU62
+ 208 001a 1BB1     		cbz	r3, .L15
+ 103:Core/Src/u8g2/Src/u8x8_string.c **** 	break;
+ 104:Core/Src/u8g2/Src/u8x8_string.c ****       *dest = *str;
+ 209              		.loc 1 104 7 is_stmt 1 view .LVU63
+ 210              		.loc 1 104 13 is_stmt 0 view .LVU64
+ 211 001c 04F8013B 		strb	r3, [r4], #1
+ 212              	.LVL25:
+ 105:Core/Src/u8g2/Src/u8x8_string.c ****       dest++;
+ 213              		.loc 1 105 7 is_stmt 1 view .LVU65
+ 106:Core/Src/u8g2/Src/u8x8_string.c ****       str++;
+ 214              		.loc 1 106 7 view .LVU66
+ 215              		.loc 1 106 10 is_stmt 0 view .LVU67
+ 216 0020 0132     		adds	r2, r2, #1
+ 217              	.LVL26:
+ 100:Core/Src/u8g2/Src/u8x8_string.c ****     {
+ 218              		.loc 1 100 10 is_stmt 1 view .LVU68
+ 102:Core/Src/u8g2/Src/u8x8_string.c **** 	break;
+ 219              		.loc 1 102 10 is_stmt 0 view .LVU69
+ 220 0022 F7E7     		b	.L16
+ 221              	.L15:
+ 107:Core/Src/u8g2/Src/u8x8_string.c ****     }
+ 108:Core/Src/u8g2/Src/u8x8_string.c ****   }
+ 109:Core/Src/u8g2/Src/u8x8_string.c ****   *dest = '\0';
+ 222              		.loc 1 109 3 is_stmt 1 view .LVU70
+ 223              		.loc 1 109 9 is_stmt 0 view .LVU71
+ 224 0024 0023     		movs	r3, #0
+ 225 0026 2370     		strb	r3, [r4]
+ 110:Core/Src/u8g2/Src/u8x8_string.c **** }
+ 226              		.loc 1 110 1 view .LVU72
+ 227 0028 10BD     		pop	{r4, pc}
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 7
+
+
+ 228              	.LVL27:
+ 229              	.L18:
+ 230              	.LCFI1:
+ 231              		.cfi_def_cfa_offset 0
+ 232              		.cfi_restore 4
+ 233              		.cfi_restore 14
+ 234              		.loc 1 110 1 view .LVU73
+ 235 002a 7047     		bx	lr
+ 236              		.cfi_endproc
+ 237              	.LFE2:
+ 239              		.section	.rodata.u8x8_DrawUTF8Line.str1.4,"aMS",%progbits,1
+ 240              		.align	2
+ 241              	.LC0:
+ 242 0000 2000     		.ascii	" \000"
+ 243              		.section	.text.u8x8_DrawUTF8Line,"ax",%progbits
+ 244              		.align	1
+ 245              		.global	u8x8_DrawUTF8Line
+ 246              		.syntax unified
+ 247              		.thumb
+ 248              		.thumb_func
+ 250              	u8x8_DrawUTF8Line:
+ 251              	.LVL28:
+ 252              	.LFB3:
+ 111:Core/Src/u8g2/Src/u8x8_string.c **** 
+ 112:Core/Src/u8g2/Src/u8x8_string.c **** /*
+ 113:Core/Src/u8g2/Src/u8x8_string.c ****   Draw a string
+ 114:Core/Src/u8g2/Src/u8x8_string.c ****   Extend the string to size "w"
+ 115:Core/Src/u8g2/Src/u8x8_string.c ****   Center the string within "w"
+ 116:Core/Src/u8g2/Src/u8x8_string.c ****   return the size of the string
+ 117:Core/Src/u8g2/Src/u8x8_string.c **** 
+ 118:Core/Src/u8g2/Src/u8x8_string.c **** */
+ 119:Core/Src/u8g2/Src/u8x8_string.c **** uint8_t u8x8_DrawUTF8Line(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s)
+ 120:Core/Src/u8g2/Src/u8x8_string.c **** {
+ 253              		.loc 1 120 1 is_stmt 1 view -0
+ 254              		.cfi_startproc
+ 255              		@ args = 4, pretend = 0, frame = 0
+ 256              		@ frame_needed = 0, uses_anonymous_args = 0
+ 257              		.loc 1 120 1 is_stmt 0 view .LVU75
+ 258 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 259              	.LCFI2:
+ 260              		.cfi_def_cfa_offset 32
+ 261              		.cfi_offset 4, -32
+ 262              		.cfi_offset 5, -28
+ 263              		.cfi_offset 6, -24
+ 264              		.cfi_offset 7, -20
+ 265              		.cfi_offset 8, -16
+ 266              		.cfi_offset 9, -12
+ 267              		.cfi_offset 10, -8
+ 268              		.cfi_offset 14, -4
+ 269 0004 0546     		mov	r5, r0
+ 270 0006 0F46     		mov	r7, r1
+ 271 0008 1646     		mov	r6, r2
+ 272 000a 9846     		mov	r8, r3
+ 273 000c DDF820A0 		ldr	r10, [sp, #32]
+ 121:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t d, lw;
+ 274              		.loc 1 121 3 is_stmt 1 view .LVU76
+ 122:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t cx, dx;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 8
+
+
+ 275              		.loc 1 122 3 view .LVU77
+ 123:Core/Src/u8g2/Src/u8x8_string.c ****     
+ 124:Core/Src/u8g2/Src/u8x8_string.c ****   d = 0;
+ 276              		.loc 1 124 3 view .LVU78
+ 277              	.LVL29:
+ 125:Core/Src/u8g2/Src/u8x8_string.c ****   
+ 126:Core/Src/u8g2/Src/u8x8_string.c ****   lw = u8x8_GetUTF8Len(u8x8, s);
+ 278              		.loc 1 126 3 view .LVU79
+ 279              		.loc 1 126 8 is_stmt 0 view .LVU80
+ 280 0010 5146     		mov	r1, r10
+ 281              	.LVL30:
+ 282              		.loc 1 126 8 view .LVU81
+ 283 0012 FFF7FEFF 		bl	u8x8_GetUTF8Len
+ 284              	.LVL31:
+ 127:Core/Src/u8g2/Src/u8x8_string.c ****   if ( lw < w )
+ 285              		.loc 1 127 3 is_stmt 1 view .LVU82
+ 286              		.loc 1 127 6 is_stmt 0 view .LVU83
+ 287 0016 4045     		cmp	r0, r8
+ 288 0018 08D2     		bcs	.L27
+ 128:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 129:Core/Src/u8g2/Src/u8x8_string.c ****     d = w;
+ 289              		.loc 1 129 5 is_stmt 1 view .LVU84
+ 290              	.LVL32:
+ 130:Core/Src/u8g2/Src/u8x8_string.c ****     d -=lw;
+ 291              		.loc 1 130 5 view .LVU85
+ 292              		.loc 1 130 7 is_stmt 0 view .LVU86
+ 293 001a A8EB0009 		sub	r9, r8, r0
+ 294              	.LVL33:
+ 131:Core/Src/u8g2/Src/u8x8_string.c ****     d /= 2;
+ 295              		.loc 1 131 5 is_stmt 1 view .LVU87
+ 296              		.loc 1 131 7 is_stmt 0 view .LVU88
+ 297 001e C9F34609 		ubfx	r9, r9, #1, #7
+ 298              	.LVL34:
+ 299              	.L22:
+ 132:Core/Src/u8g2/Src/u8x8_string.c ****   }
+ 133:Core/Src/u8g2/Src/u8x8_string.c ****     
+ 134:Core/Src/u8g2/Src/u8x8_string.c ****   cx = x;
+ 300              		.loc 1 134 3 is_stmt 1 view .LVU89
+ 135:Core/Src/u8g2/Src/u8x8_string.c ****   dx = cx + d;
+ 301              		.loc 1 135 3 view .LVU90
+ 302              		.loc 1 135 6 is_stmt 0 view .LVU91
+ 303 0022 B944     		add	r9, r9, r7
+ 304              	.LVL35:
+ 305              		.loc 1 135 6 view .LVU92
+ 306 0024 5FFA89F9 		uxtb	r9, r9
+ 307              	.LVL36:
+ 136:Core/Src/u8g2/Src/u8x8_string.c ****   while( cx < dx )
+ 308              		.loc 1 136 3 is_stmt 1 view .LVU93
+ 134:Core/Src/u8g2/Src/u8x8_string.c ****   dx = cx + d;
+ 309              		.loc 1 134 6 is_stmt 0 view .LVU94
+ 310 0028 3C46     		mov	r4, r7
+ 311              		.loc 1 136 8 view .LVU95
+ 312 002a 0AE0     		b	.L23
+ 313              	.LVL37:
+ 314              	.L27:
+ 124:Core/Src/u8g2/Src/u8x8_string.c ****   
+ 315              		.loc 1 124 5 view .LVU96
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 9
+
+
+ 316 002c 4FF00009 		mov	r9, #0
+ 317 0030 F7E7     		b	.L22
+ 318              	.LVL38:
+ 319              	.L24:
+ 137:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 138:Core/Src/u8g2/Src/u8x8_string.c ****     u8x8_DrawUTF8(u8x8, cx, y, " ");
+ 320              		.loc 1 138 5 is_stmt 1 view .LVU97
+ 321 0032 124B     		ldr	r3, .L29
+ 322 0034 3246     		mov	r2, r6
+ 323 0036 2146     		mov	r1, r4
+ 324 0038 2846     		mov	r0, r5
+ 325 003a FFF7FEFF 		bl	u8x8_DrawUTF8
+ 326              	.LVL39:
+ 139:Core/Src/u8g2/Src/u8x8_string.c ****     cx++;
+ 327              		.loc 1 139 5 view .LVU98
+ 328              		.loc 1 139 7 is_stmt 0 view .LVU99
+ 329 003e 0134     		adds	r4, r4, #1
+ 330              	.LVL40:
+ 331              		.loc 1 139 7 view .LVU100
+ 332 0040 E4B2     		uxtb	r4, r4
+ 333              	.LVL41:
+ 334              	.L23:
+ 136:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 335              		.loc 1 136 8 is_stmt 1 view .LVU101
+ 336 0042 4C45     		cmp	r4, r9
+ 337 0044 F5D3     		bcc	.L24
+ 140:Core/Src/u8g2/Src/u8x8_string.c ****   }
+ 141:Core/Src/u8g2/Src/u8x8_string.c ****   cx += u8x8_DrawUTF8(u8x8, cx, y, s);
+ 338              		.loc 1 141 3 view .LVU102
+ 339              		.loc 1 141 9 is_stmt 0 view .LVU103
+ 340 0046 5346     		mov	r3, r10
+ 341 0048 3246     		mov	r2, r6
+ 342 004a 2146     		mov	r1, r4
+ 343 004c 2846     		mov	r0, r5
+ 344 004e FFF7FEFF 		bl	u8x8_DrawUTF8
+ 345              	.LVL42:
+ 346              		.loc 1 141 6 view .LVU104
+ 347 0052 0444     		add	r4, r4, r0
+ 348              	.LVL43:
+ 349              		.loc 1 141 6 view .LVU105
+ 350 0054 E4B2     		uxtb	r4, r4
+ 351              	.LVL44:
+ 142:Core/Src/u8g2/Src/u8x8_string.c ****   dx = x + w;
+ 352              		.loc 1 142 3 is_stmt 1 view .LVU106
+ 353              		.loc 1 142 6 is_stmt 0 view .LVU107
+ 354 0056 B844     		add	r8, r8, r7
+ 355 0058 5FFA88F8 		uxtb	r8, r8
+ 356              	.LVL45:
+ 143:Core/Src/u8g2/Src/u8x8_string.c ****   while( cx < dx )
+ 357              		.loc 1 143 3 is_stmt 1 view .LVU108
+ 358              		.loc 1 143 8 is_stmt 0 view .LVU109
+ 359 005c 07E0     		b	.L25
+ 360              	.L26:
+ 144:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 145:Core/Src/u8g2/Src/u8x8_string.c ****     u8x8_DrawUTF8(u8x8, cx, y, " ");
+ 361              		.loc 1 145 5 is_stmt 1 view .LVU110
+ 362 005e 074B     		ldr	r3, .L29
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 10
+
+
+ 363 0060 3246     		mov	r2, r6
+ 364 0062 2146     		mov	r1, r4
+ 365 0064 2846     		mov	r0, r5
+ 366 0066 FFF7FEFF 		bl	u8x8_DrawUTF8
+ 367              	.LVL46:
+ 146:Core/Src/u8g2/Src/u8x8_string.c ****     cx++;
+ 368              		.loc 1 146 5 view .LVU111
+ 369              		.loc 1 146 7 is_stmt 0 view .LVU112
+ 370 006a 0134     		adds	r4, r4, #1
+ 371              	.LVL47:
+ 372              		.loc 1 146 7 view .LVU113
+ 373 006c E4B2     		uxtb	r4, r4
+ 374              	.LVL48:
+ 375              	.L25:
+ 143:Core/Src/u8g2/Src/u8x8_string.c ****   while( cx < dx )
+ 376              		.loc 1 143 8 is_stmt 1 view .LVU114
+ 377 006e 4445     		cmp	r4, r8
+ 378 0070 F5D3     		bcc	.L26
+ 147:Core/Src/u8g2/Src/u8x8_string.c ****   }
+ 148:Core/Src/u8g2/Src/u8x8_string.c ****   cx -= x;
+ 379              		.loc 1 148 3 view .LVU115
+ 380              		.loc 1 148 6 is_stmt 0 view .LVU116
+ 381 0072 E01B     		subs	r0, r4, r7
+ 382              	.LVL49:
+ 149:Core/Src/u8g2/Src/u8x8_string.c ****   return cx;
+ 383              		.loc 1 149 3 is_stmt 1 view .LVU117
+ 150:Core/Src/u8g2/Src/u8x8_string.c **** }
+ 384              		.loc 1 150 1 is_stmt 0 view .LVU118
+ 385 0074 C0B2     		uxtb	r0, r0
+ 386              		.loc 1 150 1 view .LVU119
+ 387 0076 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 388              	.LVL50:
+ 389              	.L30:
+ 390              		.loc 1 150 1 view .LVU120
+ 391 007a 00BF     		.align	2
+ 392              	.L29:
+ 393 007c 00000000 		.word	.LC0
+ 394              		.cfi_endproc
+ 395              	.LFE3:
+ 397              		.section	.text.u8x8_DrawUTF8Lines,"ax",%progbits
+ 398              		.align	1
+ 399              		.global	u8x8_DrawUTF8Lines
+ 400              		.syntax unified
+ 401              		.thumb
+ 402              		.thumb_func
+ 404              	u8x8_DrawUTF8Lines:
+ 405              	.LVL51:
+ 406              	.LFB4:
+ 151:Core/Src/u8g2/Src/u8x8_string.c **** 
+ 152:Core/Src/u8g2/Src/u8x8_string.c **** /*
+ 153:Core/Src/u8g2/Src/u8x8_string.c ****   draw several lines at position x,y.
+ 154:Core/Src/u8g2/Src/u8x8_string.c ****   lines are stored in s and must be separated with '\n'.
+ 155:Core/Src/u8g2/Src/u8x8_string.c ****   lines can be centered with respect to "w" 
+ 156:Core/Src/u8g2/Src/u8x8_string.c ****   if s == NULL nothing is drawn and 0 is returned
+ 157:Core/Src/u8g2/Src/u8x8_string.c ****   returns the number of lines in s
+ 158:Core/Src/u8g2/Src/u8x8_string.c **** */
+ 159:Core/Src/u8g2/Src/u8x8_string.c **** uint8_t u8x8_DrawUTF8Lines(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t w, const char *s)
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 11
+
+
+ 160:Core/Src/u8g2/Src/u8x8_string.c **** {
+ 407              		.loc 1 160 1 is_stmt 1 view -0
+ 408              		.cfi_startproc
+ 409              		@ args = 4, pretend = 0, frame = 0
+ 410              		@ frame_needed = 0, uses_anonymous_args = 0
+ 411              		.loc 1 160 1 is_stmt 0 view .LVU122
+ 412 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 413              	.LCFI3:
+ 414              		.cfi_def_cfa_offset 32
+ 415              		.cfi_offset 4, -32
+ 416              		.cfi_offset 5, -28
+ 417              		.cfi_offset 6, -24
+ 418              		.cfi_offset 7, -20
+ 419              		.cfi_offset 8, -16
+ 420              		.cfi_offset 9, -12
+ 421              		.cfi_offset 10, -8
+ 422              		.cfi_offset 14, -4
+ 423 0004 82B0     		sub	sp, sp, #8
+ 424              	.LCFI4:
+ 425              		.cfi_def_cfa_offset 40
+ 426 0006 8146     		mov	r9, r0
+ 427 0008 8846     		mov	r8, r1
+ 428 000a 1546     		mov	r5, r2
+ 429 000c 1F46     		mov	r7, r3
+ 430 000e DDF828A0 		ldr	r10, [sp, #40]
+ 161:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t i;
+ 431              		.loc 1 161 3 is_stmt 1 view .LVU123
+ 162:Core/Src/u8g2/Src/u8x8_string.c ****   uint8_t cnt;
+ 432              		.loc 1 162 3 view .LVU124
+ 163:Core/Src/u8g2/Src/u8x8_string.c ****   cnt = u8x8_GetStringLineCnt(s);
+ 433              		.loc 1 163 3 view .LVU125
+ 434              		.loc 1 163 9 is_stmt 0 view .LVU126
+ 435 0012 5046     		mov	r0, r10
+ 436              	.LVL52:
+ 437              		.loc 1 163 9 view .LVU127
+ 438 0014 FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ 439              	.LVL53:
+ 440              		.loc 1 163 9 view .LVU128
+ 441 0018 0646     		mov	r6, r0
+ 442              	.LVL54:
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 443              		.loc 1 164 3 is_stmt 1 view .LVU129
+ 444              		.loc 1 164 10 is_stmt 0 view .LVU130
+ 445 001a 0024     		movs	r4, #0
+ 446              		.loc 1 164 3 view .LVU131
+ 447 001c 0EE0     		b	.L32
+ 448              	.LVL55:
+ 449              	.L33:
+ 165:Core/Src/u8g2/Src/u8x8_string.c ****   {
+ 166:Core/Src/u8g2/Src/u8x8_string.c ****     u8x8_DrawUTF8Line(u8x8, x, y, w, u8x8_GetStringLineStart(i, s));
+ 450              		.loc 1 166 5 is_stmt 1 discriminator 3 view .LVU132
+ 451 001e 5146     		mov	r1, r10
+ 452 0020 2046     		mov	r0, r4
+ 453 0022 FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 454              	.LVL56:
+ 455 0026 0090     		str	r0, [sp]
+ 456 0028 3B46     		mov	r3, r7
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 12
+
+
+ 457 002a 2A46     		mov	r2, r5
+ 458 002c 4146     		mov	r1, r8
+ 459 002e 4846     		mov	r0, r9
+ 460 0030 FFF7FEFF 		bl	u8x8_DrawUTF8Line
+ 461              	.LVL57:
+ 167:Core/Src/u8g2/Src/u8x8_string.c ****     y++;
+ 462              		.loc 1 167 5 discriminator 3 view .LVU133
+ 463              		.loc 1 167 6 is_stmt 0 discriminator 3 view .LVU134
+ 464 0034 0135     		adds	r5, r5, #1
+ 465              	.LVL58:
+ 466              		.loc 1 167 6 discriminator 3 view .LVU135
+ 467 0036 EDB2     		uxtb	r5, r5
+ 468              	.LVL59:
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 469              		.loc 1 164 24 is_stmt 1 discriminator 3 view .LVU136
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 470              		.loc 1 164 25 is_stmt 0 discriminator 3 view .LVU137
+ 471 0038 0134     		adds	r4, r4, #1
+ 472              	.LVL60:
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 473              		.loc 1 164 25 discriminator 3 view .LVU138
+ 474 003a E4B2     		uxtb	r4, r4
+ 475              	.LVL61:
+ 476              	.L32:
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 477              		.loc 1 164 15 is_stmt 1 discriminator 1 view .LVU139
+ 164:Core/Src/u8g2/Src/u8x8_string.c ****   for( i = 0; i < cnt; i++ )
+ 478              		.loc 1 164 3 is_stmt 0 discriminator 1 view .LVU140
+ 479 003c B442     		cmp	r4, r6
+ 480 003e EED3     		bcc	.L33
+ 168:Core/Src/u8g2/Src/u8x8_string.c ****   }
+ 169:Core/Src/u8g2/Src/u8x8_string.c ****   return cnt;
+ 481              		.loc 1 169 3 is_stmt 1 view .LVU141
+ 170:Core/Src/u8g2/Src/u8x8_string.c **** }
+ 482              		.loc 1 170 1 is_stmt 0 view .LVU142
+ 483 0040 3046     		mov	r0, r6
+ 484 0042 02B0     		add	sp, sp, #8
+ 485              	.LCFI5:
+ 486              		.cfi_def_cfa_offset 32
+ 487              		@ sp needed
+ 488 0044 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 489              		.loc 1 170 1 view .LVU143
+ 490              		.cfi_endproc
+ 491              	.LFE4:
+ 493              		.text
+ 494              	.Letext0:
+ 495              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 496              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 497              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_string.c
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:20     .text.u8x8_GetStringLineCnt:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:26     .text.u8x8_GetStringLineCnt:00000000 u8x8_GetStringLineCnt
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:82     .text.u8x8_GetStringLineStart:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:88     .text.u8x8_GetStringLineStart:00000000 u8x8_GetStringLineStart
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:160    .text.u8x8_CopyStringLine:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:166    .text.u8x8_CopyStringLine:00000000 u8x8_CopyStringLine
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:240    .rodata.u8x8_DrawUTF8Line.str1.4:00000000 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:244    .text.u8x8_DrawUTF8Line:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:250    .text.u8x8_DrawUTF8Line:00000000 u8x8_DrawUTF8Line
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:393    .text.u8x8_DrawUTF8Line:0000007c $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:398    .text.u8x8_DrawUTF8Lines:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccX3CJw5.s:404    .text.u8x8_DrawUTF8Lines:00000000 u8x8_DrawUTF8Lines
+
+UNDEFINED SYMBOLS
+u8x8_GetUTF8Len
+u8x8_DrawUTF8

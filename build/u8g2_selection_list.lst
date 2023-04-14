@@ -1,0 +1,1306 @@
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"u8g2_selection_list.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.u8g2_DrawUTF8Line,"ax",%progbits
+  20              		.align	1
+  21              		.global	u8g2_DrawUTF8Line
+  22              		.syntax unified
+  23              		.thumb
+  24              		.thumb_func
+  26              	u8g2_DrawUTF8Line:
+  27              	.LVL0:
+  28              	.LFB0:
+  29              		.file 1 "Core/Src/u8g2/Src/u8g2_selection_list.c"
+   1:Core/Src/u8g2/Src/u8g2_selection_list.c **** /*
+   2:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+   3:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_selection_list.c
+   4:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+   5:Core/Src/u8g2/Src/u8g2_selection_list.c ****   selection list with scroll option
+   6:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+   7:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+   9:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:Core/Src/u8g2/Src/u8g2_selection_list.c ****   All rights reserved.
+  11:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  12:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:Core/Src/u8g2/Src/u8g2_selection_list.c ****   are permitted provided that the following conditions are met:
+  14:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  15:Core/Src/u8g2/Src/u8g2_selection_list.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:Core/Src/u8g2/Src/u8g2_selection_list.c ****     of conditions and the following disclaimer.
+  17:Core/Src/u8g2/Src/u8g2_selection_list.c ****     
+  18:Core/Src/u8g2/Src/u8g2_selection_list.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:Core/Src/u8g2/Src/u8g2_selection_list.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:Core/Src/u8g2/Src/u8g2_selection_list.c ****     materials provided with the distribution.
+  21:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  22:Core/Src/u8g2/Src/u8g2_selection_list.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:Core/Src/u8g2/Src/u8g2_selection_list.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:Core/Src/u8g2/Src/u8g2_selection_list.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:Core/Src/u8g2/Src/u8g2_selection_list.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:Core/Src/u8g2/Src/u8g2_selection_list.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:Core/Src/u8g2/Src/u8g2_selection_list.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:Core/Src/u8g2/Src/u8g2_selection_list.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:Core/Src/u8g2/Src/u8g2_selection_list.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 2
+
+
+  30:Core/Src/u8g2/Src/u8g2_selection_list.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  31:Core/Src/u8g2/Src/u8g2_selection_list.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:Core/Src/u8g2/Src/u8g2_selection_list.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:Core/Src/u8g2/Src/u8g2_selection_list.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:Core/Src/u8g2/Src/u8g2_selection_list.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  35:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+  36:Core/Src/u8g2/Src/u8g2_selection_list.c **** */
+  37:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  38:Core/Src/u8g2/Src/u8g2_selection_list.c **** #include "u8g2.h"
+  39:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  40:Core/Src/u8g2/Src/u8g2_selection_list.c **** #define MY_BORDER_SIZE 1
+  41:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  42:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  43:Core/Src/u8g2/Src/u8g2_selection_list.c **** /*
+  44:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Draw a string at x,y
+  45:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Center string within w (left adjust if w < pixel len of s)
+  46:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+  47:Core/Src/u8g2/Src/u8g2_selection_list.c ****   Side effects:
+  48:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetFontDirection(u8g2, 0);
+  49:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetFontPosBaseline(u8g2);
+  50:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  51:Core/Src/u8g2/Src/u8g2_selection_list.c **** */
+  52:Core/Src/u8g2/Src/u8g2_selection_list.c **** void u8g2_DrawUTF8Line(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, const char *s, ui
+  53:Core/Src/u8g2/Src/u8g2_selection_list.c **** {
+  30              		.loc 1 53 1 view -0
+  31              		.cfi_startproc
+  32              		@ args = 12, pretend = 0, frame = 8
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		.loc 1 53 1 is_stmt 0 view .LVU1
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 36
+  38              		.cfi_offset 4, -36
+  39              		.cfi_offset 5, -32
+  40              		.cfi_offset 6, -28
+  41              		.cfi_offset 7, -24
+  42              		.cfi_offset 8, -20
+  43              		.cfi_offset 9, -16
+  44              		.cfi_offset 10, -12
+  45              		.cfi_offset 11, -8
+  46              		.cfi_offset 14, -4
+  47 0004 85B0     		sub	sp, sp, #20
+  48              	.LCFI1:
+  49              		.cfi_def_cfa_offset 56
+  50 0006 8146     		mov	r9, r0
+  51 0008 0291     		str	r1, [sp, #8]
+  52 000a 9246     		mov	r10, r2
+  53 000c 1D46     		mov	r5, r3
+  54 000e 9DF83C70 		ldrb	r7, [sp, #60]	@ zero_extendqisi2
+  55 0012 9DF840B0 		ldrb	fp, [sp, #64]	@ zero_extendqisi2
+  54:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t d, str_width;
+  56              		.loc 1 54 3 is_stmt 1 view .LVU2
+  55:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t fx, fy, fw, fh;
+  57              		.loc 1 55 3 view .LVU3
+  56:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  57:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* only horizontal strings are supported, so force this here */
+  58:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_SetFontDirection(u8g2, 0);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 3
+
+
+  58              		.loc 1 58 3 view .LVU4
+  59 0016 0021     		movs	r1, #0
+  60              	.LVL1:
+  61              		.loc 1 58 3 is_stmt 0 view .LVU5
+  62 0018 FFF7FEFF 		bl	u8g2_SetFontDirection
+  63              	.LVL2:
+  59:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  60:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* revert y position back to baseline ref */
+  61:Core/Src/u8g2/Src/u8g2_selection_list.c ****   y += u8g2->font_calc_vref(u8g2);   
+  64              		.loc 1 61 3 is_stmt 1 view .LVU6
+  65              		.loc 1 61 12 is_stmt 0 view .LVU7
+  66 001c D9F85C30 		ldr	r3, [r9, #92]
+  67              		.loc 1 61 8 view .LVU8
+  68 0020 4846     		mov	r0, r9
+  69 0022 9847     		blx	r3
+  70              	.LVL3:
+  71              		.loc 1 61 5 view .LVU9
+  72 0024 8244     		add	r10, r10, r0
+  73 0026 1FFA8AFA 		uxth	r10, r10
+  74              	.LVL4:
+  62:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  63:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* calculate the width of the string in pixel */
+  64:Core/Src/u8g2/Src/u8g2_selection_list.c ****   str_width = u8g2_GetUTF8Width(u8g2, s);
+  75              		.loc 1 64 3 is_stmt 1 view .LVU10
+  76              		.loc 1 64 15 is_stmt 0 view .LVU11
+  77 002a 0E99     		ldr	r1, [sp, #56]
+  78 002c 4846     		mov	r0, r9
+  79 002e FFF7FEFF 		bl	u8g2_GetUTF8Width
+  80              	.LVL5:
+  81 0032 0446     		mov	r4, r0
+  82              	.LVL6:
+  65:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  66:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* calculate delta d within the box */
+  67:Core/Src/u8g2/Src/u8g2_selection_list.c ****   d = 0;
+  83              		.loc 1 67 3 is_stmt 1 view .LVU12
+  68:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( str_width < w )
+  84              		.loc 1 68 3 view .LVU13
+  85              		.loc 1 68 6 is_stmt 0 view .LVU14
+  86 0034 A842     		cmp	r0, r5
+  87 0036 18D2     		bcs	.L8
+  69:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+  70:Core/Src/u8g2/Src/u8g2_selection_list.c ****     d = w;
+  88              		.loc 1 70 5 is_stmt 1 view .LVU15
+  89              	.LVL7:
+  71:Core/Src/u8g2/Src/u8g2_selection_list.c ****     d -=str_width;
+  90              		.loc 1 71 5 view .LVU16
+  91              		.loc 1 71 7 is_stmt 0 view .LVU17
+  92 0038 2C1A     		subs	r4, r5, r0
+  93              	.LVL8:
+  72:Core/Src/u8g2/Src/u8g2_selection_list.c ****     d /= 2;
+  94              		.loc 1 72 5 is_stmt 1 view .LVU18
+  95              		.loc 1 72 7 is_stmt 0 view .LVU19
+  96 003a C4F34E03 		ubfx	r3, r4, #1, #15
+  97 003e 0393     		str	r3, [sp, #12]
+  98              	.LVL9:
+  99              		.loc 1 72 7 view .LVU20
+ 100 0040 2C46     		mov	r4, r5
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 4
+
+
+ 101              	.LVL10:
+ 102              	.L2:
+  73:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+  74:Core/Src/u8g2/Src/u8g2_selection_list.c ****   else
+  75:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+  76:Core/Src/u8g2/Src/u8g2_selection_list.c ****     w = str_width;
+  77:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+  78:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  79:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* caluclate text box */
+  80:Core/Src/u8g2/Src/u8g2_selection_list.c ****   fx = x;
+ 103              		.loc 1 80 3 is_stmt 1 view .LVU21
+  81:Core/Src/u8g2/Src/u8g2_selection_list.c ****   fy = y - u8g2_GetAscent(u8g2) ;
+ 104              		.loc 1 81 3 view .LVU22
+ 105              		.loc 1 81 12 is_stmt 0 view .LVU23
+ 106 0042 99F98E50 		ldrsb	r5, [r9, #142]
+ 107 0046 AEB2     		uxth	r6, r5
+ 108              		.loc 1 81 6 view .LVU24
+ 109 0048 AAEB0606 		sub	r6, r10, r6
+ 110 004c B6B2     		uxth	r6, r6
+ 111              	.LVL11:
+  82:Core/Src/u8g2/Src/u8g2_selection_list.c ****   fw = w;
+ 112              		.loc 1 82 3 is_stmt 1 view .LVU25
+  83:Core/Src/u8g2/Src/u8g2_selection_list.c ****   fh = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2) ;
+ 113              		.loc 1 83 3 view .LVU26
+ 114              		.loc 1 83 31 is_stmt 0 view .LVU27
+ 115 004e 99F98F30 		ldrsb	r3, [r9, #143]
+ 116              		.loc 1 83 29 view .LVU28
+ 117 0052 ED1A     		subs	r5, r5, r3
+ 118              		.loc 1 83 6 view .LVU29
+ 119 0054 ADB2     		uxth	r5, r5
+ 120              	.LVL12:
+  84:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  85:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* draw the box, if inverted */
+  86:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_SetDrawColor(u8g2, 1);
+ 121              		.loc 1 86 3 is_stmt 1 view .LVU30
+ 122 0056 0121     		movs	r1, #1
+ 123 0058 4846     		mov	r0, r9
+ 124              	.LVL13:
+ 125              		.loc 1 86 3 is_stmt 0 view .LVU31
+ 126 005a FFF7FEFF 		bl	u8g2_SetDrawColor
+ 127              	.LVL14:
+  87:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( is_invert )
+ 128              		.loc 1 87 3 is_stmt 1 view .LVU32
+ 129              		.loc 1 87 6 is_stmt 0 view .LVU33
+ 130 005e BBF1000F 		cmp	fp, #0
+ 131 0062 05D1     		bne	.L10
+ 132              	.L3:
+  67:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( str_width < w )
+ 133              		.loc 1 67 5 view .LVU34
+ 134 0064 DDF80880 		ldr	r8, [sp, #8]
+ 135 0068 1DE0     		b	.L4
+ 136              	.LVL15:
+ 137              	.L8:
+  67:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( str_width < w )
+ 138              		.loc 1 67 5 view .LVU35
+ 139 006a 0023     		movs	r3, #0
+ 140 006c 0393     		str	r3, [sp, #12]
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 5
+
+
+ 141 006e E8E7     		b	.L2
+ 142              	.LVL16:
+ 143              	.L10:
+  88:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+  89:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_DrawBox(u8g2, fx, fy, fw, fh);
+ 144              		.loc 1 89 5 is_stmt 1 view .LVU36
+ 145 0070 0095     		str	r5, [sp]
+ 146 0072 2346     		mov	r3, r4
+ 147 0074 3246     		mov	r2, r6
+ 148 0076 0299     		ldr	r1, [sp, #8]
+ 149 0078 4846     		mov	r0, r9
+ 150 007a FFF7FEFF 		bl	u8g2_DrawBox
+ 151              	.LVL17:
+ 152 007e F1E7     		b	.L3
+ 153              	.LVL18:
+ 154              	.L5:
+  90:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+  91:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+  92:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* draw the frame */
+  93:Core/Src/u8g2/Src/u8g2_selection_list.c ****   while( border_size > 0 )
+  94:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+  95:Core/Src/u8g2/Src/u8g2_selection_list.c ****     fx--;
+ 155              		.loc 1 95 5 view .LVU37
+ 156              		.loc 1 95 7 is_stmt 0 view .LVU38
+ 157 0080 08F1FF38 		add	r8, r8, #-1
+ 158              	.LVL19:
+ 159              		.loc 1 95 7 view .LVU39
+ 160 0084 1FFA88F8 		uxth	r8, r8
+ 161              	.LVL20:
+  96:Core/Src/u8g2/Src/u8g2_selection_list.c ****     fy--;
+ 162              		.loc 1 96 5 is_stmt 1 view .LVU40
+ 163              		.loc 1 96 7 is_stmt 0 view .LVU41
+ 164 0088 013E     		subs	r6, r6, #1
+ 165              	.LVL21:
+ 166              		.loc 1 96 7 view .LVU42
+ 167 008a B6B2     		uxth	r6, r6
+ 168              	.LVL22:
+  97:Core/Src/u8g2/Src/u8g2_selection_list.c ****     fw +=2;
+ 169              		.loc 1 97 5 is_stmt 1 view .LVU43
+ 170              		.loc 1 97 8 is_stmt 0 view .LVU44
+ 171 008c 0234     		adds	r4, r4, #2
+ 172              	.LVL23:
+ 173              		.loc 1 97 8 view .LVU45
+ 174 008e A4B2     		uxth	r4, r4
+ 175              	.LVL24:
+  98:Core/Src/u8g2/Src/u8g2_selection_list.c ****     fh +=2;
+ 176              		.loc 1 98 5 is_stmt 1 view .LVU46
+ 177              		.loc 1 98 8 is_stmt 0 view .LVU47
+ 178 0090 0235     		adds	r5, r5, #2
+ 179              	.LVL25:
+ 180              		.loc 1 98 8 view .LVU48
+ 181 0092 ADB2     		uxth	r5, r5
+ 182              	.LVL26:
+  99:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_DrawFrame(u8g2, fx, fy, fw, fh );
+ 183              		.loc 1 99 5 is_stmt 1 view .LVU49
+ 184 0094 0095     		str	r5, [sp]
+ 185 0096 2346     		mov	r3, r4
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 6
+
+
+ 186 0098 3246     		mov	r2, r6
+ 187 009a 4146     		mov	r1, r8
+ 188 009c 4846     		mov	r0, r9
+ 189 009e FFF7FEFF 		bl	u8g2_DrawFrame
+ 190              	.LVL27:
+ 100:Core/Src/u8g2/Src/u8g2_selection_list.c ****     border_size--;
+ 191              		.loc 1 100 5 view .LVU50
+ 192              		.loc 1 100 16 is_stmt 0 view .LVU51
+ 193 00a2 013F     		subs	r7, r7, #1
+ 194              	.LVL28:
+ 195              		.loc 1 100 16 view .LVU52
+ 196 00a4 FFB2     		uxtb	r7, r7
+ 197              	.LVL29:
+ 198              	.L4:
+  93:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 199              		.loc 1 93 8 is_stmt 1 view .LVU53
+ 200 00a6 002F     		cmp	r7, #0
+ 201 00a8 EAD1     		bne	.L5
+ 101:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 102:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 103:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( is_invert )
+ 202              		.loc 1 103 3 view .LVU54
+ 203              		.loc 1 103 6 is_stmt 0 view .LVU55
+ 204 00aa BBF1000F 		cmp	fp, #0
+ 205 00ae 13D0     		beq	.L6
+ 104:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 105:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetDrawColor(u8g2, 0);
+ 206              		.loc 1 105 5 is_stmt 1 view .LVU56
+ 207 00b0 0021     		movs	r1, #0
+ 208 00b2 4846     		mov	r0, r9
+ 209 00b4 FFF7FEFF 		bl	u8g2_SetDrawColor
+ 210              	.LVL30:
+ 211              	.L7:
+ 106:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 107:Core/Src/u8g2/Src/u8g2_selection_list.c ****   else
+ 108:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 109:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetDrawColor(u8g2, 1);
+ 110:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 111:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 112:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* draw the text */
+ 113:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_DrawUTF8(u8g2, x+d, y, s);
+ 212              		.loc 1 113 3 view .LVU57
+ 213 00b8 0399     		ldr	r1, [sp, #12]
+ 214 00ba 029B     		ldr	r3, [sp, #8]
+ 215 00bc 1944     		add	r1, r1, r3
+ 216 00be 0E9B     		ldr	r3, [sp, #56]
+ 217 00c0 5246     		mov	r2, r10
+ 218 00c2 89B2     		uxth	r1, r1
+ 219 00c4 4846     		mov	r0, r9
+ 220 00c6 FFF7FEFF 		bl	u8g2_DrawUTF8
+ 221              	.LVL31:
+ 114:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 115:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* revert draw color */
+ 116:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_SetDrawColor(u8g2, 1);
+ 222              		.loc 1 116 3 view .LVU58
+ 223 00ca 0121     		movs	r1, #1
+ 224 00cc 4846     		mov	r0, r9
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 7
+
+
+ 225 00ce FFF7FEFF 		bl	u8g2_SetDrawColor
+ 226              	.LVL32:
+ 117:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 118:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 227              		.loc 1 118 1 is_stmt 0 view .LVU59
+ 228 00d2 05B0     		add	sp, sp, #20
+ 229              	.LCFI2:
+ 230              		.cfi_remember_state
+ 231              		.cfi_def_cfa_offset 36
+ 232              		@ sp needed
+ 233 00d4 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 234              	.LVL33:
+ 235              	.L6:
+ 236              	.LCFI3:
+ 237              		.cfi_restore_state
+ 109:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 238              		.loc 1 109 5 is_stmt 1 view .LVU60
+ 239 00d8 0121     		movs	r1, #1
+ 240 00da 4846     		mov	r0, r9
+ 241 00dc FFF7FEFF 		bl	u8g2_SetDrawColor
+ 242              	.LVL34:
+ 243 00e0 EAE7     		b	.L7
+ 244              		.cfi_endproc
+ 245              	.LFE0:
+ 247              		.section	.rodata.u8g2_draw_selection_list_line.str1.4,"aMS",%progbits,1
+ 248              		.align	2
+ 249              	.LC0:
+ 250 0000 00       		.ascii	"\000"
+ 251              		.section	.text.u8g2_draw_selection_list_line,"ax",%progbits
+ 252              		.align	1
+ 253              		.syntax unified
+ 254              		.thumb
+ 255              		.thumb_func
+ 257              	u8g2_draw_selection_list_line:
+ 258              	.LVL35:
+ 259              	.LFB2:
+ 119:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 120:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 121:Core/Src/u8g2/Src/u8g2_selection_list.c **** /*
+ 122:Core/Src/u8g2/Src/u8g2_selection_list.c ****   draw several lines at position x,y.
+ 123:Core/Src/u8g2/Src/u8g2_selection_list.c ****   lines are stored in s and must be separated with '\n'.
+ 124:Core/Src/u8g2/Src/u8g2_selection_list.c ****   lines can be centered with respect to "w"
+ 125:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if s == NULL nothing is drawn and 0 is returned
+ 126:Core/Src/u8g2/Src/u8g2_selection_list.c ****   returns the number of lines in s multiplied with line_height
+ 127:Core/Src/u8g2/Src/u8g2_selection_list.c **** */
+ 128:Core/Src/u8g2/Src/u8g2_selection_list.c **** u8g2_uint_t u8g2_DrawUTF8Lines(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint
+ 129:Core/Src/u8g2/Src/u8g2_selection_list.c **** {
+ 130:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t i;
+ 131:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t cnt;
+ 132:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t yy = 0;
+ 133:Core/Src/u8g2/Src/u8g2_selection_list.c ****   cnt = u8x8_GetStringLineCnt(s);
+ 134:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("str=%s\n", s);
+ 135:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("cnt=%d, y=%d, line_height=%d\n", cnt, y, line_height);
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < cnt; i++ )
+ 137:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 138:Core/Src/u8g2/Src/u8g2_selection_list.c ****     //printf("  i=%d, y=%d, line_height=%d\n", i, y, line_height);
+ 139:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_DrawUTF8Line(u8g2, x, y, w, u8x8_GetStringLineStart(i, s), 0, 0);
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 8
+
+
+ 140:Core/Src/u8g2/Src/u8g2_selection_list.c ****     y+=line_height;
+ 141:Core/Src/u8g2/Src/u8g2_selection_list.c ****     yy+=line_height;
+ 142:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 143:Core/Src/u8g2/Src/u8g2_selection_list.c ****   return yy;
+ 144:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 145:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 146:Core/Src/u8g2/Src/u8g2_selection_list.c **** /*
+ 147:Core/Src/u8g2/Src/u8g2_selection_list.c ****   selection list with string line
+ 148:Core/Src/u8g2/Src/u8g2_selection_list.c ****   returns line height
+ 149:Core/Src/u8g2/Src/u8g2_selection_list.c **** */
+ 150:Core/Src/u8g2/Src/u8g2_selection_list.c **** static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t
+ 151:Core/Src/u8g2/Src/u8g2_selection_list.c **** static u8g2_uint_t u8g2_draw_selection_list_line(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, uint8_t
+ 152:Core/Src/u8g2/Src/u8g2_selection_list.c **** {
+ 260              		.loc 1 152 1 view -0
+ 261              		.cfi_startproc
+ 262              		@ args = 4, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              		.loc 1 152 1 is_stmt 0 view .LVU62
+ 265 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 266              	.LCFI4:
+ 267              		.cfi_def_cfa_offset 20
+ 268              		.cfi_offset 4, -20
+ 269              		.cfi_offset 5, -16
+ 270              		.cfi_offset 6, -12
+ 271              		.cfi_offset 7, -8
+ 272              		.cfi_offset 14, -4
+ 273 0002 85B0     		sub	sp, sp, #20
+ 274              	.LCFI5:
+ 275              		.cfi_def_cfa_offset 40
+ 276 0004 0546     		mov	r5, r0
+ 277 0006 1646     		mov	r6, r2
+ 278 0008 1846     		mov	r0, r3
+ 279              	.LVL36:
+ 153:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //u8g2_uint_t yy;
+ 154:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t border_size = 0;
+ 280              		.loc 1 154 3 is_stmt 1 view .LVU63
+ 155:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t is_invert = 0;
+ 281              		.loc 1 155 3 view .LVU64
+ 156:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	
+ 157:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
+ 282              		.loc 1 157 3 view .LVU65
+ 283              		.loc 1 157 29 is_stmt 0 view .LVU66
+ 284 000a 95F98E40 		ldrsb	r4, [r5, #142]
+ 285              		.loc 1 157 52 view .LVU67
+ 286 000e 95F98F30 		ldrsb	r3, [r5, #143]
+ 287              	.LVL37:
+ 288              		.loc 1 157 50 view .LVU68
+ 289 0012 E41A     		subs	r4, r4, r3
+ 290 0014 A4B2     		uxth	r4, r4
+ 291              		.loc 1 157 15 view .LVU69
+ 292 0016 0134     		adds	r4, r4, #1
+ 293 0018 A4B2     		uxth	r4, r4
+ 294              	.LVL38:
+ 158:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 159:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* calculate offset from display upper border */
+ 160:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //yy = idx;
+ 161:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //yy -= u8sl->first_pos;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 9
+
+
+ 162:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //yy *= line_height;
+ 163:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //yy += y;
+ 164:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 165:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* check whether this is the current cursor line */
+ 166:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( idx == u8sl->current_pos )
+ 295              		.loc 1 166 3 is_stmt 1 view .LVU70
+ 296              		.loc 1 166 19 is_stmt 0 view .LVU71
+ 297 001a CB78     		ldrb	r3, [r1, #3]	@ zero_extendqisi2
+ 298              		.loc 1 166 6 view .LVU72
+ 299 001c 8342     		cmp	r3, r0
+ 300 001e 14D0     		beq	.L14
+ 154:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t is_invert = 0;
+ 301              		.loc 1 154 11 view .LVU73
+ 302 0020 0027     		movs	r7, #0
+ 303              	.L12:
+ 304              	.LVL39:
+ 167:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 168:Core/Src/u8g2/Src/u8g2_selection_list.c ****     border_size = MY_BORDER_SIZE;
+ 169:Core/Src/u8g2/Src/u8g2_selection_list.c ****     is_invert = 1;
+ 170:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 171:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 172:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* get the line from the array */
+ 173:Core/Src/u8g2/Src/u8g2_selection_list.c ****   s = u8x8_GetStringLineStart(idx, s);
+ 305              		.loc 1 173 3 is_stmt 1 view .LVU74
+ 306              		.loc 1 173 7 is_stmt 0 view .LVU75
+ 307 0022 0A99     		ldr	r1, [sp, #40]
+ 308              	.LVL40:
+ 309              		.loc 1 173 7 view .LVU76
+ 310 0024 FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 311              	.LVL41:
+ 174:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 175:Core/Src/u8g2/Src/u8g2_selection_list.c ****   /* draw the line */
+ 176:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( s == NULL )
+ 312              		.loc 1 176 3 is_stmt 1 view .LVU77
+ 313              		.loc 1 176 6 is_stmt 0 view .LVU78
+ 314 0028 0246     		mov	r2, r0
+ 315 002a 80B1     		cbz	r0, .L17
+ 316              	.L13:
+ 317              	.LVL42:
+ 177:Core/Src/u8g2/Src/u8g2_selection_list.c ****     s = "";
+ 178:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_DrawUTF8Line(u8g2, MY_BORDER_SIZE, y, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, s, border
+ 318              		.loc 1 178 3 is_stmt 1 view .LVU79
+ 319              		.loc 1 178 46 is_stmt 0 view .LVU80
+ 320 002c B5F84430 		ldrh	r3, [r5, #68]
+ 321              		.loc 1 178 3 view .LVU81
+ 322 0030 023B     		subs	r3, r3, #2
+ 323 0032 0297     		str	r7, [sp, #8]
+ 324 0034 0197     		str	r7, [sp, #4]
+ 325 0036 0092     		str	r2, [sp]
+ 326 0038 9BB2     		uxth	r3, r3
+ 327 003a 3246     		mov	r2, r6
+ 328              	.LVL43:
+ 329              		.loc 1 178 3 view .LVU82
+ 330 003c 0121     		movs	r1, #1
+ 331 003e 2846     		mov	r0, r5
+ 332 0040 FFF7FEFF 		bl	u8g2_DrawUTF8Line
+ 333              	.LVL44:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 10
+
+
+ 179:Core/Src/u8g2/Src/u8g2_selection_list.c ****   return line_height;
+ 334              		.loc 1 179 3 is_stmt 1 view .LVU83
+ 180:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 335              		.loc 1 180 1 is_stmt 0 view .LVU84
+ 336 0044 2046     		mov	r0, r4
+ 337 0046 05B0     		add	sp, sp, #20
+ 338              	.LCFI6:
+ 339              		.cfi_remember_state
+ 340              		.cfi_def_cfa_offset 20
+ 341              		@ sp needed
+ 342 0048 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 343              	.LVL45:
+ 344              	.L14:
+ 345              	.LCFI7:
+ 346              		.cfi_restore_state
+ 168:Core/Src/u8g2/Src/u8g2_selection_list.c ****     is_invert = 1;
+ 347              		.loc 1 168 17 view .LVU85
+ 348 004a 0127     		movs	r7, #1
+ 349 004c E9E7     		b	.L12
+ 350              	.LVL46:
+ 351              	.L17:
+ 177:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_DrawUTF8Line(u8g2, MY_BORDER_SIZE, y, u8g2_GetDisplayWidth(u8g2)-2*MY_BORDER_SIZE, s, border
+ 352              		.loc 1 177 7 view .LVU86
+ 353 004e 014A     		ldr	r2, .L18
+ 354 0050 ECE7     		b	.L13
+ 355              	.L19:
+ 356 0052 00BF     		.align	2
+ 357              	.L18:
+ 358 0054 00000000 		.word	.LC0
+ 359              		.cfi_endproc
+ 360              	.LFE2:
+ 362              		.section	.text.u8g2_DrawUTF8Lines,"ax",%progbits
+ 363              		.align	1
+ 364              		.global	u8g2_DrawUTF8Lines
+ 365              		.syntax unified
+ 366              		.thumb
+ 367              		.thumb_func
+ 369              	u8g2_DrawUTF8Lines:
+ 370              	.LVL47:
+ 371              	.LFB1:
+ 129:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t i;
+ 372              		.loc 1 129 1 is_stmt 1 view -0
+ 373              		.cfi_startproc
+ 374              		@ args = 8, pretend = 0, frame = 0
+ 375              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t i;
+ 376              		.loc 1 129 1 is_stmt 0 view .LVU88
+ 377 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 378              	.LCFI8:
+ 379              		.cfi_def_cfa_offset 36
+ 380              		.cfi_offset 4, -36
+ 381              		.cfi_offset 5, -32
+ 382              		.cfi_offset 6, -28
+ 383              		.cfi_offset 7, -24
+ 384              		.cfi_offset 8, -20
+ 385              		.cfi_offset 9, -16
+ 386              		.cfi_offset 10, -12
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 11
+
+
+ 387              		.cfi_offset 11, -8
+ 388              		.cfi_offset 14, -4
+ 389 0004 85B0     		sub	sp, sp, #20
+ 390              	.LCFI9:
+ 391              		.cfi_def_cfa_offset 56
+ 392 0006 8346     		mov	fp, r0
+ 393 0008 8A46     		mov	r10, r1
+ 394 000a 1546     		mov	r5, r2
+ 395 000c 9946     		mov	r9, r3
+ 396 000e BDF83870 		ldrh	r7, [sp, #56]
+ 130:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t cnt;
+ 397              		.loc 1 130 3 is_stmt 1 view .LVU89
+ 131:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t yy = 0;
+ 398              		.loc 1 131 3 view .LVU90
+ 132:Core/Src/u8g2/Src/u8g2_selection_list.c ****   cnt = u8x8_GetStringLineCnt(s);
+ 399              		.loc 1 132 3 view .LVU91
+ 400              	.LVL48:
+ 133:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("str=%s\n", s);
+ 401              		.loc 1 133 3 view .LVU92
+ 133:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("str=%s\n", s);
+ 402              		.loc 1 133 9 is_stmt 0 view .LVU93
+ 403 0012 0F98     		ldr	r0, [sp, #60]
+ 404              	.LVL49:
+ 133:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("str=%s\n", s);
+ 405              		.loc 1 133 9 view .LVU94
+ 406 0014 FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ 407              	.LVL50:
+ 133:Core/Src/u8g2/Src/u8g2_selection_list.c ****   //printf("str=%s\n", s);
+ 408              		.loc 1 133 9 view .LVU95
+ 409 0018 8046     		mov	r8, r0
+ 410              	.LVL51:
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 411              		.loc 1 136 3 is_stmt 1 view .LVU96
+ 132:Core/Src/u8g2/Src/u8g2_selection_list.c ****   cnt = u8x8_GetStringLineCnt(s);
+ 412              		.loc 1 132 15 is_stmt 0 view .LVU97
+ 413 001a 0026     		movs	r6, #0
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 414              		.loc 1 136 10 view .LVU98
+ 415 001c 3446     		mov	r4, r6
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 416              		.loc 1 136 3 view .LVU99
+ 417 001e 13E0     		b	.L21
+ 418              	.LVL52:
+ 419              	.L22:
+ 139:Core/Src/u8g2/Src/u8g2_selection_list.c ****     y+=line_height;
+ 420              		.loc 1 139 5 is_stmt 1 discriminator 3 view .LVU100
+ 421 0020 0F99     		ldr	r1, [sp, #60]
+ 422 0022 2046     		mov	r0, r4
+ 423 0024 FFF7FEFF 		bl	u8x8_GetStringLineStart
+ 424              	.LVL53:
+ 425 0028 0023     		movs	r3, #0
+ 426 002a 0293     		str	r3, [sp, #8]
+ 427 002c 0193     		str	r3, [sp, #4]
+ 428 002e 0090     		str	r0, [sp]
+ 429 0030 4B46     		mov	r3, r9
+ 430 0032 2A46     		mov	r2, r5
+ 431 0034 5146     		mov	r1, r10
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 12
+
+
+ 432 0036 5846     		mov	r0, fp
+ 433 0038 FFF7FEFF 		bl	u8g2_DrawUTF8Line
+ 434              	.LVL54:
+ 140:Core/Src/u8g2/Src/u8g2_selection_list.c ****     yy+=line_height;
+ 435              		.loc 1 140 5 discriminator 3 view .LVU101
+ 140:Core/Src/u8g2/Src/u8g2_selection_list.c ****     yy+=line_height;
+ 436              		.loc 1 140 6 is_stmt 0 discriminator 3 view .LVU102
+ 437 003c 3D44     		add	r5, r5, r7
+ 438              	.LVL55:
+ 140:Core/Src/u8g2/Src/u8g2_selection_list.c ****     yy+=line_height;
+ 439              		.loc 1 140 6 discriminator 3 view .LVU103
+ 440 003e ADB2     		uxth	r5, r5
+ 441              	.LVL56:
+ 141:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 442              		.loc 1 141 5 is_stmt 1 discriminator 3 view .LVU104
+ 141:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 443              		.loc 1 141 7 is_stmt 0 discriminator 3 view .LVU105
+ 444 0040 3E44     		add	r6, r6, r7
+ 445              	.LVL57:
+ 141:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 446              		.loc 1 141 7 discriminator 3 view .LVU106
+ 447 0042 B6B2     		uxth	r6, r6
+ 448              	.LVL58:
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 449              		.loc 1 136 24 is_stmt 1 discriminator 3 view .LVU107
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 450              		.loc 1 136 25 is_stmt 0 discriminator 3 view .LVU108
+ 451 0044 0134     		adds	r4, r4, #1
+ 452              	.LVL59:
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 453              		.loc 1 136 25 discriminator 3 view .LVU109
+ 454 0046 E4B2     		uxtb	r4, r4
+ 455              	.LVL60:
+ 456              	.L21:
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 457              		.loc 1 136 15 is_stmt 1 discriminator 1 view .LVU110
+ 136:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 458              		.loc 1 136 3 is_stmt 0 discriminator 1 view .LVU111
+ 459 0048 4445     		cmp	r4, r8
+ 460 004a E9D3     		bcc	.L22
+ 143:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 461              		.loc 1 143 3 is_stmt 1 view .LVU112
+ 144:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 462              		.loc 1 144 1 is_stmt 0 view .LVU113
+ 463 004c 3046     		mov	r0, r6
+ 464 004e 05B0     		add	sp, sp, #20
+ 465              	.LCFI10:
+ 466              		.cfi_def_cfa_offset 36
+ 467              		@ sp needed
+ 468 0050 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 144:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 469              		.loc 1 144 1 view .LVU114
+ 470              		.cfi_endproc
+ 471              	.LFE1:
+ 473              		.section	.text.u8g2_DrawSelectionList,"ax",%progbits
+ 474              		.align	1
+ 475              		.global	u8g2_DrawSelectionList
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 13
+
+
+ 476              		.syntax unified
+ 477              		.thumb
+ 478              		.thumb_func
+ 480              	u8g2_DrawSelectionList:
+ 481              	.LVL61:
+ 482              	.LFB3:
+ 181:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 182:Core/Src/u8g2/Src/u8g2_selection_list.c **** void u8g2_DrawSelectionList(u8g2_t *u8g2, u8sl_t *u8sl, u8g2_uint_t y, const char *s)
+ 183:Core/Src/u8g2/Src/u8g2_selection_list.c **** {
+ 483              		.loc 1 183 1 is_stmt 1 view -0
+ 484              		.cfi_startproc
+ 485              		@ args = 0, pretend = 0, frame = 0
+ 486              		@ frame_needed = 0, uses_anonymous_args = 0
+ 487              		.loc 1 183 1 is_stmt 0 view .LVU116
+ 488 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 489              	.LCFI11:
+ 490              		.cfi_def_cfa_offset 24
+ 491              		.cfi_offset 4, -24
+ 492              		.cfi_offset 5, -20
+ 493              		.cfi_offset 6, -16
+ 494              		.cfi_offset 7, -12
+ 495              		.cfi_offset 8, -8
+ 496              		.cfi_offset 14, -4
+ 497 0004 82B0     		sub	sp, sp, #8
+ 498              	.LCFI12:
+ 499              		.cfi_def_cfa_offset 32
+ 500 0006 0746     		mov	r7, r0
+ 501 0008 0D46     		mov	r5, r1
+ 502 000a 9046     		mov	r8, r2
+ 503 000c 1E46     		mov	r6, r3
+ 184:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t i;
+ 504              		.loc 1 184 3 is_stmt 1 view .LVU117
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 505              		.loc 1 185 3 view .LVU118
+ 506              	.LVL62:
+ 507              		.loc 1 185 10 is_stmt 0 view .LVU119
+ 508 000e 0024     		movs	r4, #0
+ 509              		.loc 1 185 3 view .LVU120
+ 510 0010 0EE0     		b	.L25
+ 511              	.LVL63:
+ 512              	.L26:
+ 186:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 187:Core/Src/u8g2/Src/u8g2_selection_list.c ****     y += u8g2_draw_selection_list_line(u8g2, u8sl, y, i+u8sl->first_pos, s);
+ 513              		.loc 1 187 5 is_stmt 1 discriminator 3 view .LVU121
+ 514              		.loc 1 187 61 is_stmt 0 discriminator 3 view .LVU122
+ 515 0012 AB78     		ldrb	r3, [r5, #2]	@ zero_extendqisi2
+ 516              		.loc 1 187 10 discriminator 3 view .LVU123
+ 517 0014 2344     		add	r3, r3, r4
+ 518 0016 0096     		str	r6, [sp]
+ 519 0018 DBB2     		uxtb	r3, r3
+ 520 001a 4246     		mov	r2, r8
+ 521 001c 2946     		mov	r1, r5
+ 522 001e 3846     		mov	r0, r7
+ 523 0020 FFF7FEFF 		bl	u8g2_draw_selection_list_line
+ 524              	.LVL64:
+ 525              		.loc 1 187 7 discriminator 3 view .LVU124
+ 526 0024 08EB0002 		add	r2, r8, r0
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 14
+
+
+ 527 0028 1FFA82F8 		uxth	r8, r2
+ 528              	.LVL65:
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 529              		.loc 1 185 34 is_stmt 1 discriminator 3 view .LVU125
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 530              		.loc 1 185 35 is_stmt 0 discriminator 3 view .LVU126
+ 531 002c 0134     		adds	r4, r4, #1
+ 532              	.LVL66:
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 533              		.loc 1 185 35 discriminator 3 view .LVU127
+ 534 002e E4B2     		uxtb	r4, r4
+ 535              	.LVL67:
+ 536              	.L25:
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 537              		.loc 1 185 15 is_stmt 1 discriminator 1 view .LVU128
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 538              		.loc 1 185 23 is_stmt 0 discriminator 1 view .LVU129
+ 539 0030 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 185:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for( i = 0; i < u8sl->visible; i++ )
+ 540              		.loc 1 185 3 discriminator 1 view .LVU130
+ 541 0032 A342     		cmp	r3, r4
+ 542 0034 EDD8     		bhi	.L26
+ 188:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 189:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 543              		.loc 1 189 1 view .LVU131
+ 544 0036 02B0     		add	sp, sp, #8
+ 545              	.LCFI13:
+ 546              		.cfi_def_cfa_offset 24
+ 547              		@ sp needed
+ 548 0038 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 549              		.loc 1 189 1 view .LVU132
+ 550              		.cfi_endproc
+ 551              	.LFE3:
+ 553              		.section	.text.u8g2_UserInterfaceSelectionList,"ax",%progbits
+ 554              		.align	1
+ 555              		.global	u8g2_UserInterfaceSelectionList
+ 556              		.syntax unified
+ 557              		.thumb
+ 558              		.thumb_func
+ 560              	u8g2_UserInterfaceSelectionList:
+ 561              	.LVL68:
+ 562              	.LFB4:
+ 190:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 191:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 192:Core/Src/u8g2/Src/u8g2_selection_list.c **** /*
+ 193:Core/Src/u8g2/Src/u8g2_selection_list.c ****   title: 		NULL for no title, valid str for title line. Can contain mutliple lines, separated by '\
+ 194:Core/Src/u8g2/Src/u8g2_selection_list.c ****   start_pos: 	default position for the cursor, first line is 1.
+ 195:Core/Src/u8g2/Src/u8g2_selection_list.c ****   sl:			string list (list of strings separated by \n)
+ 196:Core/Src/u8g2/Src/u8g2_selection_list.c ****   returns 0 if user has pressed the home key
+ 197:Core/Src/u8g2/Src/u8g2_selection_list.c ****   returns the selected line if user has pressed the select key
+ 198:Core/Src/u8g2/Src/u8g2_selection_list.c ****   side effects:
+ 199:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetFontDirection(u8g2, 0);
+ 200:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8g2_SetFontPosBaseline(u8g2);
+ 201:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	
+ 202:Core/Src/u8g2/Src/u8g2_selection_list.c **** */
+ 203:Core/Src/u8g2/Src/u8g2_selection_list.c **** uint8_t u8g2_UserInterfaceSelectionList(u8g2_t *u8g2, const char *title, uint8_t start_pos, const c
+ 204:Core/Src/u8g2/Src/u8g2_selection_list.c **** {
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 15
+
+
+ 563              		.loc 1 204 1 is_stmt 1 view -0
+ 564              		.cfi_startproc
+ 565              		@ args = 0, pretend = 0, frame = 8
+ 566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 567              		.loc 1 204 1 is_stmt 0 view .LVU134
+ 568 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 569              	.LCFI14:
+ 570              		.cfi_def_cfa_offset 28
+ 571              		.cfi_offset 4, -28
+ 572              		.cfi_offset 5, -24
+ 573              		.cfi_offset 6, -20
+ 574              		.cfi_offset 7, -16
+ 575              		.cfi_offset 8, -12
+ 576              		.cfi_offset 9, -8
+ 577              		.cfi_offset 14, -4
+ 578 0004 85B0     		sub	sp, sp, #20
+ 579              	.LCFI15:
+ 580              		.cfi_def_cfa_offset 48
+ 581 0006 0546     		mov	r5, r0
+ 582 0008 8946     		mov	r9, r1
+ 583 000a 1446     		mov	r4, r2
+ 584 000c 1F46     		mov	r7, r3
+ 205:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8sl_t u8sl;
+ 585              		.loc 1 205 3 is_stmt 1 view .LVU135
+ 206:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t yy;
+ 586              		.loc 1 206 3 view .LVU136
+ 207:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 208:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t event;
+ 587              		.loc 1 208 3 view .LVU137
+ 209:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 210:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_uint_t line_height = u8g2_GetAscent(u8g2) - u8g2_GetDescent(u8g2)+MY_BORDER_SIZE;
+ 588              		.loc 1 210 3 view .LVU138
+ 589              		.loc 1 210 29 is_stmt 0 view .LVU139
+ 590 000e 90F98E80 		ldrsb	r8, [r0, #142]
+ 591              		.loc 1 210 52 view .LVU140
+ 592 0012 90F98F30 		ldrsb	r3, [r0, #143]
+ 593              	.LVL69:
+ 594              		.loc 1 210 50 view .LVU141
+ 595 0016 A8EB0308 		sub	r8, r8, r3
+ 596 001a 1FFA88F8 		uxth	r8, r8
+ 597              		.loc 1 210 15 view .LVU142
+ 598 001e 08F10108 		add	r8, r8, #1
+ 599 0022 1FFA88F8 		uxth	r8, r8
+ 600              	.LVL70:
+ 211:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 212:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t title_lines = u8x8_GetStringLineCnt(title);
+ 601              		.loc 1 212 3 is_stmt 1 view .LVU143
+ 602              		.loc 1 212 25 is_stmt 0 view .LVU144
+ 603 0026 0846     		mov	r0, r1
+ 604              	.LVL71:
+ 605              		.loc 1 212 25 view .LVU145
+ 606 0028 FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ 607              	.LVL72:
+ 608              		.loc 1 212 25 view .LVU146
+ 609 002c 0646     		mov	r6, r0
+ 610              	.LVL73:
+ 213:Core/Src/u8g2/Src/u8g2_selection_list.c ****   uint8_t display_lines;
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 16
+
+
+ 611              		.loc 1 213 3 is_stmt 1 view .LVU147
+ 214:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 215:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+ 216:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( start_pos > 0 )	/* issue 112 */
+ 612              		.loc 1 216 3 view .LVU148
+ 613              		.loc 1 216 6 is_stmt 0 view .LVU149
+ 614 002e 0CB1     		cbz	r4, .L29
+ 217:Core/Src/u8g2/Src/u8g2_selection_list.c ****     start_pos--;		/* issue 112 */
+ 615              		.loc 1 217 5 is_stmt 1 view .LVU150
+ 616              		.loc 1 217 14 is_stmt 0 view .LVU151
+ 617 0030 013C     		subs	r4, r4, #1
+ 618 0032 E4B2     		uxtb	r4, r4
+ 619              	.LVL74:
+ 620              	.L29:
+ 218:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 219:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 220:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( title_lines > 0 )
+ 621              		.loc 1 220 3 is_stmt 1 view .LVU152
+ 622              		.loc 1 220 6 is_stmt 0 view .LVU153
+ 623 0034 5EB3     		cbz	r6, .L30
+ 221:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 222:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	display_lines = (u8g2_GetDisplayHeight(u8g2)-3) / line_height;
+ 624              		.loc 1 222 2 is_stmt 1 view .LVU154
+ 625              		.loc 1 222 19 is_stmt 0 view .LVU155
+ 626 0036 B5F84630 		ldrh	r3, [r5, #70]
+ 627              		.loc 1 222 46 view .LVU156
+ 628 003a 033B     		subs	r3, r3, #3
+ 629              		.loc 1 222 50 view .LVU157
+ 630 003c 93FBF8F3 		sdiv	r3, r3, r8
+ 631              		.loc 1 222 16 view .LVU158
+ 632 0040 DBB2     		uxtb	r3, r3
+ 633              	.LVL75:
+ 223:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible = display_lines;
+ 634              		.loc 1 223 2 is_stmt 1 view .LVU159
+ 635              		.loc 1 223 15 is_stmt 0 view .LVU160
+ 636 0042 8DF80830 		strb	r3, [sp, #8]
+ 224:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible -= title_lines;
+ 637              		.loc 1 224 2 is_stmt 1 view .LVU161
+ 638              		.loc 1 224 15 is_stmt 0 view .LVU162
+ 639 0046 9B1B     		subs	r3, r3, r6
+ 640              	.LVL76:
+ 641              		.loc 1 224 15 view .LVU163
+ 642 0048 8DF80830 		strb	r3, [sp, #8]
+ 643              	.LVL77:
+ 644              	.L31:
+ 225:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 226:Core/Src/u8g2/Src/u8g2_selection_list.c ****   else
+ 227:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 228:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	display_lines = u8g2_GetDisplayHeight(u8g2) / line_height;
+ 229:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible = display_lines;
+ 230:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 231:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 232:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8sl.total = u8x8_GetStringLineCnt(sl);
+ 645              		.loc 1 232 3 is_stmt 1 view .LVU164
+ 646              		.loc 1 232 16 is_stmt 0 view .LVU165
+ 647 004c 3846     		mov	r0, r7
+ 648 004e FFF7FEFF 		bl	u8x8_GetStringLineCnt
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 17
+
+
+ 649              	.LVL78:
+ 650              		.loc 1 232 14 view .LVU166
+ 651 0052 8DF80900 		strb	r0, [sp, #9]
+ 233:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8sl.first_pos = 0;
+ 652              		.loc 1 233 3 is_stmt 1 view .LVU167
+ 653              		.loc 1 233 18 is_stmt 0 view .LVU168
+ 654 0056 0023     		movs	r3, #0
+ 655 0058 8DF80A30 		strb	r3, [sp, #10]
+ 234:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8sl.current_pos = start_pos;
+ 656              		.loc 1 234 3 is_stmt 1 view .LVU169
+ 657              		.loc 1 234 20 is_stmt 0 view .LVU170
+ 658 005c 8DF80B40 		strb	r4, [sp, #11]
+ 235:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 236:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( u8sl.current_pos >= u8sl.total )
+ 659              		.loc 1 236 3 is_stmt 1 view .LVU171
+ 660              		.loc 1 236 6 is_stmt 0 view .LVU172
+ 661 0060 A042     		cmp	r0, r4
+ 662 0062 02D8     		bhi	.L32
+ 237:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8sl.current_pos = u8sl.total-1;
+ 663              		.loc 1 237 5 is_stmt 1 view .LVU173
+ 664              		.loc 1 237 34 is_stmt 0 view .LVU174
+ 665 0064 0138     		subs	r0, r0, #1
+ 666              		.loc 1 237 22 view .LVU175
+ 667 0066 8DF80B00 		strb	r0, [sp, #11]
+ 668              	.L32:
+ 238:Core/Src/u8g2/Src/u8g2_selection_list.c ****   if ( u8sl.first_pos+u8sl.visible <= u8sl.current_pos )
+ 669              		.loc 1 238 3 is_stmt 1 view .LVU176
+ 670              		.loc 1 238 27 is_stmt 0 view .LVU177
+ 671 006a 9DF80820 		ldrb	r2, [sp, #8]	@ zero_extendqisi2
+ 672              		.loc 1 238 43 view .LVU178
+ 673 006e 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+ 674              		.loc 1 238 6 view .LVU179
+ 675 0072 9A42     		cmp	r2, r3
+ 676 0074 04DC     		bgt	.L33
+ 239:Core/Src/u8g2/Src/u8g2_selection_list.c ****     u8sl.first_pos = u8sl.current_pos-u8sl.visible+1;
+ 677              		.loc 1 239 5 is_stmt 1 view .LVU180
+ 678              		.loc 1 239 38 is_stmt 0 view .LVU181
+ 679 0076 9B1A     		subs	r3, r3, r2
+ 680 0078 DBB2     		uxtb	r3, r3
+ 681              		.loc 1 239 51 view .LVU182
+ 682 007a 0133     		adds	r3, r3, #1
+ 683              		.loc 1 239 20 view .LVU183
+ 684 007c 8DF80A30 		strb	r3, [sp, #10]
+ 685              	.L33:
+ 240:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 241:Core/Src/u8g2/Src/u8g2_selection_list.c ****   u8g2_SetFontPosBaseline(u8g2);
+ 686              		.loc 1 241 3 is_stmt 1 view .LVU184
+ 687 0080 2846     		mov	r0, r5
+ 688 0082 FFF7FEFF 		bl	u8g2_SetFontPosBaseline
+ 689              	.LVL79:
+ 690              	.L34:
+ 242:Core/Src/u8g2/Src/u8g2_selection_list.c ****   
+ 243:Core/Src/u8g2/Src/u8g2_selection_list.c ****   for(;;)
+ 691              		.loc 1 243 3 view .LVU185
+ 244:Core/Src/u8g2/Src/u8g2_selection_list.c ****   {
+ 245:Core/Src/u8g2/Src/u8g2_selection_list.c ****       u8g2_FirstPage(u8g2);
+ 692              		.loc 1 245 7 view .LVU186
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 18
+
+
+ 693 0086 2846     		mov	r0, r5
+ 694 0088 FFF7FEFF 		bl	u8g2_FirstPage
+ 695              	.LVL80:
+ 696 008c 11E0     		b	.L36
+ 697              	.LVL81:
+ 698              	.L30:
+ 228:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible = display_lines;
+ 699              		.loc 1 228 2 view .LVU187
+ 228:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible = display_lines;
+ 700              		.loc 1 228 18 is_stmt 0 view .LVU188
+ 701 008e B5F84630 		ldrh	r3, [r5, #70]
+ 228:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	u8sl.visible = display_lines;
+ 702              		.loc 1 228 16 view .LVU189
+ 703 0092 B3FBF8F3 		udiv	r3, r3, r8
+ 704              	.LVL82:
+ 229:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 705              		.loc 1 229 2 is_stmt 1 view .LVU190
+ 229:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 706              		.loc 1 229 15 is_stmt 0 view .LVU191
+ 707 0096 8DF80830 		strb	r3, [sp, #8]
+ 708 009a D7E7     		b	.L31
+ 709              	.LVL83:
+ 710              	.L35:
+ 246:Core/Src/u8g2/Src/u8g2_selection_list.c ****       do
+ 247:Core/Src/u8g2/Src/u8g2_selection_list.c ****       {
+ 248:Core/Src/u8g2/Src/u8g2_selection_list.c ****         yy = u8g2_GetAscent(u8g2);
+ 249:Core/Src/u8g2/Src/u8g2_selection_list.c ****         if ( title_lines > 0 )
+ 250:Core/Src/u8g2/Src/u8g2_selection_list.c ****         {
+ 251:Core/Src/u8g2/Src/u8g2_selection_list.c ****           yy += u8g2_DrawUTF8Lines(u8g2, 0, yy, u8g2_GetDisplayWidth(u8g2), line_height, title);
+ 252:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	  u8g2_DrawHLine(u8g2, 0, yy-line_height- u8g2_GetDescent(u8g2) + 1, u8g2_GetDisplayWidth(u8g2));
+ 254:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 255:Core/Src/u8g2/Src/u8g2_selection_list.c **** 	  yy += 3;
+ 256:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 257:Core/Src/u8g2/Src/u8g2_selection_list.c ****         u8g2_DrawSelectionList(u8g2, &u8sl, yy, sl);
+ 711              		.loc 1 257 9 is_stmt 1 view .LVU192
+ 712 009c 3B46     		mov	r3, r7
+ 713 009e 2246     		mov	r2, r4
+ 714 00a0 02A9     		add	r1, sp, #8
+ 715 00a2 2846     		mov	r0, r5
+ 716 00a4 FFF7FEFF 		bl	u8g2_DrawSelectionList
+ 717              	.LVL84:
+ 258:Core/Src/u8g2/Src/u8g2_selection_list.c ****       } while( u8g2_NextPage(u8g2) );
+ 718              		.loc 1 258 14 view .LVU193
+ 719              		.loc 1 258 16 is_stmt 0 view .LVU194
+ 720 00a8 2846     		mov	r0, r5
+ 721 00aa FFF7FEFF 		bl	u8g2_NextPage
+ 722              	.LVL85:
+ 723              		.loc 1 258 7 view .LVU195
+ 724 00ae 0446     		mov	r4, r0
+ 725              	.LVL86:
+ 726              		.loc 1 258 7 view .LVU196
+ 727 00b0 20B3     		cbz	r0, .L43
+ 728              	.L36:
+ 246:Core/Src/u8g2/Src/u8g2_selection_list.c ****       do
+ 729              		.loc 1 246 7 is_stmt 1 view .LVU197
+ 248:Core/Src/u8g2/Src/u8g2_selection_list.c ****         if ( title_lines > 0 )
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 19
+
+
+ 730              		.loc 1 248 9 view .LVU198
+ 248:Core/Src/u8g2/Src/u8g2_selection_list.c ****         if ( title_lines > 0 )
+ 731              		.loc 1 248 14 is_stmt 0 view .LVU199
+ 732 00b2 95F98E40 		ldrsb	r4, [r5, #142]
+ 248:Core/Src/u8g2/Src/u8g2_selection_list.c ****         if ( title_lines > 0 )
+ 733              		.loc 1 248 12 view .LVU200
+ 734 00b6 A4B2     		uxth	r4, r4
+ 735              	.LVL87:
+ 249:Core/Src/u8g2/Src/u8g2_selection_list.c ****         {
+ 736              		.loc 1 249 9 is_stmt 1 view .LVU201
+ 249:Core/Src/u8g2/Src/u8g2_selection_list.c ****         {
+ 737              		.loc 1 249 12 is_stmt 0 view .LVU202
+ 738 00b8 002E     		cmp	r6, #0
+ 739 00ba EFD0     		beq	.L35
+ 251:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 740              		.loc 1 251 11 is_stmt 1 view .LVU203
+ 251:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 741              		.loc 1 251 17 is_stmt 0 view .LVU204
+ 742 00bc CDF80490 		str	r9, [sp, #4]
+ 743 00c0 CDF80080 		str	r8, [sp]
+ 744 00c4 B5F84430 		ldrh	r3, [r5, #68]
+ 745 00c8 2246     		mov	r2, r4
+ 746 00ca 0021     		movs	r1, #0
+ 747 00cc 2846     		mov	r0, r5
+ 748 00ce FFF7FEFF 		bl	u8g2_DrawUTF8Lines
+ 749              	.LVL88:
+ 251:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 750              		.loc 1 251 14 view .LVU205
+ 751 00d2 0444     		add	r4, r4, r0
+ 752              	.LVL89:
+ 251:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 753              		.loc 1 251 14 view .LVU206
+ 754 00d4 A4B2     		uxth	r4, r4
+ 755              	.LVL90:
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 756              		.loc 1 253 4 is_stmt 1 view .LVU207
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 757              		.loc 1 253 30 is_stmt 0 view .LVU208
+ 758 00d6 A4EB0802 		sub	r2, r4, r8
+ 759 00da 92B2     		uxth	r2, r2
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 760              		.loc 1 253 44 view .LVU209
+ 761 00dc 95F98F30 		ldrsb	r3, [r5, #143]
+ 762 00e0 9BB2     		uxth	r3, r3
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 763              		.loc 1 253 42 view .LVU210
+ 764 00e2 D21A     		subs	r2, r2, r3
+ 765 00e4 92B2     		uxth	r2, r2
+ 253:Core/Src/u8g2/Src/u8g2_selection_list.c **** 		
+ 766              		.loc 1 253 4 view .LVU211
+ 767 00e6 0132     		adds	r2, r2, #1
+ 768 00e8 B5F84430 		ldrh	r3, [r5, #68]
+ 769 00ec 92B2     		uxth	r2, r2
+ 770 00ee 0021     		movs	r1, #0
+ 771 00f0 2846     		mov	r0, r5
+ 772 00f2 FFF7FEFF 		bl	u8g2_DrawHLine
+ 773              	.LVL91:
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 20
+
+
+ 255:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 774              		.loc 1 255 4 is_stmt 1 view .LVU212
+ 255:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 775              		.loc 1 255 7 is_stmt 0 view .LVU213
+ 776 00f6 0334     		adds	r4, r4, #3
+ 777              	.LVL92:
+ 255:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 778              		.loc 1 255 7 view .LVU214
+ 779 00f8 A4B2     		uxth	r4, r4
+ 780              	.LVL93:
+ 255:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 781              		.loc 1 255 7 view .LVU215
+ 782 00fa CFE7     		b	.L35
+ 783              	.LVL94:
+ 784              	.L43:
+ 259:Core/Src/u8g2/Src/u8g2_selection_list.c ****       
+ 260:Core/Src/u8g2/Src/u8g2_selection_list.c **** #ifdef U8G2_REF_MAN_PIC
+ 261:Core/Src/u8g2/Src/u8g2_selection_list.c ****       return 0;
+ 262:Core/Src/u8g2/Src/u8g2_selection_list.c **** #endif
+ 263:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 264:Core/Src/u8g2/Src/u8g2_selection_list.c **** 
+ 265:Core/Src/u8g2/Src/u8g2_selection_list.c ****       for(;;)
+ 785              		.loc 1 265 7 is_stmt 1 view .LVU216
+ 266:Core/Src/u8g2/Src/u8g2_selection_list.c ****       {
+ 267:Core/Src/u8g2/Src/u8g2_selection_list.c ****         event = u8x8_GetMenuEvent(u8g2_GetU8x8(u8g2));
+ 786              		.loc 1 267 9 view .LVU217
+ 787              		.loc 1 267 17 is_stmt 0 view .LVU218
+ 788 00fc 2846     		mov	r0, r5
+ 789 00fe FFF7FEFF 		bl	u8x8_GetMenuEvent
+ 790              	.LVL95:
+ 268:Core/Src/u8g2/Src/u8g2_selection_list.c ****         if ( event == U8X8_MSG_GPIO_MENU_SELECT )
+ 791              		.loc 1 268 9 is_stmt 1 view .LVU219
+ 792              		.loc 1 268 12 is_stmt 0 view .LVU220
+ 793 0102 5028     		cmp	r0, #80
+ 794 0104 0DD0     		beq	.L45
+ 269:Core/Src/u8g2/Src/u8g2_selection_list.c ****           return u8sl.current_pos+1;		/* +1, issue 112 */
+ 270:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 795              		.loc 1 270 14 is_stmt 1 view .LVU221
+ 796              		.loc 1 270 17 is_stmt 0 view .LVU222
+ 797 0106 5328     		cmp	r0, #83
+ 798 0108 0FD0     		beq	.L38
+ 271:Core/Src/u8g2/Src/u8g2_selection_list.c ****           return 0;				/* issue 112: return 0 instead of start_pos */
+ 272:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_NEXT || event == U8X8_MSG_GPIO_MENU_DOWN )
+ 799              		.loc 1 272 14 is_stmt 1 view .LVU223
+ 800              		.loc 1 272 17 is_stmt 0 view .LVU224
+ 801 010a 5128     		cmp	r0, #81
+ 802 010c 11D0     		beq	.L39
+ 803              		.loc 1 272 52 discriminator 1 view .LVU225
+ 804 010e 5528     		cmp	r0, #85
+ 805 0110 0FD0     		beq	.L39
+ 273:Core/Src/u8g2/Src/u8g2_selection_list.c ****         {
+ 274:Core/Src/u8g2/Src/u8g2_selection_list.c ****           u8sl_Next(&u8sl);
+ 275:Core/Src/u8g2/Src/u8g2_selection_list.c ****           break;
+ 276:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 277:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_PREV || event == U8X8_MSG_GPIO_MENU_UP )
+ 806              		.loc 1 277 14 is_stmt 1 view .LVU226
+ 807              		.loc 1 277 17 is_stmt 0 view .LVU227
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 21
+
+
+ 808 0112 5228     		cmp	r0, #82
+ 809 0114 01D0     		beq	.L42
+ 810              		.loc 1 277 52 discriminator 1 view .LVU228
+ 811 0116 5428     		cmp	r0, #84
+ 812 0118 F0D1     		bne	.L43
+ 813              	.L42:
+ 278:Core/Src/u8g2/Src/u8g2_selection_list.c ****         {
+ 279:Core/Src/u8g2/Src/u8g2_selection_list.c ****           u8sl_Prev(&u8sl);
+ 814              		.loc 1 279 11 is_stmt 1 view .LVU229
+ 815 011a 02A8     		add	r0, sp, #8
+ 816              	.LVL96:
+ 817              		.loc 1 279 11 is_stmt 0 view .LVU230
+ 818 011c FFF7FEFF 		bl	u8sl_Prev
+ 819              	.LVL97:
+ 280:Core/Src/u8g2/Src/u8g2_selection_list.c ****           break;
+ 820              		.loc 1 280 11 is_stmt 1 view .LVU231
+ 821 0120 B1E7     		b	.L34
+ 822              	.LVL98:
+ 823              	.L45:
+ 269:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 824              		.loc 1 269 11 view .LVU232
+ 269:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 825              		.loc 1 269 22 is_stmt 0 view .LVU233
+ 826 0122 9DF80B40 		ldrb	r4, [sp, #11]	@ zero_extendqisi2
+ 269:Core/Src/u8g2/Src/u8g2_selection_list.c ****         else if ( event == U8X8_MSG_GPIO_MENU_HOME )
+ 827              		.loc 1 269 34 view .LVU234
+ 828 0126 0134     		adds	r4, r4, #1
+ 829 0128 E4B2     		uxtb	r4, r4
+ 830              	.L38:
+ 281:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 282:Core/Src/u8g2/Src/u8g2_selection_list.c ****       }
+ 283:Core/Src/u8g2/Src/u8g2_selection_list.c ****   }
+ 284:Core/Src/u8g2/Src/u8g2_selection_list.c **** }
+ 831              		.loc 1 284 1 view .LVU235
+ 832 012a 2046     		mov	r0, r4
+ 833              	.LVL99:
+ 834              		.loc 1 284 1 view .LVU236
+ 835 012c 05B0     		add	sp, sp, #20
+ 836              	.LCFI16:
+ 837              		.cfi_remember_state
+ 838              		.cfi_def_cfa_offset 28
+ 839              		@ sp needed
+ 840 012e BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 841              	.LVL100:
+ 842              	.L39:
+ 843              	.LCFI17:
+ 844              		.cfi_restore_state
+ 274:Core/Src/u8g2/Src/u8g2_selection_list.c ****           break;
+ 845              		.loc 1 274 11 is_stmt 1 view .LVU237
+ 846 0132 02A8     		add	r0, sp, #8
+ 847              	.LVL101:
+ 274:Core/Src/u8g2/Src/u8g2_selection_list.c ****           break;
+ 848              		.loc 1 274 11 is_stmt 0 view .LVU238
+ 849 0134 FFF7FEFF 		bl	u8sl_Next
+ 850              	.LVL102:
+ 275:Core/Src/u8g2/Src/u8g2_selection_list.c ****         }
+ 851              		.loc 1 275 11 is_stmt 1 view .LVU239
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 22
+
+
+ 852 0138 A5E7     		b	.L34
+ 853              		.cfi_endproc
+ 854              	.LFE4:
+ 856              		.text
+ 857              	.Letext0:
+ 858              		.file 2 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 859              		.file 3 "c:\\program files (x86)\\gnu arm embedded toolchain\\10 2021.10\\arm-none-eabi\\include\\
+ 860              		.file 4 "Core/Src/u8g2/Inc/u8x8.h"
+ 861              		.file 5 "Core/Src/u8g2/Inc/u8g2.h"
+ARM GAS  C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s 			page 23
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_selection_list.c
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:20     .text.u8g2_DrawUTF8Line:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:26     .text.u8g2_DrawUTF8Line:00000000 u8g2_DrawUTF8Line
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:248    .rodata.u8g2_draw_selection_list_line.str1.4:00000000 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:252    .text.u8g2_draw_selection_list_line:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:257    .text.u8g2_draw_selection_list_line:00000000 u8g2_draw_selection_list_line
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:358    .text.u8g2_draw_selection_list_line:00000054 $d
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:363    .text.u8g2_DrawUTF8Lines:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:369    .text.u8g2_DrawUTF8Lines:00000000 u8g2_DrawUTF8Lines
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:474    .text.u8g2_DrawSelectionList:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:480    .text.u8g2_DrawSelectionList:00000000 u8g2_DrawSelectionList
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:554    .text.u8g2_UserInterfaceSelectionList:00000000 $t
+C:\Users\MOROSH~1\AppData\Local\Temp\ccB57ISB.s:560    .text.u8g2_UserInterfaceSelectionList:00000000 u8g2_UserInterfaceSelectionList
+
+UNDEFINED SYMBOLS
+u8g2_SetFontDirection
+u8g2_GetUTF8Width
+u8g2_SetDrawColor
+u8g2_DrawBox
+u8g2_DrawFrame
+u8g2_DrawUTF8
+u8x8_GetStringLineStart
+u8x8_GetStringLineCnt
+u8g2_SetFontPosBaseline
+u8g2_FirstPage
+u8g2_NextPage
+u8g2_DrawHLine
+u8x8_GetMenuEvent
+u8sl_Prev
+u8sl_Next
