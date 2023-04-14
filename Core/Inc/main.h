@@ -59,8 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define BEEP_FREQ 2700
-#define MOTOR_PWM_FREQ 20000
 #define ENCODER_A_Pin GPIO_PIN_0
 #define ENCODER_A_GPIO_Port GPIOA
 #define ENCODER_B_Pin GPIO_PIN_1

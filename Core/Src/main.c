@@ -21,6 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdarg.h>
+#include <math.h>
 #include "u8g2.h"
 /* USER CODE END Includes */
 
@@ -48,6 +51,7 @@ SPI_HandleTypeDef hspi1;
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim10;
 
 UART_HandleTypeDef huart1;
 
@@ -68,6 +72,7 @@ static void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM5_Init(void);
+static void MX_TIM10_Init(void);
 /* USER CODE BEGIN PFP */
 int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...);
 
@@ -80,54 +85,7 @@ uint8_t u8x8_byte_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-// char* num_to_str(int num)
-// {
-//   char str[20];
-//   sprintf(str, "%d", num);
-//   return str;
-// }
-char* num_to_str(int num) {
-    // 分配足够的内存来容纳数字的字符串表示
-    char* str = (char*)malloc(sizeof(char) * 12);
-    memset(str, 0, sizeof(char) * 12);
 
-    // 处理零的情况
-    if (num == 0) {
-        str[0] = '0';
-        str[1] = '\0';
-        return str;
-    }
-
-    // 处理负数的情况
-    int negative = 0;
-    if (num < 0) {
-        negative = 1;
-        num = -num;
-    }
-
-    // 反向生成数字字符串
-    int i = 0;
-    while (num > 0) {
-        str[i++] = num % 10 + '0';
-        num /= 10;
-    }
-
-    // 处理负号并终止字符串
-    if (negative) {
-        str[i++] = '-';
-    }
-    str[i] = '\0';
-
-    // 反转字符串以得到正确的顺序
-    int len = strlen(str);
-    for (int j = 0; j < len / 2; j++) {
-        char temp = str[j];
-        str[j] = str[len - j - 1];
-        str[len - j - 1] = temp;
-    }
-
-    return str;
-}
 /* USER CODE END 0 */
 
 /**
@@ -165,6 +123,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_TIM5_Init();
+  MX_TIM10_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -183,7 +142,7 @@ int main(void)
   uint32_t key_4_tick = 0;
 
   int32_t pre_motor_circle_count = 0;
-  int32_t speed = 0;
+  float speed = 0.0;
 
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
@@ -193,21 +152,31 @@ int main(void)
   u8g2_InitDisplay(&u8g2);                                                                               // send init sequence to the display, display is in sleep mode after this,
   u8g2_SetPowerSave(&u8g2, 0);                                                                           // wake up display
 
+  HAL_TIM_Base_Start_IT(&htim10);
+
   HAL_TIM_Encoder_Start(&htim5, TIM_CHANNEL_1);
   HAL_TIM_Encoder_Start(&htim5, TIM_CHANNEL_2);
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adcarray, ADC_ARRAY_NUM);
 
+  UART_printf(&huart1, "These messages are sent by UART_printf!\r\n");
+  UART_printf(&huart1, "Build on "__TIME__
+                       " "__DATE__
+                       " \r\n");
+
   while (1)
   {
-    int32_t encoder_count = __HAL_TIM_GetCounter(&htim5);
-    int32_t motor_circle_count = encoder_count / (11 * 100);
-    speed = (motor_circle_count - pre_motor_circle_count) * 60;
-    if (HAL_GetTick() % 1000 == 1)
-    {
-      pre_motor_circle_count = motor_circle_count;
-    }
+    int32_t encodercount = -__HAL_TIM_GetCounter(&htim5);
     // UART_printf(&huart1, "pos = %d, speed = %.1f \r\n", encodercount, speed);
+    HAL_TIM_PeriodElapsedCallback(&htim10);
+
+    // int32_t encoder_count = -__HAL_TIM_GetCounter(&htim5);
+    // int32_t motor_circle_count = encoder_count / (11 * 100);
+    // speed = (motor_circle_count - pre_motor_circle_count) * 60;
+    // if (HAL_GetTick() % 1000 == 1)
+    // {
+    //   pre_motor_circle_count = motor_circle_count;
+    // }
 
     // float f = adcarray[0] * 3300.0f / 4095;
 
@@ -219,9 +188,10 @@ int main(void)
       // u8g2_Print("Hello World!");
       // u8g2_Print(adcarray[0]);
       u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tr);
-      u8g2_DrawStr(&u8g2, 0, 24, num_to_str(motor_circle_count));
-      u8g2_DrawStr(&u8g2, 0, 48, num_to_str(pre_motor_circle_count));
-      u8g2_DrawStr(&u8g2, 0, 72, num_to_str(speed));
+      u8g2_DrawStr(&u8g2, 0, 24, "hello,world!");
+      // u8g2_DrawStr(&u8g2, 0, 24, num_to_str(motor_circle_count));
+      // u8g2_DrawStr(&u8g2, 0, 48, num_to_str(pre_motor_circle_count));
+      // u8g2_DrawStr(&u8g2, 0, 72, num_to_str(speed));
     } while (u8g2_NextPage(&u8g2));
     // if (HAL_GetTick() % 1000 < 500)
     // {
@@ -626,6 +596,36 @@ static void MX_TIM5_Init(void)
 }
 
 /**
+ * @brief TIM10 Initialization Function
+ * @param None
+ * @retval None
+ */
+static void MX_TIM10_Init(void)
+{
+
+  /* USER CODE BEGIN TIM10_Init 0 */
+
+  /* USER CODE END TIM10_Init 0 */
+
+  /* USER CODE BEGIN TIM10_Init 1 */
+
+  /* USER CODE END TIM10_Init 1 */
+  htim10.Instance = TIM10;
+  htim10.Init.Prescaler = 0;
+  htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim10.Init.Period = 65535;
+  htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM10_Init 2 */
+
+  /* USER CODE END TIM10_Init 2 */
+}
+
+/**
  * @brief USART1 Initialization Function
  * @param None
  * @retval None
@@ -785,6 +785,20 @@ int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...)
 
   va_end(ap);
   return length;
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance == TIM10)
+  {
+    static int32_t lastcount = 0;
+    int32_t count = -__HAL_TIM_GetCounter(&htim5);
+    speed = (float)(count - lastcount)/0.0512f;
+    int speed_int = (int)speed;
+    int speed_float = (int)((speed - speed_int) * 100);
+    UART_printf(&huart1, "count = %d, lastcount = %d, speed = %d.%d end\r\n", count, lastcount, speed_int, speed_float);
+    lastcount = count;
+  }
 }
 /* USER CODE END 4 */
 
