@@ -21,10 +21,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "u8g2.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <math.h>
-#include "u8g2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,6 +41,10 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define ADC_ARRAY_NUM (1024)
+#define Kp 0.5
+#define Ki 0.02
+#define Kd 0.2
+// #define Kd 0
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -57,9 +62,25 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 u8g2_t u8g2;
-float speed = 0;
 uint16_t adcvalue = 0;
 uint16_t adcarray[ADC_ARRAY_NUM];
+uint32_t motor_on = 0;
+uint32_t motor_forward = 1;
+uint32_t motor_pwm_freq = 84;
+uint32_t motor_pwm_duty = 0;
+uint32_t beep_freq = 2700;
+uint32_t beep_on = 0;
+uint32_t key_1_tick = 0;
+uint32_t key_2_tick = 0;
+uint32_t key_3_tick = 0;
+uint32_t key_4_tick = 0;
+
+float speed = 0;
+int target_speed = 180;
+float last_error = 0.0; // 上一次的误差
+float integral = 0.0;   // 积分项
+int deviate_int = 0;
+int deviate_float = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -76,6 +97,8 @@ static void MX_TIM10_Init(void);
 /* USER CODE BEGIN PFP */
 int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...);
 
+int u8g2_printf(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *fmt,
+                ...);
 uint8_t u8x8_stm32_gpio_and_delay(U8X8_UNUSED u8x8_t *u8x8,
                                   U8X8_UNUSED uint8_t msg,
                                   U8X8_UNUSED uint8_t arg_int,
@@ -130,29 +153,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint32_t motor_on = 0;
-  uint32_t motor_forward = 1;
-  uint32_t motor_pwm_freq = 84;
-  uint32_t motor_pwm_duty_cycle = 0;
-  uint32_t beep_freq = 2700;
-  uint32_t beep_on = 0;
-  uint32_t key_1_tick = 0;
-  uint32_t key_2_tick = 0;
-  uint32_t key_3_tick = 0;
-  uint32_t key_4_tick = 0;
-
-  int32_t pre_motor_circle_count = 0;
-  float speed = 0.0;
-
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 
   u8g2_Setup_ssd1306_128x64_noname_2(&u8g2, U8G2_R0, u8x8_byte_4wire_hw_spi, u8x8_stm32_gpio_and_delay); // init u8g2 structure
   u8g2_InitDisplay(&u8g2);                                                                               // send init sequence to the display, display is in sleep mode after this,
   u8g2_SetPowerSave(&u8g2, 0);                                                                           // wake up display
-
-  HAL_TIM_Base_Start_IT(&htim10);
 
   HAL_TIM_Encoder_Start(&htim5, TIM_CHANNEL_1);
   HAL_TIM_Encoder_Start(&htim5, TIM_CHANNEL_2);
@@ -164,109 +168,91 @@ int main(void)
                        " "__DATE__
                        " \r\n");
 
+  HAL_TIM_Base_Start_IT(&htim10);
+
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+
   while (1)
   {
-    int32_t encodercount = -__HAL_TIM_GetCounter(&htim5);
-    // UART_printf(&huart1, "pos = %d, speed = %.1f \r\n", encodercount, speed);
-    HAL_TIM_PeriodElapsedCallback(&htim10);
-
-    // int32_t encoder_count = -__HAL_TIM_GetCounter(&htim5);
-    // int32_t motor_circle_count = encoder_count / (11 * 100);
-    // speed = (motor_circle_count - pre_motor_circle_count) * 60;
-    // if (HAL_GetTick() % 1000 == 1)
-    // {
-    //   pre_motor_circle_count = motor_circle_count;
-    // }
-
-    // float f = adcarray[0] * 3300.0f / 4095;
-
-    u8g2_FirstPage(&u8g2);
-    do
+    if (deviate_int >= 5 && deviate_float >= 0 && motor_on)
     {
-      // u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tr);
-      // u8g2_SetCursor(0, 15);
-      // u8g2_Print("Hello World!");
-      // u8g2_Print(adcarray[0]);
-      u8g2_SetFont(&u8g2, u8g2_font_ncenB14_tr);
-      u8g2_DrawStr(&u8g2, 0, 24, "hello,world!");
-      // u8g2_DrawStr(&u8g2, 0, 24, num_to_str(motor_circle_count));
-      // u8g2_DrawStr(&u8g2, 0, 48, num_to_str(pre_motor_circle_count));
-      // u8g2_DrawStr(&u8g2, 0, 72, num_to_str(speed));
-    } while (u8g2_NextPage(&u8g2));
-    // if (HAL_GetTick() % 1000 < 500)
-    // {
-    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
-    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_SET);
-    // }
-    // else
-    // {
-    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
-    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_9, GPIO_PIN_RESET);
-    // }
+      beep_on = 1;
+      HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
+    }
+    else
+    {
+      beep_on = 0;
+      HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
+    }
+
     if (HAL_GPIO_ReadPin(KEY_1_GPIO_Port, KEY_1_Pin) == GPIO_PIN_RESET)
     {
       if ((HAL_GetTick() - key_1_tick) > 100)
       {
         HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
         motor_on = motor_on == 1 ? 0 : 1;
-        motor_forward = 1;
-        if (motor_on)
-          motor_pwm_duty_cycle = 100;
-        else
-          motor_pwm_duty_cycle = 0;
+        motor_pwm_duty = motor_on == 1 ? motor_pwm_duty : 0;
       }
       // Record the last detection tick
       key_1_tick = HAL_GetTick();
     }
 
+    if (HAL_GPIO_ReadPin(KEY_2_GPIO_Port, KEY_2_Pin) == GPIO_PIN_RESET)
+    {
+      if ((HAL_GetTick() - key_2_tick) > 100)
+      {
+        motor_forward = (motor_forward == 0) ? 1 : 0;
+      }
+      // Record the last detection tick
+      key_2_tick = HAL_GetTick();
+    }
+
+    if (HAL_GPIO_ReadPin(KEY_3_GPIO_Port, KEY_3_Pin) == GPIO_PIN_RESET)
+    {
+      if ((HAL_GetTick() - key_3_tick) > 100)
+      {
+        // beep_on = (beep_on == 0) ? 1 : 0;
+        if (target_speed > 20)
+          target_speed -= 1;
+        // Record the last detection tick
+        key_3_tick = HAL_GetTick();
+      }
+    }
+
+    if (HAL_GPIO_ReadPin(KEY_4_GPIO_Port, KEY_4_Pin) == GPIO_PIN_RESET)
+    {
+      if ((HAL_GetTick() - key_4_tick) > 100)
+      {
+        if (target_speed < 335)
+          target_speed += 1;
+        // Record the last detection tick
+        key_4_tick = HAL_GetTick();
+      }
+    }
+
     if (motor_on == 1)
     {
-      if (HAL_GPIO_ReadPin(KEY_2_GPIO_Port, KEY_2_Pin) == GPIO_PIN_RESET)
-      {
-        if ((HAL_GetTick() - key_2_tick) > 100)
-        {
-          motor_forward = (motor_forward == 0) ? 1 : 0;
-          if (motor_pwm_duty_cycle != 100)
-            motor_pwm_duty_cycle = 100;
-        }
-        // Record the last detection tick
-        key_2_tick = HAL_GetTick();
-      }
-
-      if (HAL_GPIO_ReadPin(KEY_3_GPIO_Port, KEY_3_Pin) == GPIO_PIN_RESET)
-      {
-        if ((HAL_GetTick() - key_3_tick) > 100)
-        {
-          // beep_on = (beep_on == 0) ? 1 : 0;
-          if (motor_pwm_duty_cycle > 0)
-            motor_pwm_duty_cycle -= 1;
-          // Record the last detection tick
-          key_3_tick = HAL_GetTick();
-        }
-      }
-
-      if (HAL_GPIO_ReadPin(KEY_4_GPIO_Port, KEY_4_Pin) == GPIO_PIN_RESET)
-      {
-        if ((HAL_GetTick() - key_4_tick) > 100)
-        {
-          if (motor_pwm_duty_cycle < 100)
-            motor_pwm_duty_cycle += 1;
-          // Record the last detection tick
-          key_4_tick = HAL_GetTick();
-        }
-      }
+      float error, derivative, duty_cycle;
+      error = target_speed - speed;
+      integral += error;               // 计算积分项
+      derivative = error - last_error; // 计算微分项
+      last_error = error;
+      duty_cycle = Kp * error + Ki * integral + Kd * derivative; // 计算输出值
+      motor_pwm_duty = (uint32_t)(duty_cycle / 10000);           // 设置电机占空比
     }
 
     __HAL_TIM_SetAutoreload(&htim1, ((84000000ul / motor_pwm_freq) - 1)); /* 84MHz/motor_pwm_freq is the motor pwm sampling frequency */
     uint32_t compare1 = __HAL_TIM_GetAutoreload(&htim1);
     if (motor_forward)
     {
-      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)compare1 * (motor_pwm_duty_cycle / 100.0f));
+      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)compare1 * (motor_pwm_duty / 100.0f));
       __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)compare1 * 0);
     }
     else
     {
-      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)compare1 * (motor_pwm_duty_cycle / 100.0f));
+      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)compare1 * (motor_pwm_duty / 100.0f));
       __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)compare1 * 0);
     }
 
@@ -303,7 +289,12 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -312,12 +303,12 @@ void SystemClock_Config(void)
   /** Initializes the CPU, AHB and APB buses clocks
    */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -344,7 +335,7 @@ static void MX_ADC1_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
    */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ENABLE;
   hadc1.Init.ContinuousConvMode = ENABLE;
@@ -611,9 +602,9 @@ static void MX_TIM10_Init(void)
 
   /* USER CODE END TIM10_Init 1 */
   htim10.Instance = TIM10;
-  htim10.Init.Prescaler = 0;
+  htim10.Init.Prescaler = 83;
   htim10.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim10.Init.Period = 65535;
+  htim10.Init.Period = 9999;
   htim10.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim10.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim10) != HAL_OK)
@@ -771,6 +762,19 @@ uint8_t u8x8_byte_4wire_hw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int,
   return 1;
 }
 
+int u8g2_printf(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, const char *fmt,
+                ...)
+{
+  va_list ap;
+  va_start(ap, fmt);
+  int length;
+  char buffer[128];
+  length = vsnprintf(buffer, 128, fmt, ap);
+  u8g2_DrawStr(u8g2, x, y, buffer);
+  va_end(ap);
+  return length;
+}
+
 int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...)
 {
   va_list ap;
@@ -789,15 +793,42 @@ int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+  static uint16_t time_count = 0;
   if (htim->Instance == TIM10)
   {
-    static int32_t lastcount = 0;
-    int32_t count = -__HAL_TIM_GetCounter(&htim5);
-    speed = (float)(count - lastcount)/0.0512f;
-    int speed_int = (int)speed;
-    int speed_float = (int)((speed - speed_int) * 100);
-    UART_printf(&huart1, "count = %d, lastcount = %d, speed = %d.%d end\r\n", count, lastcount, speed_int, speed_float);
-    lastcount = count;
+    time_count++;
+    if (time_count == 10)
+    {
+      static int32_t lastcount = 0;
+      int32_t count = abs(__HAL_TIM_GetCounter(&htim5));
+      speed = (float)(abs(count - lastcount) / 11.0f) * 10.0f;
+      int speed_int = (int)speed;
+      int speed_float = (int)(fabs(speed - speed_int) * 10);
+      UART_printf(&huart1, "count = %d, lastcount = %d, speed = %d.%d end\r\n", count, lastcount, speed_int, speed_float);
+
+      u8g2_FirstPage(&u8g2);
+      do
+      {
+        u8g2_SetFont(&u8g2, u8g2_font_samim_14_t_all);
+
+        u8g2_printf(&u8g2, 0, 16, "Speed: %d.%d rpm", speed_int, speed_float);
+        u8g2_printf(&u8g2, 0, 32, "Target: %d rpm", target_speed);
+
+        char verse_str = motor_forward == 1 ? 'F' : 'R';
+
+        u8g2_printf(&u8g2, 112, 32, "%c", verse_str);
+        u8g2_printf(&u8g2, 0, 48, "Duty: %d%%", motor_pwm_duty);
+
+        float deviate = fabs(speed - (float)target_speed) / (float)target_speed * 100.0f;
+        deviate_int = (int)deviate;
+        deviate_float = (int)(fabs(deviate - deviate_int) * 10);
+
+        u8g2_printf(&u8g2, 0, 64, "Deviation: %d.%d%%", deviate_int, deviate_float);
+      } while (u8g2_NextPage(&u8g2));
+
+      lastcount = count;
+      time_count = 0;
+    }
   }
 }
 /* USER CODE END 4 */
