@@ -5,13 +5,14 @@
 Course Design of Embedded Control System
 
 本课程设计直流电机调速控制系统，并进行仿真和实验验证。具体内容包括：
-1. 建立直流电机的数学建模，设计转速反馈单闭环直流调速系统并进行仿真验证； 
+
+1. 建立直流电机的数学建模，设计转速反馈单闭环直流调速系统并进行仿真验证；
 2. 设计系统硬件电路，完成硬件电路连接和测试；
 3. 设计PID控制程序，实现电动机转速控制，给出不同参数下的系统输出变量变化曲线图，分析实验结果得出相关结论；
 4. 实现下述功能：① 设置转速并实时显示当前转速；② 当转速达到设定转速时，绿色LED灯常亮；③当前转速与设定转速波动大于5%时，异常报警。
 5. 分析系统在突然起动、突加负载、突减负载等条件下的电机动态特性。
 
-> 课程设计详细要求参见 `嵌入式控制系统课程设计.docx`
+课程设计详细要求参见 `嵌入式控制系统课程设计.docx`
 
 ## 环境配置
 
@@ -80,7 +81,7 @@ openocd --version
 
 实际开发中，我们所需用到的核心插件只有如下两个：
 
-> 注意安装 C/C++ 并不需要安装 C/C++ Extension Pack~~（虽然VSCode右下角一直在弹框提示安装就是了）~~
+> 注意安装 C/C++ 并不需要安装 C/C++ Extension Pack ~~（虽然VSCode右下角一直在弹框提示安装就是了）~~
 
 - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 - [Makefile Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools)
@@ -158,3 +159,7 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program build/embedde
 - [PID控制器 - 维基百科，自由的百科全书 (wikipedia.org)](https://zh.wikipedia.org/wiki/PID控制器)
 
 除却以上参考资料，OpenAI ChatGPT 对本项目开发也起到了莫大的帮助。
+
+## License
+
+[GPLv3](https://github.com/Moroshima/embedded-motor-control/blob/master/LICENSE)
