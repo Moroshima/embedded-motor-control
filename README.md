@@ -146,7 +146,7 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program build/embedde
 
 #### 电机
 
-电机除要正确方向连接排线外，还需要从 9-12V 断口处引线至电机驱动供电接口。
+电机除要正确方向连接排线外，还需要从 9-12V 电源输入引脚处引线至电机驱动供电接口。
 
 ## 参考
 
