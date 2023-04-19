@@ -41,9 +41,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define ADC_ARRAY_NUM (1024)
-#define Kp 0.5
-#define Ki 0.02
-#define Kd 0.2
+#define Kp 5
+#define Ki 0.05
+#define Kd 2
 // #define Kd 0
 /* USER CODE END PM */
 
@@ -67,7 +67,6 @@ uint16_t adcarray[ADC_ARRAY_NUM];
 uint32_t motor_on = 0;
 uint32_t motor_forward = 1;
 uint32_t motor_pwm_freq = 84;
-uint32_t motor_pwm_duty = 0;
 uint32_t beep_freq = 2700;
 uint32_t beep_on = 0;
 uint32_t key_1_tick = 0;
@@ -77,10 +76,8 @@ uint32_t key_4_tick = 0;
 
 float speed = 0;
 int target_speed = 180;
-float last_error = 0.0; // 上一次的误差
-float integral = 0.0;   // 积分项
-int deviate_int = 0;
-int deviate_float = 0;
+float motor_pwm_duty = 0;
+float deviate = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -176,7 +173,7 @@ int main(void)
 
   while (1)
   {
-    if (deviate_int >= 5 && deviate_float >= 0 && motor_on)
+    if ((fabs(deviate) - 5) >= 0 && motor_on)
     {
       beep_on = 1;
       HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
@@ -225,7 +222,7 @@ int main(void)
     {
       if ((HAL_GetTick() - key_4_tick) > 100)
       {
-        if (target_speed < 335)
+        if (target_speed < 230)
           target_speed += 1;
         // Record the last detection tick
         key_4_tick = HAL_GetTick();
@@ -234,25 +231,28 @@ int main(void)
 
     if (motor_on == 1)
     {
+      static float last_error = 0.0; // 上一次的误差
+      static float integral = 0.0;   // 积分项
       float error, derivative, duty_cycle;
       error = target_speed - speed;
-      integral += error;               // 计算积分项
+      if (motor_pwm_duty <= 100)
+        integral += error;             // 计算积分项，同时使用积分遇限削弱法（clamping）实现抗积分饱和
       derivative = error - last_error; // 计算微分项
       last_error = error;
       duty_cycle = Kp * error + Ki * integral + Kd * derivative; // 计算输出值
-      motor_pwm_duty = (uint32_t)(duty_cycle / 10000);           // 设置电机占空比
+      motor_pwm_duty = (duty_cycle / 10000);                     // 设置电机占空比
     }
 
     __HAL_TIM_SetAutoreload(&htim1, ((84000000ul / motor_pwm_freq) - 1)); /* 84MHz/motor_pwm_freq is the motor pwm sampling frequency */
     uint32_t compare1 = __HAL_TIM_GetAutoreload(&htim1);
     if (motor_forward)
     {
-      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)compare1 * (motor_pwm_duty / 100.0f));
+      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)(compare1 * (motor_pwm_duty / 100.0f)));
       __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)compare1 * 0);
     }
     else
     {
-      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)compare1 * (motor_pwm_duty / 100.0f));
+      __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_3, (uint32_t)(compare1 * (motor_pwm_duty / 100.0f)));
       __HAL_TIM_SetCompare(&htim1, TIM_CHANNEL_2, (uint32_t)compare1 * 0);
     }
 
@@ -793,35 +793,36 @@ int UART_printf(UART_HandleTypeDef *huart, const char *fmt, ...)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-  static uint16_t time_count = 0;
   if (htim->Instance == TIM10)
   {
+    static uint16_t time_count = 0;
     time_count++;
-    if (time_count == 10)
+    if (time_count == 10) // 中断周期为10ms，每10*10ms触发一次下面的函数
     {
       static int32_t lastcount = 0;
       int32_t count = abs(__HAL_TIM_GetCounter(&htim5));
-      speed = (float)(abs(count - lastcount) / 11.0f) * 10.0f;
+      speed = (float)(((abs(count - lastcount) / 4.0f) / 11.0f) * 10.0f * 60.0f) / 21.3f; // |上次计数值-此次计数值|=编码器在10*10ms=100ms内的计数 / 一次脉冲下AB两相上升沿+下降沿的计数和=4 / 每圈产生的脉冲信号=10 * 10*100ms=1s / 减速比=21.3
       int speed_int = (int)speed;
       int speed_float = (int)(fabs(speed - speed_int) * 10);
-      UART_printf(&huart1, "count = %d, lastcount = %d, speed = %d.%d end\r\n", count, lastcount, speed_int, speed_float);
+      UART_printf(&huart1, "%d,%d.%d,%d.%d\n", target_speed, speed_int, speed_float, (int)motor_pwm_duty, (int)((motor_pwm_duty - (int)motor_pwm_duty) * 100));
 
       u8g2_FirstPage(&u8g2);
       do
       {
         u8g2_SetFont(&u8g2, u8g2_font_samim_14_t_all);
 
-        u8g2_printf(&u8g2, 0, 16, "Speed: %d.%d rpm", speed_int, speed_float);
-        u8g2_printf(&u8g2, 0, 32, "Target: %d rpm", target_speed);
+        u8g2_printf(&u8g2, 0, 16, "Target: %d rpm", target_speed);
 
         char verse_str = motor_forward == 1 ? 'F' : 'R';
 
-        u8g2_printf(&u8g2, 112, 32, "%c", verse_str);
-        u8g2_printf(&u8g2, 0, 48, "Duty: %d%%", motor_pwm_duty);
+        u8g2_printf(&u8g2, 112, 16, "%c", verse_str);
+        u8g2_printf(&u8g2, 0, 32, "Speed: %d.%d rpm", speed_int, speed_float);
 
-        float deviate = fabs(speed - (float)target_speed) / (float)target_speed * 100.0f;
-        deviate_int = (int)deviate;
-        deviate_float = (int)(fabs(deviate - deviate_int) * 10);
+        u8g2_printf(&u8g2, 0, 48, "Duty: %d.%d%%", (int)motor_pwm_duty, (int)((motor_pwm_duty - (int)motor_pwm_duty) * 100));
+
+        deviate = (speed - (float)target_speed) / (float)target_speed * 100.0f;
+        int deviate_int = (int)deviate;
+        int deviate_float = (int)(fabs(deviate - deviate_int) * 10);
 
         u8g2_printf(&u8g2, 0, 64, "Deviation: %d.%d%%", deviate_int, deviate_float);
       } while (u8g2_NextPage(&u8g2));

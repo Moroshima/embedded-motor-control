@@ -86,6 +86,10 @@ openocd --version
 - [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 - [Makefile Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.makefile-tools)
 
+## 二次开发
+
+代码核心逻辑较为简单，本质为使用 PID 控制算法辅以积分遇限削弱法抗积分饱和，控制输入电机的 PWM 方波占空比，籍此控制电机调速，状态机逻辑及具体实现详见代码内部注释。
+
 ## 打开项目
 
 双击 `embedded.ioc` 即可以在 STM32CubeMX 中打开项目配置，需要注意本项目并未使用 [Arm Keil MDK](https://www.keil.com/download/) 进行开发，因此无法直接使用 Keil µVision 打开该项目。
@@ -122,6 +126,42 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program build/embedde
 
 使用 [VOFA+](https://www.vofa.plus/) 并将数据引擎设置为 RawData 后点击界面左上角连接按钮即可连接单片机串口开始调试。
 
+### 波形显示
+
+如果要输出转速曲线，需要使用到 VOFA+ 的波形图功能，本项目使用 firewater 数据引擎的数据格式输出数据至上位机，详细使用参见参考部分两篇 VOFA+ 文档链接。
+
+![shot](./docs/assets/shot.png)
+
+## 功能说明
+
+### 按键
+
+| 按键  | 功能                 |
+| ----- | -------------------- |
+| KEY_1 | 启动/关闭电机        |
+| KEY_2 | 控制电机正反转       |
+| KEY_3 | 电机减速（支持长按） |
+| KEY_4 | 电机加速（支持长按） |
+
+### OLED
+
+![photo_2023-04-19_14-30-36](./docs/assets/photo_2023-04-19_14-30-36.jpg)
+
+```text
+Target: 230 rpm  F
+Speed: 0.0 rpm
+Duty: 0.0%
+Deviation: -100%
+```
+
+| 参数      | 单位 | 解释                                                         |
+| --------- | ---- | ------------------------------------------------------------ |
+| Target    | rpm  | 为电机设定的目标转速（步进为1）                              |
+| Speed     | rpm  | 电机当前的实际转速（刷新间隔为0.1s）                         |
+| Duty      | %    | 电机电源PWM方波的占空比                                      |
+| Deviation | %    | 目标转速与实际转速之间的偏差（超过5%时LED_R会起，蜂鸣器报警） |
+| F/R       | -    | 当前电机的旋转方向（F为正转/顺时针旋转，R为反转/逆时针旋转） |
+
 ## 附录
 
 ### 接线参考
@@ -157,6 +197,10 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program build/embedde
 - [【STM32CobeMx】利用定时器输出PWM_counter period_米杰的声音的博客-CSDN博客](https://blog.csdn.net/Roger_717/article/details/119699868)
 - [STM32_7——TIMER定时器实验 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/525439399)
 - [PID控制器 - 维基百科，自由的百科全书 (wikipedia.org)](https://zh.wikipedia.org/wiki/PID控制器)
+- [积分饱和 - 维基百科，自由的百科全书 (wikipedia.org)](https://zh.wikipedia.org/wiki/積分飽和)
+- [PID的TRICK(一)简述五种PID积分抗饱和（ANTI-Windup）方法 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/49572763)
+- [firewater | VOFA+](https://www.vofa.plus/docs/learning/dataengines/firewater/)
+- [波形图 | VOFA+](https://www.vofa.plus/docs/learning/widgets/wave/)
 
 除却以上参考资料，OpenAI ChatGPT 对本项目开发也起到了莫大的帮助。
 
