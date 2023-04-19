@@ -177,10 +177,18 @@ int main(void)
     {
       beep_on = 1;
       HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
+    }
+    else if (motor_on)
+    {
+      beep_on = 0;
+      HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
     }
     else
     {
       beep_on = 0;
+      HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
       HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_RESET);
     }
 
@@ -188,7 +196,6 @@ int main(void)
     {
       if ((HAL_GetTick() - key_1_tick) > 100)
       {
-        HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
         motor_on = motor_on == 1 ? 0 : 1;
         motor_pwm_duty = motor_on == 1 ? motor_pwm_duty : 0;
       }
