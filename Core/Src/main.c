@@ -735,7 +735,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
       speed = (float)(((abs(count - lastcount) / 4.0f) / 11.0f) * 10.0f * 60.0f) / 21.3f; // |上次计数值-此次计数值|=编码器在10*10ms=100ms内的计数 / 一次脉冲下AB两相上升沿+下降沿的计数和=4 / 每圈产生的脉冲信号=10 * 10*100ms=1s / 减速比=21.3
       int speed_int = (int)speed;
       int speed_float = (int)(fabs(speed - speed_int) * 10);
-      UART_printf(&huart1, "%d,%d.%d,%d.%d\n", target_speed, speed_int, speed_float, (int)motor_pwm_duty, (int)((motor_pwm_duty - (int)motor_pwm_duty) * 100));
+
+      deviate = (speed - (float)target_speed) / (float)target_speed * 100.0f;
+      int deviate_int = (int)deviate;
+      int deviate_float = (int)(fabs(deviate - deviate_int) * 10);
+      UART_printf(&huart1, "%d,%d.%d,%d.%d,%d.%d\n", target_speed, speed_int, speed_float, (int)motor_pwm_duty, (int)((motor_pwm_duty - (int)motor_pwm_duty) * 100), deviate_int, deviate_float);
 
       u8g2_FirstPage(&u8g2);
       do
@@ -750,11 +754,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         u8g2_printf(&u8g2, 0, 32, "Speed: %d.%d rpm", speed_int, speed_float);
 
         u8g2_printf(&u8g2, 0, 48, "Duty: %d.%d%%", (int)motor_pwm_duty, (int)((motor_pwm_duty - (int)motor_pwm_duty) * 100));
-
-        deviate = (speed - (float)target_speed) / (float)target_speed * 100.0f;
-        int deviate_int = (int)deviate;
-        int deviate_float = (int)(fabs(deviate - deviate_int) * 10);
-
         u8g2_printf(&u8g2, 0, 64, "Deviation: %d.%d%%", deviate_int, deviate_float);
       } while (u8g2_NextPage(&u8g2));
 
