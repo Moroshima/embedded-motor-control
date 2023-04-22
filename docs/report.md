@@ -70,7 +70,7 @@
 
 ### （三）主要仪器设备
 
-**硬件：**示波器、万用表、计算机、ARM开发平台、光电编码器、直流电机、电动机驱动模块、阻尼载荷等。
+**硬件**： 示波器、万用表、计算机、ARM开发平台、光电编码器、直流电机、电动机驱动模块、阻尼载荷等。
 
 **软件**：MATLAB Sumlink、Visual Studio Code 代码编辑器、STM32CubeMX、MinGW、Arm GNU Toolchain 和 OpenOCD。
 
