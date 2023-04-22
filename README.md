@@ -12,13 +12,13 @@ Course Design of Embedded Control System
 4. 实现下述功能：① 设置转速并实时显示当前转速；② 当转速达到设定转速时，绿色LED灯常亮；③当前转速与设定转速波动大于5%时，异常报警。
 5. 分析系统在突然起动、突加负载、突减负载等条件下的电机动态特性。
 
-课程设计详细要求参见 repo 根目录下 `嵌入式控制系统课程设计.docx` 文件
+课程设计详细要求参见 repo 根目录下 [`嵌入式控制系统课程设计.docx`](https://github.com/Moroshima/embedded-motor-control/blob/master/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E8%AF%BE%E7%A8%8B%E8%AE%BE%E8%AE%A1.docx) 文件
 
 ## 数学建模
 
 > 参考运动控制系统教材第 3 章 3.4 节（p. 45）进行仿真
 
-使用 MATLAB Simulink 进行仿真，本项目所对应的比例积分控制的直流调速系统仿真文件参见 repo 根目录下 `motor_model.slx` 文件。
+使用 MATLAB Simulink 进行仿真，本项目所对应的比例积分控制的直流调速系统仿真文件参见 repo 根目录下 [`motor_model.slx`](https://github.com/Moroshima/embedded-motor-control/blob/master/motor_model.slx) 文件。
 
 ## 环境配置
 
@@ -193,6 +193,10 @@ Deviation: -100%
 #### 电机
 
 电机除要正确方向连接排线外，还需要从 9-12V 电源输入引脚处引线至电机驱动供电引脚。
+
+## 课程设计报告
+
+参见 [直流电机转速控制系统](https://github.com/Moroshima/embedded-motor-control/blob/master/docs/report.md)
 
 ## 参考
 
