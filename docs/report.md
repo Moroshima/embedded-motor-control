@@ -92,7 +92,7 @@
 
 ![Scope1](./assets/Scope1.png)
 
-示波器 Scope1 的波形（黄色为输出转速曲线）
+示波器 Scope2 的波形（黄色为输出转速曲线）
 
 ![Scope2](./assets/Scope2.png)
 
